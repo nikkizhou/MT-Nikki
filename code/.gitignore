@@ -1,0 +1,43 @@
+# Ignore the 'outputs' folder
+outputs/
+
+# Ignore Python bytecode files
+*.py[cod]
+__pycache__/
+*.so
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Windows system files
+Thumbs.db
+desktop.ini
+
+# Ignore environment variables and packages
+.env
+.venv/
+env/
+venv/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Ignore compiled files
+*.out
+*.o
+*.obj
+
+# Ignore archives
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Ignore IDE/editor-specific files (VSCode, PyCharm, etc.)
+.vscode/
+.idea/
