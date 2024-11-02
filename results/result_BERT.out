@@ -1,0 +1,27 @@
+Accuracy: 0.8343
+
+Unique predicted labels: {0, 1, 2, 3, 4, 5, 6, 8, 13}
+Unique actual labels: {0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 13}
+Expected labels based on label_columns: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}
+Columns excluded in evaluation: ['R2_4QP', 'R2_4QI', 'R2_6']
+
+Classification Report:
+
+              precision    recall  f1-score   support
+        R2-1       0.93      0.74      0.82        19
+       R2_2B       0.86      0.91      0.89        47
+       R2_2D       0.67      0.78      0.72        41
+      R2_2SD       0.77      0.53      0.62        19
+        R2_3       0.85      0.85      0.85       116
+      R2_3YN       0.81      0.97      0.88       154
+       R2_OP       0.89      0.57      0.70        14
+      R2_4QG       0.00      0.00      0.00         7
+      R2_4QL       0.20      0.20      0.20         5
+      R2_4QR       0.00      0.00      0.00         4
+      R2_4QV       0.00      0.00      0.00         3
+        R2_5       0.96      0.85      0.90       114
+
+    accuracy                           0.83       543
+   macro avg       0.58      0.53      0.55       543
+weighted avg       0.82      0.83      0.82       543
+

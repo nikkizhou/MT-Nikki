@@ -28,7 +28,7 @@ venv/
 *.bak
 
 # Ignore compiled files
-*.out
+#*.out
 *.o
 *.obj
 

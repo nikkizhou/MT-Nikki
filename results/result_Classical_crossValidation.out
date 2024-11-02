@@ -1,0 +1,94 @@
+Label counts:
+label
+R2_3YN    676
+R2_3      646
+R2_5      527
+R2_2B     326
+R2_2D     222
+R2_2SD     87
+R2-1       71
+R2_OP      62
+R2_4QL     40
+R2_4QG     27
+R2_4QR     19
+R2_4QV      8
+R2_4QP      2
+R2_4QI      1
+R2_6        1
+Name: count, dtype: int64
+Total number of labels: 2715
+
+Evaluating model: Logistic Regression
+Accuracies for each fold: [0.74401473 0.74354244 0.72140221 0.74538745 0.7601476 ]
+Average Accuracy: 0.7429
+Classification Report:
+              precision    recall  f1-score   support
+
+        R2-1       0.78      0.66      0.72        71
+       R2_2B       0.91      0.88      0.90       326
+       R2_2D       0.64      0.64      0.64       222
+      R2_2SD       0.55      0.13      0.21        87
+        R2_3       0.73      0.84      0.78       646
+      R2_3YN       0.66      0.79      0.72       676
+      R2_4QG       0.00      0.00      0.00        27
+      R2_4QL       0.00      0.00      0.00        40
+      R2_4QR       0.00      0.00      0.00        19
+      R2_4QV       0.00      0.00      0.00         8
+        R2_5       0.84      0.82      0.83       527
+       R2_OP       0.84      0.26      0.40        62
+
+    accuracy                           0.74      2711
+   macro avg       0.50      0.42      0.43      2711
+weighted avg       0.72      0.74      0.72      2711
+
+--------------------------------------------------
+
+Evaluating model: SVM
+Accuracies for each fold: [0.76243094 0.77306273 0.75830258 0.76937269 0.77675277]
+Average Accuracy: 0.7680
+Classification Report:
+              precision    recall  f1-score   support
+
+        R2-1       0.73      0.77      0.75        71
+       R2_2B       0.90      0.90      0.90       326
+       R2_2D       0.64      0.70      0.67       222
+      R2_2SD       0.59      0.20      0.29        87
+        R2_3       0.77      0.84      0.80       646
+      R2_3YN       0.70      0.80      0.75       676
+      R2_4QG       0.00      0.00      0.00        27
+      R2_4QL       0.00      0.00      0.00        40
+      R2_4QR       1.00      0.11      0.19        19
+      R2_4QV       0.00      0.00      0.00         8
+        R2_5       0.85      0.83      0.84       527
+       R2_OP       0.80      0.58      0.67        62
+
+    accuracy                           0.77      2711
+   macro avg       0.58      0.48      0.49      2711
+weighted avg       0.75      0.77      0.75      2711
+
+--------------------------------------------------
+
+Evaluating model: Random Forest
+Accuracies for each fold: [0.75690608 0.76383764 0.7398524  0.78597786 0.77121771]
+Average Accuracy: 0.7636
+Classification Report:
+              precision    recall  f1-score   support
+
+        R2-1       0.88      0.65      0.75        71
+       R2_2B       0.92      0.89      0.91       326
+       R2_2D       0.63      0.64      0.64       222
+      R2_2SD       0.55      0.21      0.30        87
+        R2_3       0.71      0.84      0.77       646
+      R2_3YN       0.68      0.83      0.75       676
+      R2_4QG       0.00      0.00      0.00        27
+      R2_4QL       0.00      0.00      0.00        40
+      R2_4QR       1.00      0.11      0.19        19
+      R2_4QV       0.00      0.00      0.00         8
+        R2_5       0.91      0.82      0.86       527
+       R2_OP       0.76      0.35      0.48        62
+
+    accuracy                           0.76      2711
+   macro avg       0.59      0.44      0.47      2711
+weighted avg       0.75      0.76      0.74      2711
+
+--------------------------------------------------

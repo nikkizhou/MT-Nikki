@@ -1,0 +1,58 @@
+Label counts, SUM: 2715
+R2_3YN    676
+R2_3      646
+R2_5      527
+R2_2B     326
+R2_2D     222
+R2_2SD     87
+R2-1       71
+R2_OP      62
+R2_4QL     40
+R2_4QG     27
+R2_4QR     19
+R2_4QV      8
+R2_4QP      2
+R2_4QI      1
+R2_6        1
+
+
+Combined label counts, SUM: 2715
+invitation       597
+directive        632
+option-posing    1383
+suggestive       103
+
+
+
+Total number of samples without any label: 30
+              ID                                           Question  ... R2_6  label
+7     NA0006-PC                        OKAY THEN WHAT HAPPENED NEXT  ...  0.0   None
+100    NA0099-PC            SORRY YOU'LL HAVE TO USE YOUR BIG VOICE  ...  0.0   None
+197    NA0098-PC                                        YOUR COUSIN  ...  0.0   None
+219    NA0098-PC                   YEAH OKAY SO YOU SAID YOU SAW IT  ...  0.0   None
+293    NA0082-PC  OKAY YOU'VE TOLD ME LOTS OF INFORMATION SO THA...  ...  0.0   None
+348    NA0078-PC  AH-HA ALL RIGHT YOU'VE DONE A REALLY GOOD JOB ...  ...  0.0   None
+396   NA0007-PC                                                OKAY  ...  0.0   None
+451    NA0027-PC                                              HM-HM  ...  0.0   None
+496    NA0086-PC                      OKAY AND THEN WHAT DID YOU DO  ...  0.0   None
+668    NA0089-PC                                 YES HOW MANY TIMES  ...  0.0   None
+746    NA0030-PC                               NO WHO'S IDEA WAS IT  ...  0.0   None
+867    NA0012-M7                        OKAY AND THEN WHAT HAPPENED  ...  0.0   None
+908    NA0083-PC                          NO SO JUST YOU AND CALLUM  ...  0.0   None
+1006   NA0025-PC  WHEN HE'S DOING THAT TO YOU PERHAPS IT'S NOT T...  ...  0.0   None
+1009   NA0025-PC  AND OBVIOUSLY MUM KNOWS SO SHE CAN HELP YOU FE...  ...  0.0   None
+1013   NA0025-PC  NO JUST YOU TWO ALL RIGHT OKAY WELL THANK YOU ...  ...  0.0   None
+1014   NA0025-PC      THAT'S NOT THE RIGHT THING FOR HIM TO DO OKAY  ...  0.0   None
+1115   NA0053-PC                                          OKAY DONE  ...  0.0   None
+1188   NA0058-M6                                               OKAY  ...  0.0   None
+1258   NA0035-PC  JUST THE BATH OKAY WELL YOU ASK YOUR MUM BECAU...  ...  0.0   None
+1259   NA0035-PC                          OKAY WELL HAVE A NICE DAY  ...  0.0   None
+1341   NA0088-PC      OKAY I DON'T THINK I'VE GOT ANYMORE QUESTIONS  ...  0.0   None
+1402   NA0081-PC                   NO OKAY I THINK WE CAN END THERE  ...  0.0   None
+1633   NA0055-PC          AND WHICH PART OF YOUR HEAD HIT THE TABLE  ...  0.0   None
+1825   NA0108-PC     NO OKAY AND TELL ME WITH YOUR PEE-PEE DID THAT  ...  0.0   None
+2274   NA0178-PC                       HM-HM AND WHAT HAPPENED THEN  ...  0.0   None
+2319   NA0170-PC                             OKAY I THINK THAT'S IT  ...  0.0   None
+2373   NA0121-PC                                             : OKAY  ...  0.0   None
+2431   NA0157-PC  I: OKAY TELL ME WHAT HAPPENED AFTER CALLUM YEL...  ...  0.0   None
+2542   NA0131-PC  : OKAY WELL THANK YOU VERY MUCH FOR TELLING ME...  ...  0.0   None

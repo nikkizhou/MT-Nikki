@@ -1,0 +1,45 @@
+Model: Logistic Regression
+Accuracy: 0.8311
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       0.67      0.57      0.62        14
+    directive       0.86      0.75      0.80       126
+option-posing       0.83      0.95      0.88       277
+   suggestive       0.00      0.00      0.00        21
+
+     accuracy                           0.83       438
+    macro avg       0.59      0.57      0.57       438
+ weighted avg       0.79      0.83      0.81       438
+
+--------------------------------------------------
+Model: SVM
+Accuracy: 0.8425
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       0.69      0.79      0.73        14
+    directive       0.87      0.75      0.81       126
+option-posing       0.84      0.95      0.89       277
+   suggestive       0.00      0.00      0.00        21
+
+     accuracy                           0.84       438
+    macro avg       0.60      0.62      0.61       438
+ weighted avg       0.81      0.84      0.82       438
+
+--------------------------------------------------
+Model: Random Forest
+Accuracy: 0.8265
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       0.88      0.50      0.64        14
+    directive       0.88      0.71      0.79       126
+option-posing       0.81      0.96      0.88       277
+   suggestive       0.00      0.00      0.00        21
+
+     accuracy                           0.83       438
+    macro avg       0.64      0.54      0.58       438
+ weighted avg       0.79      0.83      0.80       438
+
+--------------------------------------------------
