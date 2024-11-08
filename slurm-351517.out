@@ -1,0 +1,97 @@
+DataFrame columns: ['Question', 'labels']
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 2187 examples [00:00, 277278.97 examples/s]
+Map:   0%|          | 0/2187 [00:00<?, ? examples/s]Map: 100%|██████████| 2187/2187 [00:00<00:00, 20060.94 examples/s]Map: 100%|██████████| 2187/2187 [00:00<00:00, 19518.52 examples/s]
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+
+Fold 1/5
+Flattening the indices:   0%|          | 0/1749 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1749/1749 [00:00<00:00, 57581.60 examples/s]
+Flattening the indices:   0%|          | 0/438 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 438/438 [00:00<00:00, 69745.83 examples/s]
+Accuracy: 0.8493
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       0.82      0.88      0.85        16
+    directive       0.74      0.94      0.83       109
+option-posing       0.92      0.87      0.90       293
+   suggestive       0.14      0.05      0.07        20
+
+     accuracy                           0.85       438
+    macro avg       0.66      0.68      0.66       438
+ weighted avg       0.84      0.85      0.84       438
+
+
+Fold 2/5
+Flattening the indices:   0%|          | 0/1749 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1749/1749 [00:00<00:00, 67557.86 examples/s]
+Flattening the indices:   0%|          | 0/438 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 438/438 [00:00<00:00, 67577.90 examples/s]
+Accuracy: 0.9475
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       1.00      0.87      0.93        15
+    directive       0.96      0.95      0.96       131
+option-posing       0.94      0.99      0.96       273
+   suggestive       0.89      0.42      0.57        19
+
+     accuracy                           0.95       438
+    macro avg       0.95      0.81      0.86       438
+ weighted avg       0.95      0.95      0.94       438
+
+
+Fold 3/5
+Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 63923.08 examples/s]
+Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 64193.28 examples/s]
+Accuracy: 0.9657
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       0.94      1.00      0.97        15
+    directive       0.98      0.98      0.98       130
+option-posing       0.98      0.97      0.97       277
+   suggestive       0.67      0.80      0.73        15
+
+     accuracy                           0.97       437
+    macro avg       0.89      0.94      0.91       437
+ weighted avg       0.97      0.97      0.97       437
+
+
+Fold 4/5
+Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 64455.79 examples/s]
+Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 67535.40 examples/s]
+Accuracy: 0.9680
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       0.90      1.00      0.95         9
+    directive       0.93      0.99      0.96       127
+option-posing       0.99      0.96      0.98       280
+   suggestive       0.95      0.86      0.90        21
+
+     accuracy                           0.97       437
+    macro avg       0.94      0.95      0.95       437
+ weighted avg       0.97      0.97      0.97       437
+
+
+Fold 5/5
+Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 66337.38 examples/s]
+Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 58900.06 examples/s]
+Accuracy: 0.9908
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       1.00      0.93      0.96        14
+    directive       0.99      0.99      0.99       135
+option-posing       0.99      1.00      0.99       260
+   suggestive       1.00      0.96      0.98        28
+
+     accuracy                           0.99       437
+    macro avg       1.00      0.97      0.98       437
+ weighted avg       0.99      0.99      0.99       437
+
+
+Average Accuracy across all folds: 0.9443

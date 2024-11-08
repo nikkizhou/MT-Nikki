@@ -15,41 +15,10 @@ from sklearn.metrics import classification_report
 
 from transformers import get_scheduler
 from transformers import DataCollatorWithPadding,AutoTokenizer, AutoModelForSequenceClassification
-from service import COMBINE_CATEGORIES,USING_CROSS_VALIDATION,label_columns,process_excel_file
+from service import COMBINE_CATEGORIES,USING_CROSS_VALIDATION,MODEL_NAME,label_columns,process_excel_file,tokenize_and_process_dataset,prepare_data_loaders, load_my_dataset
 
 
 # --------------- start: helper functions -----------------
-def tokenize_and_process_dataset(dataset):
-    # Function to tokenize questions, including tokenizer as a parameter
-    def tokenize_questions(examples):
-        return tokenizer(examples['Question'], padding=True, truncation=True)
-
-    # Tokenize the questions
-    tokenize_datasets = dataset.map(tokenize_questions, batched=True)
-    processed_datasets = tokenize_datasets.remove_columns(['Question'])
-    
-    #print("Column names: " + str(processed_datasets[split_name].column_names))
-
-    # Print example questions and labels
-    # for i in range(example_count):
-    #     question = dataset[split_name][i]['Question']
-    #     label = processed_datasets[split_name][i]['labels']
-    #     print(f"Question: {question}, Label: {label}, Type: {str(type(label))}")
-    return processed_datasets
-
-def prepare_data_loaders(processed_datasets, tokenizer, test_size=0.2, batch_size=4, seed=42):
-    # 1. Split the dataset into training and test sets
-    datasets = processed_datasets['train'].train_test_split(test_size=test_size, seed=seed)
-
-    # 2. Get data_collator
-    data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-
-    # 3. Get train_dataloader and eval_dataloader
-    train_dataloader = DataLoader(datasets['train'], shuffle=True, batch_size=batch_size, collate_fn=data_collator)
-    eval_dataloader = DataLoader(datasets['test'], batch_size=batch_size, collate_fn=data_collator)
-    
-    return train_dataloader, eval_dataloader
-
 def train_model(model, train_dataloader, num_epochs, gradient_accumulation_steps, lr=5e-5):
     optimizer = optim.AdamW(model.parameters(), lr=lr)
     num_training_steps = num_epochs * len(train_dataloader)
@@ -128,7 +97,7 @@ def print_classification_report(all_labels, all_predictions, label_columns):
       
     # Generate and print the classification report
     report = classification_report(
-        all_labels, all_predictions, labels=label_indices, target_names=label_columns
+        all_labels, all_predictions, labels=label_indices, target_names=label_columns,zero_division=0
     )
     print(report)
 
@@ -181,28 +150,23 @@ def train_and_evaluate_with_KFold():
     print(f"\nAverage Accuracy across all folds: {average_accuracy:.4f}")
 
 # --------------- end: helper functions ------------------
-df = process_excel_file()
-df['labels'] = df['labels'].astype(int)
 
-print("DataFrame columns:", df.columns.tolist())
+# 1. Load dataset
+dataset= load_my_dataset()
 
-# 2. load dataset
-csv_file = '../data/temp_dataset.csv'
-df.to_csv(csv_file, index=False)
-dataset = load_dataset('csv', data_files=csv_file)
+# 2. Tokenize and process dataset
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token or tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
-# 3. Tokenize and process dataset
-tokenizer_name='bert-base-uncased'
-tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
-processed_datasets = tokenize_and_process_dataset(dataset)
+processed_datasets = tokenize_and_process_dataset(dataset,tokenizer)
 
-
-# 4. Set Up the Optimizer and Learning Rate Scheduler
-model_name = "bert-base-uncased"
+# 3. Set Up the Optimizer and Learning Rate Scheduler
 num_labels = 4 if COMBINE_CATEGORIES else 15
-model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels)
+model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME, num_labels=num_labels)
+model.config.pad_token_id = tokenizer.pad_token_id
 
-# 5. Train and evaluate model
+# 4. Train and evaluate model
 if USING_CROSS_VALIDATION:
     train_and_evaluate_with_KFold()
 else:

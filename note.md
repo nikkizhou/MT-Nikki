@@ -1,10 +1,14 @@
 ## Problems:
 1. Data imbalance
 
+## Notes:
+1. Models: DistilBert, LLMA, 
+Llama: Focused on achieving high performance while using fewer resources; 
 
-## Ideas:
+
+## TODO:
 1. Fine tune
-2. Find more models
+3. Classify also the answers
 
 1. Consider up-sampling or down-sampling to balance the dataset, or even exploring data augmentation strategies.
 2. Stratified cross-validation
@@ -13,10 +17,16 @@
 
 ## Done:
 1. Combine labels
-3. Cross Validation
+2. Cross Validation
+3. Find more models
 
 
-## Question:
-1. In file result_BERT.out:
-Unique actual labels: {0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 13}
-Expected labels based on label_columns: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14} 
+## Questions:
+
+
+## Meeting notes:
+### 11.05
+    1.Models: Llama
+    2. Performance (time consumed, explainability?, generalization, robustness, memeory use, parameter size,  …)
+    3. Print out incorrect classifications, and find why, and try to improve
+

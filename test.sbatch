@@ -9,6 +9,5 @@
 # source ./miniconda/bin/activate
 
 # srun jupyter-lab
-
-#srun python3 code/BERT.py
- srun python3 code/Classical.py
+srun python3 code/LSTM.py
+#srun python3 code/Transformers.py
