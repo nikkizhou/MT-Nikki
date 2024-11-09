@@ -8,31 +8,37 @@ from tqdm.auto import tqdm
 import torch
 import torch.optim as optim
 from torch.utils.data import DataLoader
-from datasets import load_dataset
+
 
 from sklearn.model_selection import KFold 
 from sklearn.metrics import classification_report
 
 from transformers import get_scheduler
 from transformers import DataCollatorWithPadding,AutoTokenizer, AutoModelForSequenceClassification
-from service import COMBINE_CATEGORIES,USING_CROSS_VALIDATION,MODEL_NAME,label_columns,process_excel_file,tokenize_and_process_dataset,prepare_data_loaders, load_my_dataset
+from service import DEVICE, COMBINE_CATEGORIES,USING_CROSS_VALIDATION,MODEL_NAME,label_columns,compute_class_weights,tokenize_and_process_dataset,prepare_data_loaders, load_my_dataset
 
 
 # --------------- start: helper functions -----------------
-def train_model(model, train_dataloader, num_epochs, gradient_accumulation_steps, lr=5e-5):
-    optimizer = optim.AdamW(model.parameters(), lr=lr)
+def train_model(model, train_dataloader, num_epochs, gradient_accumulation_steps=4, lr=2e-5, weight_decay=0.01, early_stopping_patience=2):
+    optimizer = optim.AdamW(model.parameters(), lr=lr,weight_decay=weight_decay)
     num_training_steps = num_epochs * len(train_dataloader)
     lr_scheduler = get_scheduler(
         "linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=num_training_steps
     )
 
-    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
-    model.to(device)
+    model.to(DEVICE)
+
+    # Compute and apply class weights
+    class_weights = compute_class_weights(processed_datasets['train']).to(DEVICE)
+    loss_fn = torch.nn.CrossEntropyLoss(weight=class_weights)
+
+    best_accuracy = 0
+    epochs_no_improve = 0
 
     for epoch in range(num_epochs):
         model.train()
         for i, batch in enumerate(train_dataloader):
-            batch = {k: v.to(device) for k, v in batch.items()}
+            batch = {k: v.to(DEVICE) for k, v in batch.items()}
             #outputs = model(**batch)
             outputs = model(**batch) 
             loss = outputs.loss / gradient_accumulation_steps
@@ -42,6 +48,17 @@ def train_model(model, train_dataloader, num_epochs, gradient_accumulation_steps
                 optimizer.step()
                 lr_scheduler.step()
                 optimizer.zero_grad()
+    
+     # Validation step to check early stopping condition
+    accuracy = evaluate_model(model, eval_dataloader, label_columns)
+    if accuracy > best_accuracy:
+        best_accuracy = accuracy
+        epochs_no_improve = 0
+    else:
+        epochs_no_improve += 1
+        if epochs_no_improve >= early_stopping_patience:
+            print(f"Early stopping triggered at epoch {epoch + 1}") 
+            return
 
 def evaluate_model(model, eval_dataloader, label_columns):
     model.eval()
@@ -50,11 +67,9 @@ def evaluate_model(model, eval_dataloader, label_columns):
     all_predictions = []
     all_labels = []
 
-    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
-
     with torch.no_grad():
         for batch in eval_dataloader:
-            batch = {k: v.to(device) for k, v in batch.items()}
+            batch = {k: v.to(DEVICE) for k, v in batch.items()}
             outputs = model(**batch)
             predictions = torch.argmax(outputs.logits, dim=-1)
             labels = batch["labels"]
@@ -167,8 +182,8 @@ model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME, num_label
 model.config.pad_token_id = tokenizer.pad_token_id
 
 # 4. Train and evaluate model
+train_dataloader, eval_dataloader = prepare_data_loaders(processed_datasets, tokenizer)
 if USING_CROSS_VALIDATION:
     train_and_evaluate_with_KFold()
 else:
-    train_dataloader, eval_dataloader = prepare_data_loaders(processed_datasets, tokenizer)
     train_and_evaluate_model(train_dataloader,eval_dataloader)

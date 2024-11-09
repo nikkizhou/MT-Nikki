@@ -13,8 +13,9 @@ from transformers import DataCollatorWithPadding,AutoTokenizer, AutoModelForSequ
 COMBINE_CATEGORIES = True
 USING_CROSS_VALIDATION = True
 # MODEL_NAME = 'bert-base-uncased'
-# MODEL_NAME = 'meta-llama/Llama-3.2-1B'
-MODEL_NAME ='distilbert-base-uncased'
+MODEL_NAME = 'meta-llama/Llama-3.2-1B'
+#MODEL_NAME ='distilbert-base-uncased'
+DEVICE =  torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 # 1. Get and reorgnize dataframe
@@ -83,6 +84,13 @@ def combine_categories(df):
         df.loc[df['labels'] >= 0, 'labels'] = df['labels'] # Once the first match is found, don't change it (break the loop)
 
     return df
+
+def compute_class_weights(train_dataset):
+    labels = train_dataset['labels']
+    class_counts = torch.bincount(torch.tensor(labels).to(DEVICE))
+    print(class_counts)
+    class_weights = 1.0 / class_counts.float()
+    return class_weights
 
 
 def print_no_label_samples(df):

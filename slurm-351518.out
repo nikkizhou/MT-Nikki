@@ -1,41 +1,0 @@
-DataFrame columns: ['Question', 'labels']
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 2187 examples [00:00, 297784.15 examples/s]
-Map:   0%|          | 0/2187 [00:00<?, ? examples/s]Map: 100%|██████████| 2187/2187 [00:00<00:00, 15364.60 examples/s]Map: 100%|██████████| 2187/2187 [00:00<00:00, 14833.47 examples/s]
-/work/nikki/miniconda/lib/python3.12/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.2 and num_layers=1
-  warnings.warn(
-Classification Report Epoch 0: 
-               precision    recall  f1-score   support
-
-   invitation       0.25      0.02      0.03        57
-    directive       1.00      0.00      0.00       503
-option-posing       0.63      1.00      0.78      1105
-   suggestive       0.00      0.00      0.00        84
-
-     accuracy                           0.63      1749
-    macro avg       0.47      0.25      0.20      1749
- weighted avg       0.70      0.63      0.49      1749
-
-Classification Report Epoch 1: 
-               precision    recall  f1-score   support
-
-   invitation       0.00      0.00      0.00        57
-    directive       1.00      0.00      0.00       503
-option-posing       0.63      1.00      0.77      1105
-   suggestive       0.00      0.00      0.00        84
-
-     accuracy                           0.63      1749
-    macro avg       0.41      0.25      0.19      1749
- weighted avg       0.69      0.63      0.49      1749
-
-Classification Report Epoch 2: 
-               precision    recall  f1-score   support
-
-   invitation       0.00      0.00      0.00        57
-    directive       1.00      0.00      0.00       503
-option-posing       0.63      1.00      0.77      1105
-   suggestive       0.00      0.00      0.00        84
-
-     accuracy                           0.63      1749
-    macro avg       0.41      0.25      0.19      1749
- weighted avg       0.69      0.63      0.49      1749
-

@@ -1,0 +1,64 @@
+DataFrame columns: ['Question', 'labels']
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 2187 examples [00:00, 257009.97 examples/s]
+tensor([  69,  632, 1383,  103], device='cuda:0')
+Map:   0%|          | 0/2187 [00:00<?, ? examples/s]Map:  91%|█████████▏| 2000/2187 [00:00<00:00, 15955.54 examples/s]Map: 100%|██████████| 2187/2187 [00:00<00:00, 15491.96 examples/s]
+Validation Classification Report Epoch:
+               precision    recall  f1-score   support
+
+   invitation       0.00      0.00      0.00        12
+    directive       0.51      0.78      0.62       129
+option-posing       0.80      0.69      0.74       278
+   suggestive       0.00      0.00      0.00        19
+
+     accuracy                           0.67       438
+    macro avg       0.33      0.37      0.34       438
+ weighted avg       0.66      0.67      0.65       438
+
+Validation Classification Report Epoch:
+               precision    recall  f1-score   support
+
+   invitation       0.80      0.67      0.73        12
+    directive       0.83      0.81      0.82       129
+option-posing       0.86      0.93      0.89       278
+   suggestive       0.00      0.00      0.00        19
+
+     accuracy                           0.85       438
+    macro avg       0.62      0.60      0.61       438
+ weighted avg       0.81      0.85      0.83       438
+
+Validation Classification Report Epoch:
+               precision    recall  f1-score   support
+
+   invitation       0.56      0.75      0.64        12
+    directive       0.85      0.81      0.83       129
+option-posing       0.86      0.93      0.89       278
+   suggestive       0.00      0.00      0.00        19
+
+     accuracy                           0.85       438
+    macro avg       0.57      0.62      0.59       438
+ weighted avg       0.81      0.85      0.83       438
+
+Validation Classification Report Epoch:
+               precision    recall  f1-score   support
+
+   invitation       0.59      0.83      0.69        12
+    directive       0.83      0.87      0.85       129
+option-posing       0.88      0.91      0.89       278
+   suggestive       0.00      0.00      0.00        19
+
+     accuracy                           0.85       438
+    macro avg       0.57      0.65      0.61       438
+ weighted avg       0.82      0.85      0.84       438
+
+Validation Classification Report Epoch:
+               precision    recall  f1-score   support
+
+   invitation       0.59      0.83      0.69        12
+    directive       0.85      0.86      0.85       129
+option-posing       0.88      0.91      0.90       278
+   suggestive       0.00      0.00      0.00        19
+
+     accuracy                           0.85       438
+    macro avg       0.58      0.65      0.61       438
+ weighted avg       0.83      0.85      0.84       438
+

@@ -1,0 +1,197 @@
+DataFrame columns: ['Question', 'labels']
+
+Generating train split: 0 examples [00:00, ? examples/s]
+Generating train split: 2187 examples [00:00, 145150.69 examples/s]
+
+Map:   0%|          | 0/2187 [00:00<?, ? examples/s]
+Map: 100%|██████████| 2187/2187 [00:00<00:00, 17276.34 examples/s]
+Map: 100%|██████████| 2187/2187 [00:00<00:00, 16612.17 examples/s]
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+
+Fold 1/5
+
+Flattening the indices:   0%|          | 0/1749 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1749/1749 [00:00<00:00, 57278.57 examples/s]
+
+Flattening the indices:   0%|          | 0/438 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 438/438 [00:00<00:00, 26249.98 examples/s]
+tensor([  69,  632, 1383,  103], device='cuda:0')
+Accuracy: 0.9475
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       1.00      0.92      0.96        12
+    directive       0.91      0.98      0.95       129
+option-posing       0.96      0.96      0.96       278
+   suggestive       0.91      0.53      0.67        19
+
+     accuracy                           0.95       438
+    macro avg       0.95      0.85      0.88       438
+ weighted avg       0.95      0.95      0.94       438
+
+Accuracy: 0.8630
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       0.75      0.75      0.75        16
+    directive       0.75      0.93      0.83       109
+option-posing       0.93      0.89      0.91       293
+   suggestive       0.50      0.15      0.23        20
+
+     accuracy                           0.86       438
+    macro avg       0.73      0.68      0.68       438
+ weighted avg       0.86      0.86      0.85       438
+
+
+Fold 2/5
+
+Flattening the indices:   0%|          | 0/1749 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1749/1749 [00:00<00:00, 61428.89 examples/s]
+
+Flattening the indices:   0%|          | 0/438 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 438/438 [00:00<00:00, 58169.37 examples/s]
+tensor([  69,  632, 1383,  103], device='cuda:0')
+Accuracy: 0.9817
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       0.92      1.00      0.96        12
+    directive       0.97      0.99      0.98       129
+option-posing       0.99      0.99      0.99       278
+   suggestive       1.00      0.84      0.91        19
+
+     accuracy                           0.98       438
+    macro avg       0.97      0.95      0.96       438
+ weighted avg       0.98      0.98      0.98       438
+
+Accuracy: 0.9178
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       0.71      1.00      0.83        15
+    directive       0.92      0.95      0.94       131
+option-posing       0.96      0.93      0.94       273
+   suggestive       0.50      0.42      0.46        19
+
+     accuracy                           0.92       438
+    macro avg       0.77      0.83      0.79       438
+ weighted avg       0.92      0.92      0.92       438
+
+
+Fold 3/5
+
+Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 64150.46 examples/s]
+
+Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 69494.25 examples/s]
+tensor([  69,  632, 1383,  103], device='cuda:0')
+Accuracy: 0.9909
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       1.00      1.00      1.00        12
+    directive       0.98      0.98      0.98       129
+option-posing       0.99      1.00      0.99       278
+   suggestive       1.00      0.95      0.97        19
+
+     accuracy                           0.99       438
+    macro avg       0.99      0.98      0.99       438
+ weighted avg       0.99      0.99      0.99       438
+
+Accuracy: 0.9703
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       1.00      0.87      0.93        15
+    directive       0.96      0.98      0.97       130
+option-posing       0.98      0.98      0.98       277
+   suggestive       0.85      0.73      0.79        15
+
+     accuracy                           0.97       437
+    macro avg       0.95      0.89      0.92       437
+ weighted avg       0.97      0.97      0.97       437
+
+
+Fold 4/5
+
+Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 61945.90 examples/s]
+
+Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 62269.78 examples/s]
+tensor([  69,  632, 1383,  103], device='cuda:0')
+Accuracy: 0.9954
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       1.00      1.00      1.00        12
+    directive       0.99      0.99      0.99       129
+option-posing       1.00      1.00      1.00       278
+   suggestive       0.95      1.00      0.97        19
+
+     accuracy                           1.00       438
+    macro avg       0.99      1.00      0.99       438
+ weighted avg       1.00      1.00      1.00       438
+
+Accuracy: 0.9794
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       1.00      1.00      1.00         9
+    directive       0.98      0.98      0.98       127
+option-posing       0.98      0.99      0.99       280
+   suggestive       0.90      0.86      0.88        21
+
+     accuracy                           0.98       437
+    macro avg       0.97      0.96      0.96       437
+ weighted avg       0.98      0.98      0.98       437
+
+
+Fold 5/5
+
+Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 60789.53 examples/s]
+
+Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 59099.47 examples/s]
+tensor([  69,  632, 1383,  103], device='cuda:0')
+Accuracy: 0.9977
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       1.00      1.00      1.00        12
+    directive       1.00      0.99      1.00       129
+option-posing       1.00      1.00      1.00       278
+   suggestive       1.00      1.00      1.00        19
+
+     accuracy                           1.00       438
+    macro avg       1.00      1.00      1.00       438
+ weighted avg       1.00      1.00      1.00       438
+
+Accuracy: 0.9931
+
+Classification Report:
+               precision    recall  f1-score   support
+
+   invitation       1.00      1.00      1.00        14
+    directive       0.99      0.99      0.99       135
+option-posing       1.00      1.00      1.00       260
+   suggestive       0.96      0.96      0.96        28
+
+     accuracy                           0.99       437
+    macro avg       0.99      0.99      0.99       437
+ weighted avg       0.99      0.99      0.99       437
+
+
+Average Accuracy across all folds: 0.9447
