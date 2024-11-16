@@ -1,20 +1,16 @@
 
-import pandas as pd
 import torch
-import torch.nn as nn
-import torch.optim as optim
-from torch.utils.data import DataLoader, TensorDataset
-from sklearn.metrics import accuracy_score
-from tqdm import tqdm
+import pandas as pd
 from datasets import load_dataset
-from transformers import DataCollatorWithPadding,AutoTokenizer, AutoModelForSequenceClassification
+from torch.utils.data import DataLoader
+from transformers import DataCollatorWithPadding
 
 
 COMBINE_CATEGORIES = True
 USING_CROSS_VALIDATION = True
-# MODEL_NAME = 'bert-base-uncased'
-MODEL_NAME = 'meta-llama/Llama-3.2-1B'
-#MODEL_NAME ='distilbert-base-uncased'
+MODEL_NAME = 'bert-base-uncased'
+# MODEL_NAME = 'meta-llama/Llama-3.2-1B'
+# MODEL_NAME ='distilbert-base-uncased'
 DEVICE =  torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
@@ -27,6 +23,27 @@ original_label_columns = ['R2-1', 'R2_2B', 'R2_2D', 'R2_2SD', 'R2_3', 'R2_3YN', 
 combined_label_columns = ['invitation', 'directive', 'option-posing', 'suggestive']
 
 label_columns = combined_label_columns if COMBINE_CATEGORIES else original_label_columns
+
+
+def read_file ():
+    file_name = "Question Type examples 9_20_24.xlsx"
+    # file_name = './data/Question Type examples 9_20_24.xlsx'
+   
+    df = pd.read_excel('./data/'+file_name, skiprows=1)  # Skip the first row
+
+    filtered_df = df[['Question', 'label']]
+    filtered_df = filtered_df.dropna(subset=['label']).reset_index(drop=True)
+    filtered_df['Question'] = filtered_df['Question'].str.replace(r'^Q[.:]\s*', '', regex=True)
+
+    print(filtered_df)
+
+    filtered_df.to_csv('./data/csv_'+file_name, index=False)
+
+    #filtered_df.head()
+
+read_file()
+
+
 
 def process_excel_file():
     df = pd.read_excel(excel_file, header=1)
@@ -71,9 +88,11 @@ def combine_categories(df):
     df['directive'] = df[['R2_2B', 'R2_2D', 'R2_2SD']].sum(axis=1)
     df['option-posing'] = df[['R2_3', 'R2_3YN', 'R2_OP']].sum(axis=1)
     df['suggestive'] = df[['R2_4QG', 'R2_4QL', 'R2_4QP', 'R2_4QR', 'R2_4QI', 'R2_4QV']].sum(axis=1)
+    df['none-questions'] = df[['R2_5']].sum(axis=1)
+    df['multiple']= df[['R2_6']].sum(axis=1)
 
     # Drop original columns to avoid confusion
-    combined_columns = ['invitation', 'directive', 'option-posing', 'suggestive']
+    combined_columns = ['invitation', 'directive', 'option-posing', 'suggestive','none-questions','multiple']
     df = df[combined_columns + ['Question']]  # Keep only the combined columns and the Question column
    
     # Update labels based on combined categories
@@ -81,7 +100,18 @@ def combine_categories(df):
     df['labels'] = -1  # Initialize labels with -1 to indicate no match
     for idx, category in enumerate(combined_columns):
         df.loc[df[category] > 0, 'labels'] = idx
-        df.loc[df['labels'] >= 0, 'labels'] = df['labels'] # Once the first match is found, don't change it (break the loop)
+        df.loc[df['labels'] > 0, 'labels'] = df['labels'] # Once the first match is found, break the loop
+
+    # Filter out rows classified as 'none-questions' and 'multiple'
+    none_questions_idx = combined_columns.index('none-questions')
+    multiple_idx = combined_columns.index('multiple')
+    df = df[~df['labels'].isin([none_questions_idx, multiple_idx])]
+
+    # Print label counts
+    label_counts = df['labels'].value_counts()
+    print("Label counts:")
+    for label, count in label_counts.items():
+        print(f"Label {label} ({combined_columns[label]}): {count}")
 
     return df
 
@@ -96,11 +126,9 @@ def compute_class_weights(train_dataset):
 def print_no_label_samples(df):
     # Identify samples without any label
     no_label_samples = df[df['label'].isnull()]
-
     # Print samples without any label
     print("Samples without any label:")
     print(no_label_samples)
-
     # Count of samples without any label
     no_label_count = no_label_samples.shape[0]
     print("Total number of samples without any label:", no_label_count)

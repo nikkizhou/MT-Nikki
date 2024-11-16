@@ -1,5 +1,6 @@
+## 1. Original Label Counts
 Label counts, SUM: 2715
-R2_3YN    676
+R2_3YN    676    
 R2_3      646
 R2_5      527
 R2_2B     326
@@ -16,11 +17,41 @@ R2_4QI      1
 R2_6        1
 
 
-Combined label counts, SUM: 2715
-invitation       597
-directive        632
-option-posing    1383
-suggestive       103
+## 2. Combined Label Counts
+invitation = ['R2-1']
+directive = ['R2_2B', 'R2_2D', 'R2_2SD']
+option-posing = ['R2_3', 'R2_3YN', 'R2_OP']
+suggestive = ['R2_4QG', 'R2_4QL', 'R2_4QP', 'R2_4QR', 'R2_4QI', 'R2_4QV']
+none-question = ['R2-5']
+
+    
+(previous) Combined label counts, SUM: 2715
+invitation       597            - 71
+directive        632            - 636
+option-posing    1383           - 1393
+suggestive       103            - 104
+
+
+(updated) Combined label counts, SUM: 2715
+Label 0 (invitation): 69          - 71
+Label 1 (directive): 537          - 636
+Label 2 (option-posing): 1050     - 1393
+Label 3 (suggestive): 81           - 104
+Label 4 (none-questions): 927      - 939
+Label 5 (multiple): 51             - 51
+
+
+## 3. Labels from other datasets
+0: option posing,  4: DYK/DYR   - Presents choices or options.
+option-posing
+
+1: leading (tag)                - Declarative + tag (e.g., “right?”).
+2: leading (statement)          - Declarative statement implying a question.
+suggestive ?
+
+3: open-ended:  
+directives/invitation ?
+
 
 
 

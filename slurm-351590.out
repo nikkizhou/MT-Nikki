@@ -1,141 +1,0 @@
-DataFrame columns: ['Question', 'labels']
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 2187 examples [00:00, 161106.89 examples/s]
-Map:   0%|          | 0/2187 [00:00<?, ? examples/s]Map: 100%|██████████| 2187/2187 [00:00<00:00, 15477.58 examples/s]Map: 100%|██████████| 2187/2187 [00:00<00:00, 14894.38 examples/s]
-Some weights of LlamaForSequenceClassification were not initialized from the model checkpoint at meta-llama/Llama-3.2-1B and are newly initialized: ['score.weight']
-You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-
-Fold 1/5
-Flattening the indices:   0%|          | 0/1749 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1749/1749 [00:00<00:00, 52596.83 examples/s]
-Flattening the indices:   0%|          | 0/438 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 438/438 [00:00<00:00, 56820.03 examples/s]
-tensor([  69,  632, 1383,  103], device='cuda:0')
-Accuracy: 0.9338
-
-Classification Report:
-               precision    recall  f1-score   support
-
-   invitation       1.00      0.75      0.86        12
-    directive       0.92      0.95      0.94       129
-option-posing       0.94      0.97      0.95       278
-   suggestive       1.00      0.37      0.54        19
-
-     accuracy                           0.93       438
-    macro avg       0.96      0.76      0.82       438
- weighted avg       0.94      0.93      0.93       438
-
-Accuracy: 0.8562
-
-Classification Report:
-               precision    recall  f1-score   support
-
-   invitation       0.92      0.69      0.79        16
-    directive       0.76      0.85      0.81       109
-option-posing       0.90      0.92      0.91       293
-   suggestive       0.40      0.10      0.16        20
-
-     accuracy                           0.86       438
-    macro avg       0.74      0.64      0.66       438
- weighted avg       0.84      0.86      0.84       438
-
-
-Fold 2/5
-Flattening the indices:   0%|          | 0/1749 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1749/1749 [00:00<00:00, 60959.77 examples/s]
-Flattening the indices:   0%|          | 0/438 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 438/438 [00:00<00:00, 66840.28 examples/s]
-tensor([  69,  632, 1383,  103], device='cuda:0')
-Accuracy: 0.9589
-
-Classification Report:
-               precision    recall  f1-score   support
-
-   invitation       0.85      0.92      0.88        12
-    directive       0.97      0.95      0.96       129
-option-posing       0.97      0.97      0.97       278
-   suggestive       0.76      0.84      0.80        19
-
-     accuracy                           0.96       438
-    macro avg       0.89      0.92      0.90       438
- weighted avg       0.96      0.96      0.96       438
-
-Accuracy: 0.8927
-
-Classification Report:
-               precision    recall  f1-score   support
-
-   invitation       0.78      0.93      0.85        15
-    directive       0.94      0.87      0.90       131
-option-posing       0.92      0.94      0.93       273
-   suggestive       0.35      0.37      0.36        19
-
-     accuracy                           0.89       438
-    macro avg       0.75      0.78      0.76       438
- weighted avg       0.90      0.89      0.89       438
-
-
-Fold 3/5
-Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 56660.09 examples/s]
-Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 59235.07 examples/s]
-tensor([  69,  632, 1383,  103], device='cuda:0')
-Accuracy: 0.9749
-
-Classification Report:
-               precision    recall  f1-score   support
-
-   invitation       1.00      0.83      0.91        12
-    directive       0.98      0.98      0.98       129
-option-posing       0.99      0.99      0.99       278
-   suggestive       0.81      0.89      0.85        19
-
-     accuracy                           0.97       438
-    macro avg       0.94      0.92      0.93       438
- weighted avg       0.98      0.97      0.98       438
-
-Accuracy: 0.9245
-
-Classification Report:
-               precision    recall  f1-score   support
-
-   invitation       1.00      0.67      0.80        15
-    directive       0.92      0.93      0.93       130
-option-posing       0.94      0.96      0.95       277
-   suggestive       0.50      0.47      0.48        15
-
-     accuracy                           0.92       437
-    macro avg       0.84      0.76      0.79       437
- weighted avg       0.92      0.92      0.92       437
-
-
-Fold 4/5
-Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 60103.11 examples/s]
-Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 67692.54 examples/s]
-tensor([  69,  632, 1383,  103], device='cuda:0')
-Accuracy: 0.9749
-
-Classification Report:
-               precision    recall  f1-score   support
-
-   invitation       0.92      1.00      0.96        12
-    directive       0.98      0.97      0.97       129
-option-posing       0.99      0.98      0.98       278
-   suggestive       0.82      0.95      0.88        19
-
-     accuracy                           0.97       438
-    macro avg       0.93      0.97      0.95       438
- weighted avg       0.98      0.97      0.98       438
-
-Accuracy: 0.9474
-
-Classification Report:
-               precision    recall  f1-score   support
-
-   invitation       0.90      1.00      0.95         9
-    directive       0.92      0.94      0.93       127
-option-posing       0.97      0.96      0.97       280
-   suggestive       0.76      0.76      0.76        21
-
-     accuracy                           0.95       437
-    macro avg       0.89      0.92      0.90       437
- weighted avg       0.95      0.95      0.95       437
-
-
-Fold 5/5
-Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 60311.52 examples/s]
-Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 65672.19 examples/s]
