@@ -72,7 +72,7 @@ def process_excel_file_with_augmentation():
 
 def load_my_dataset_with_augmentation():
     df = process_excel_file_with_augmentation()
-    df['labels'] = df['labels'].astype(int)
+    df['Label'] = df['Label'].astype(int)
 
     print("DataFrame columns:", df.columns.tolist())
 

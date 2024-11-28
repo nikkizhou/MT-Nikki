@@ -4,19 +4,15 @@
 # <a href="https://colab.research.google.com/github/nikkizhou/ML/blob/main/MT_Nikki.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 
-from tqdm.auto import tqdm
 import torch
 import torch.optim as optim
 from torch.utils.data import DataLoader
 
-
-from sklearn.model_selection import KFold 
 from sklearn.metrics import classification_report
 
-from transformers import get_scheduler
-from transformers import DataCollatorWithPadding,AutoTokenizer, AutoModelForSequenceClassification
+from transformers import get_scheduler, AutoConfig,DataCollatorWithPadding,AutoTokenizer, AutoModelForSequenceClassification
 from service import DEVICE, COMBINE_CATEGORIES,USING_CROSS_VALIDATION,MODEL_NAME,label_columns,compute_class_weights,tokenize_and_process_dataset,prepare_data_loaders, load_my_dataset
-
+from sklearn.model_selection import StratifiedKFold
 
 # --------------- start: helper functions -----------------
 def train_model(model, train_dataloader, num_epochs, gradient_accumulation_steps=4, lr=2e-5, weight_decay=0.01, early_stopping_patience=2):
@@ -41,7 +37,11 @@ def train_model(model, train_dataloader, num_epochs, gradient_accumulation_steps
             batch = {k: v.to(DEVICE) for k, v in batch.items()}
             #outputs = model(**batch)
             outputs = model(**batch) 
-            loss = outputs.loss / gradient_accumulation_steps
+            labels = batch["labels"] 
+            logits = outputs.logits  
+
+            loss = loss_fn(logits, labels)
+            loss = loss / gradient_accumulation_steps
             loss.backward()
 
             if (i + 1) % gradient_accumulation_steps == 0:
@@ -49,16 +49,16 @@ def train_model(model, train_dataloader, num_epochs, gradient_accumulation_steps
                 lr_scheduler.step()
                 optimizer.zero_grad()
     
-     # Validation step to check early stopping condition
-    accuracy = evaluate_model(model, eval_dataloader, label_columns)
-    if accuracy > best_accuracy:
-        best_accuracy = accuracy
-        epochs_no_improve = 0
-    else:
-        epochs_no_improve += 1
-        if epochs_no_improve >= early_stopping_patience:
-            print(f"Early stopping triggered at epoch {epoch + 1}") 
-            return
+        # Check Early Stopping Condition
+        (accuracy,all_predictions,all_labels) = evaluate_model(model, eval_dataloader, label_columns)
+        if accuracy > best_accuracy:
+            best_accuracy = accuracy
+            epochs_no_improve = 0
+        else:
+            epochs_no_improve += 1
+            if epochs_no_improve >= early_stopping_patience:
+                print(f"Early stopping triggered at epoch {epoch + 1}") 
+                return
 
 def evaluate_model(model, eval_dataloader, label_columns):
     model.eval()
@@ -81,10 +81,8 @@ def evaluate_model(model, eval_dataloader, label_columns):
 
 
     accuracy = correct / total
-    print(f"Accuracy: {accuracy:.4f}")
-    print_classification_report(all_labels, all_predictions, label_columns)
-
-    return accuracy
+    
+    return (accuracy,all_predictions,all_labels)
 
  
 def print_classification_report(all_labels, all_predictions, label_columns):
@@ -120,7 +118,11 @@ def print_classification_report(all_labels, all_predictions, label_columns):
 def train_and_evaluate_model(train_dataloader,eval_dataloader):
     #print("Unique labels in dataset:", df['labels'].unique())
     train_model(model, train_dataloader, num_epochs=3, gradient_accumulation_steps=4)
-    accuracy  = evaluate_model(model, eval_dataloader, label_columns)
+
+    (accuracy,all_predictions,all_labels)  = evaluate_model(model, eval_dataloader, label_columns)
+    print(f"Accuracy: {accuracy:.4f}")
+    print_classification_report(all_labels, all_predictions, label_columns)
+
     return accuracy
 
 def prepare_data_loaders_for_kfold(dataset, tokenizer, batch_size=4):
@@ -130,7 +132,8 @@ def prepare_data_loaders_for_kfold(dataset, tokenizer, batch_size=4):
     return dataloader
 
 def train_and_evaluate_with_KFold():
-    kf = KFold(n_splits=5, shuffle=True, random_state=42)
+    #kf = KFold(n_splits=3, shuffle=True, random_state=42)
+    skf = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
     full_dataset = processed_datasets['train']
 
     # Extract inputs and labels
@@ -139,8 +142,8 @@ def train_and_evaluate_with_KFold():
 
     accuracies = []
 
-    for fold, (train_idx, val_idx) in enumerate(kf.split(inputs)):
-        print(f"\nFold {fold + 1}/{kf.n_splits}")
+    for fold, (train_idx, val_idx) in enumerate(skf.split(inputs, labels)):
+        print(f"\nFold {fold + 1}/{skf.n_splits}")
 
         # Create train and validation datasets
         train_inputs = inputs.select(train_idx)
@@ -168,6 +171,7 @@ def train_and_evaluate_with_KFold():
 
 # 1. Load dataset
 dataset= load_my_dataset()
+dataset = dataset.rename_column('Label', 'labels')
 
 # 2. Tokenize and process dataset
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
@@ -178,8 +182,11 @@ processed_datasets = tokenize_and_process_dataset(dataset,tokenizer)
 
 # 3. Set Up the Optimizer and Learning Rate Scheduler
 num_labels = 4 if COMBINE_CATEGORIES else 15
+
 model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME, num_labels=num_labels)
 model.config.pad_token_id = tokenizer.pad_token_id
+model.config.hidden_dropout_prob = 0.1  
+model.config.attention_probs_dropout_prob = 0.1
 
 # 4. Train and evaluate model
 train_dataloader, eval_dataloader = prepare_data_loaders(processed_datasets, tokenizer)

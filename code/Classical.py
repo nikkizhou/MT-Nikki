@@ -84,8 +84,9 @@ def evaluate_models_with_cross_validation( n_splits=5):
 df = process_excel_file()
 
 # 2. Split the dataset into training and testing sets
+
 X = df['Question']  
-y = df['labels'] 
+y = df['Label'] 
 X, y = filter_labels_with_min_samples()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
@@ -103,23 +104,23 @@ models = {
 }
 
 
-# tuned_models = {}
-# for name, model in models.items():
-#     print(f"Tuning model: {name}")
-#     tuned_models[name] = tune_model(model, X_train_tfidf, y_train)
+tuned_models = {}
+for name, model in models.items():
+    print(f"Tuning model: {name}")
+    tuned_models[name] = tune_model(model, X_train_tfidf, y_train)
 
-# # Evaluate the best models with the tuned hyperparameters
-# for name, model in tuned_models.items():
-#     y_pred = model.predict(X_test_tfidf)
-#     print(f"\nModel: {name}")
-#     print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")
-#     print("Classification Report:")
-#     print(classification_report(y_test, y_pred, target_names=label_columns, zero_division=0))
-#     print("-" * 50)
+# Evaluate the best models with the tuned hyperparameters
+for name, model in tuned_models.items():
+    y_pred = model.predict(X_test_tfidf)
+    print(f"\nModel: {name}")
+    print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")
+    print("Classification Report:")
+    print(classification_report(y_test, y_pred, target_names=label_columns, zero_division=0))
+    print("-" * 50)
 
 
-# #3. Train and Evaluate models
-# if USING_CROSS_VALIDATION:
-#     evaluate_models_with_cross_validation()
-# else:
-#     evaluate_models()
+#3. Train and Evaluate models
+if USING_CROSS_VALIDATION:
+    evaluate_models_with_cross_validation()
+else:
+    evaluate_models()

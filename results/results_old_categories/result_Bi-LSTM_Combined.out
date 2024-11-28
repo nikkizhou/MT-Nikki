@@ -1,7 +1,12 @@
-DataFrame columns: ['Question', 'labels']
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 2187 examples [00:00, 257009.97 examples/s]
+DataFrame columns: ['Question', 'Label']
+
+Generating train split: 0 examples [00:00, ? examples/s]
+Generating train split: 2187 examples [00:00, 257009.97 examples/s]
 tensor([  69,  632, 1383,  103], device='cuda:0')
-Map:   0%|          | 0/2187 [00:00<?, ? examples/s]Map:  91%|█████████▏| 2000/2187 [00:00<00:00, 15955.54 examples/s]Map: 100%|██████████| 2187/2187 [00:00<00:00, 15491.96 examples/s]
+
+Map:   0%|          | 0/2187 [00:00<?, ? examples/s]
+Map:  91%|█████████▏| 2000/2187 [00:00<00:00, 15955.54 examples/s]
+Map: 100%|██████████| 2187/2187 [00:00<00:00, 15491.96 examples/s]
 Validation Classification Report Epoch:
                precision    recall  f1-score   support
 

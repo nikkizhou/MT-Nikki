@@ -29,7 +29,7 @@ def evaluate_model(model, eval_dataloader):
         for batch in eval_dataloader:
             input_ids = batch['input_ids'].to(DEVICE)
             attention_mask = batch['attention_mask'].to(DEVICE)
-            labels = batch['labels'].to(DEVICE)
+            labels = batch['Label'].to(DEVICE)
             
             # Forward pass
             outputs = model(input_ids)
@@ -60,7 +60,7 @@ def train_and_evaluate_model(model, train_dataloader, eval_dataloader, num_epoch
             
             input_ids = batch['input_ids'].to(DEVICE)
             attention_mask = batch['attention_mask'].to(DEVICE)
-            labels = batch['labels'].to(DEVICE)
+            labels = batch['Label'].to(DEVICE)
             
             # Forward pass
             outputs = model(input_ids)
@@ -78,7 +78,7 @@ def train_and_evaluate_model(model, train_dataloader, eval_dataloader, num_epoch
 
 # LSTM model with bidirectional option
 class BiLSTMModel(nn.Module):
-    def __init__(self, vocab_size, embedding_dim, hidden_dim, output_dim, num_layers=2, dropout=0.3):
+    def __init__(self, vocab_size, embedding_dim, hidden_dim, output_dim, num_layers=2, dropout=0.2):
         super(BiLSTMModel, self).__init__()
         self.embedding = nn.Embedding(vocab_size, embedding_dim)
         self.lstm = nn.LSTM(embedding_dim, hidden_dim, num_layers=num_layers, batch_first=True, bidirectional=True, dropout=dropout)

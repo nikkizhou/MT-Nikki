@@ -1,63 +1,51 @@
-## 1. Original Label Counts
-Label counts, SUM: 2715
-R2_3YN    676    
-R2_3      646
-R2_5      527
-R2_2B     326
-R2_2D     222
-R2_2SD     87
-R2-1       71
-R2_OP      62
-R2_4QL     40
-R2_4QG     27
-R2_4QR     19
-R2_4QV      8
-R2_4QP      2
-R2_4QI      1
-R2_6        1
-
 
 ## 2. Combined Label Counts
-invitation = ['R2-1']
-directive = ['R2_2B', 'R2_2D', 'R2_2SD']
-option-posing = ['R2_3', 'R2_3YN', 'R2_OP']
-suggestive = ['R2_4QG', 'R2_4QL', 'R2_4QP', 'R2_4QR', 'R2_4QI', 'R2_4QV']
-none-question = ['R2-5']
 
-    
-(previous) Combined label counts, SUM: 2715
-invitation       597            - 71
-directive        632            - 636
-option-posing    1383           - 1393
-suggestive       103            - 104
+### (updated) Combined Label Counts (SUM: 2715)
+From file 1: Categorized_mocks.xlsx
+Label 0 (open-ended): 606
+Label 1 (option-posing): 1050
+Label 2 (none-questions): 908
+Label 3 (suggestive): 100   - DROPPED
+Label 4 (multiple): 51      - DROPPED
 
 
-(updated) Combined label counts, SUM: 2715
-Label 0 (invitation): 69          - 71
-Label 1 (directive): 537          - 636
-Label 2 (option-posing): 1050     - 1393
-Label 3 (suggestive): 81           - 104
-Label 4 (none-questions): 927      - 939
-Label 5 (multiple): 51             - 51
+From file 2: Question Type examples 9_20_24.xlsx
+open-ended       337
+option-posing    420
+leading          311
+
+
+From file 3:  Forensic Trafficking Interviews Question Type Examples 10_1_24.xlsx
+open-ended       347
+option-posing    489
+leading          266
+
+
+All 3 files: Value counts final combination, SUM:4804
+0 open-ended        1390
+1 option-posing     2293
+2 none-questions     544
+3 leading            577
 
 
 ## 3. Labels from other datasets
-0: option posing,  4: DYK/DYR   - Presents choices or options.
-option-posing
+File 1:  Categorized_mocks.xlsx
+File 2:  Question Type examples 9_20_24.xlsx
+File 3:  Forensic Trafficking Interviews Question Type Examples 10_1_24.xlsx
 
-1: leading (tag)                - Declarative + tag (e.g., “right?”).
-2: leading (statement)          - Declarative statement implying a question.
-suggestive ?
-
-3: open-ended:  
-directives/invitation ?
-
-
+| Label | Main Category  | Categories Combined to main Category| File 1 | File 2 | File 3 | Total  |
+|-------|----------------|-------------------------------------|--------|--------|--------|--------|
+| 0     | open-ended     | invitation,directive                | 706    |  337   |  347   |  1390  |
+| 1     | option-posing  | DYK/DYR                             | 1384   |  420   |  489   |  2293  |
+| 2     | none-questions |                                     | 544    |  0     |  0     |  544   |
+| 3     | leading        | leading (tag), leading (statement)  | 0      |  311   |  266   |  577   |
 
 
-Total number of samples without any label: 30
+
+## 4. Total number of samples without any label: 30
               ID                                           Question  ... R2_6  label
-7     NA0006-PC                        OKAY THEN WHAT HAPPENED NEXT  ...  0.0   None
+7      NA0006-PC                       OKAY THEN WHAT HAPPENED NEXT  ...  0.0   None
 100    NA0099-PC            SORRY YOU'LL HAVE TO USE YOUR BIG VOICE  ...  0.0   None
 197    NA0098-PC                                        YOUR COUSIN  ...  0.0   None
 219    NA0098-PC                   YEAH OKAY SO YOU SAID YOU SAW IT  ...  0.0   None

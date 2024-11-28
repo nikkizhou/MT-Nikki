@@ -1,0 +1,68 @@
+/work/nikki/MT/code/service.py:65: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value 'open-ended' has dtype incompatible with int64, please explicitly cast to a compatible dtype first.
+  df.loc[(df['Label'] == -1) & (df[category] > 0), 'Label'] = category
+Label
+1    2293
+0    1390
+3     577
+2     544
+Name: count, dtype: int64
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 4803 examples [00:00, 270054.32 examples/s]
+Map:   0%|          | 0/4803 [00:00<?, ? examples/s]Map:  42%|████▏     | 2000/4803 [00:00<00:00, 15210.45 examples/s]Map:  83%|████████▎ | 4000/4803 [00:00<00:00, 13982.66 examples/s]Map: 100%|██████████| 4803/4803 [00:00<00:00, 13098.45 examples/s]
+Some weights of LlamaForSequenceClassification were not initialized from the model checkpoint at meta-llama/Llama-3.2-1B and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+
+Fold 1/3
+Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 43668.79 examples/s]
+Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 58630.61 examples/s]
+Accuracy: 0.9101
+
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       0.93      0.91      0.92       464
+ option-posing       0.89      0.93      0.91       764
+none-questions       0.93      0.81      0.87       181
+       leading       0.93      0.91      0.92       192
+
+      accuracy                           0.91      1601
+     macro avg       0.92      0.89      0.90      1601
+  weighted avg       0.91      0.91      0.91      1601
+
+
+Fold 2/3
+Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 49655.45 examples/s]
+Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 64295.45 examples/s]
+Accuracy: 0.9400
+
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       0.97      0.91      0.94       463
+ option-posing       0.94      0.96      0.95       765
+none-questions       0.88      0.93      0.90       181
+       leading       0.96      0.94      0.95       192
+
+      accuracy                           0.94      1601
+     macro avg       0.93      0.94      0.93      1601
+  weighted avg       0.94      0.94      0.94      1601
+
+
+Fold 3/3
+Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 48056.86 examples/s]
+Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 63741.89 examples/s]
+Accuracy: 0.9382
+
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       0.98      0.98      0.98       463
+ option-posing       0.99      0.89      0.94       764
+none-questions       0.93      0.98      0.95       182
+       leading       0.75      1.00      0.86       192
+
+      accuracy                           0.94      1601
+     macro avg       0.91      0.96      0.93      1601
+  weighted avg       0.95      0.94      0.94      1601
+
+
+Average Accuracy across all folds: 0.9294

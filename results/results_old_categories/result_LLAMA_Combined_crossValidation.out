@@ -1,12 +1,21 @@
-DataFrame columns: ['Question', 'labels']
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 2187 examples [00:00, 277128.18 examples/s]
-Map:   0%|          | 0/2187 [00:00<?, ? examples/s]Map:  91%|█████████▏| 2000/2187 [00:00<00:00, 15871.46 examples/s]Map: 100%|██████████| 2187/2187 [00:00<00:00, 15030.10 examples/s]
+DataFrame columns: ['Question', 'Label']
+
+Generating train split: 0 examples [00:00, ? examples/s]
+Generating train split: 2187 examples [00:00, 277128.18 examples/s]
+
+Map:   0%|          | 0/2187 [00:00<?, ? examples/s]
+Map:  91%|█████████▏| 2000/2187 [00:00<00:00, 15871.46 examples/s]
+Map: 100%|██████████| 2187/2187 [00:00<00:00, 15030.10 examples/s]
 Some weights of LlamaForSequenceClassification were not initialized from the model checkpoint at meta-llama/Llama-3.2-1B and are newly initialized: ['score.weight']
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
 
 Fold 1/5
-Flattening the indices:   0%|          | 0/1749 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1749/1749 [00:00<00:00, 50880.07 examples/s]
-Flattening the indices:   0%|          | 0/438 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 438/438 [00:00<00:00, 58276.40 examples/s]
+
+Flattening the indices:   0%|          | 0/1749 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1749/1749 [00:00<00:00, 50880.07 examples/s]
+
+Flattening the indices:   0%|          | 0/438 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 438/438 [00:00<00:00, 58276.40 examples/s]
 /work/nikki/miniconda/lib/python3.12/site-packages/sklearn/metrics/_classification.py:1531: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
   _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
 /work/nikki/miniconda/lib/python3.12/site-packages/sklearn/metrics/_classification.py:1531: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
@@ -29,8 +38,12 @@ option-posing       0.89      0.93      0.91       293
 
 
 Fold 2/5
-Flattening the indices:   0%|          | 0/1749 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1749/1749 [00:00<00:00, 57459.82 examples/s]
-Flattening the indices:   0%|          | 0/438 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 438/438 [00:00<00:00, 64917.67 examples/s]
+
+Flattening the indices:   0%|          | 0/1749 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1749/1749 [00:00<00:00, 57459.82 examples/s]
+
+Flattening the indices:   0%|          | 0/438 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 438/438 [00:00<00:00, 64917.67 examples/s]
 Accuracy: 0.8425
 
 Classification Report:
@@ -47,8 +60,12 @@ option-posing       0.84      0.94      0.89       273
 
 
 Fold 3/5
-Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 56477.86 examples/s]
-Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 60756.79 examples/s]
+
+Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 56477.86 examples/s]
+
+Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 60756.79 examples/s]
 Accuracy: 0.9245
 
 Classification Report:
@@ -65,8 +82,12 @@ option-posing       0.93      0.97      0.95       277
 
 
 Fold 4/5
-Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 53202.90 examples/s]
-Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 60174.35 examples/s]
+
+Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 53202.90 examples/s]
+
+Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 60174.35 examples/s]
 Accuracy: 0.9199
 
 Classification Report:
@@ -83,8 +104,12 @@ option-posing       0.91      0.98      0.95       280
 
 
 Fold 5/5
-Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 60233.81 examples/s]
-Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 67910.74 examples/s]
+
+Flattening the indices:   0%|          | 0/1750 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1750/1750 [00:00<00:00, 60233.81 examples/s]
+
+Flattening the indices:   0%|          | 0/437 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 437/437 [00:00<00:00, 67910.74 examples/s]
 Accuracy: 0.9245
 
 Classification Report:
