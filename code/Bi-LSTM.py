@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer
-from service import DEVICE,label_columns,tokenize_and_process_dataset,prepare_data_loaders,load_my_dataset,compute_class_weights
+from service_copy import DEVICE,label_columns,tokenize_and_process_dataset,prepare_data_loaders,load_my_dataset,compute_class_weights
 from sklearn.metrics import classification_report,confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -96,12 +96,14 @@ class BiLSTMModel(nn.Module):
 # 1. Load dataset
 dataset= load_my_dataset()
 
-#2. Compute class weights: Address Class Imbalance with Weighted Loss
+# 3. Compute class weights: Address Class Imbalance with Weighted Loss
 class_weights = compute_class_weights(dataset['train'])
+#class_weights = compute_class_weights(processed_datasets['train']).to(DEVICE)
 
 # 2. Tokenize and process dataset
 tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 processed_datasets = tokenize_and_process_dataset(dataset, tokenizer)
+
 
 # 3. Model Parameters
 vocab_size = tokenizer.vocab_size

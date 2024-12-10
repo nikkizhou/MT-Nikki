@@ -31,10 +31,12 @@ Paraphrasing: Generates realistic new examples close to human input.
 
 
 ## Questions:
-
+1. Consider changing to topic to 'Improving Model Accuracy with Limited Training Data'
 
 
 ## Meeting notes:
+
+
 ### 11.17
 
 
@@ -50,6 +52,10 @@ confusion matrix
 
 
 ## Points to discuss in MT:
+
+### Challenges:
+1. The first file and the last two file has different format. Technical challenge to merge them into same df
+2. Upsampling, technical challenge
 
 ### 1. Data imbalance: 
    The model is heavily biased toward the option-posing class and struggles with the other classes. 
@@ -158,12 +164,12 @@ option-posing    489
 leading          266
 
 
-#### All Three Files Combined:
+#### All Three Files Combined, SUM: 4804:
 open-ended        1390
 option-posing     2293
 none-questions     544
 leading            577
-SUM: 4804 
+
 
 
 NEW!
@@ -175,4 +181,15 @@ NEW!
 | 3     | leading        | leading (tag), leading (statement)  | 0      |  311   |  266   |  577   |
 
 
+#### Label Count 3 files + synthetic Data: 
+
+
+
+Synthetic data should only be in training, test data no synthesic data
+
+1. split origianl 80% and 20% for test
+2. test it
+3. then add syn data 80% and 20% for test
+
+same number of samples for each categories
 

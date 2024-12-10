@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader
 from sklearn.metrics import classification_report
 
 from transformers import get_scheduler, AutoConfig,DataCollatorWithPadding,AutoTokenizer, AutoModelForSequenceClassification
-from service import DEVICE, COMBINE_CATEGORIES,USING_CROSS_VALIDATION,MODEL_NAME,label_columns,compute_class_weights,tokenize_and_process_dataset,prepare_data_loaders, load_my_dataset
+from service_copy import DEVICE, COMBINE_CATEGORIES,USING_CROSS_VALIDATION,MODEL_NAME,label_columns,compute_class_weights,tokenize_and_process_dataset,prepare_data_loaders, load_my_dataset
 from sklearn.model_selection import StratifiedKFold
 
 # --------------- start: helper functions -----------------
