@@ -9,7 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.model_selection import cross_val_score, cross_val_predict
-from service_copy import USING_CROSS_VALIDATION, label_columns,get_test_and_train_df
+from service import USING_CROSS_VALIDATION, label_columns,get_test_and_train_df,plot_confusion_matrix
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.metrics import classification_report
 
@@ -55,6 +55,9 @@ def evaluate_models():
         print("Classification Report:")
         print(classification_report(y_test, y_pred, target_names=label_columns, zero_division=0))
         print("-" * 50)
+        output_file = 'CM_Classical_' + name
+        title = f'Confusion Matrix {name}'  
+        plot_confusion_matrix(y_test, y_pred, label_columns, output_file, title)
 
 
 # def evaluate_models_with_cross_validation( n_splits=5):
@@ -78,7 +81,7 @@ def evaluate_models():
 #         print(classification_report(y, y_pred, target_names=label_columns, zero_division=0)) 
 #         print("-" * 50)
 
-def evaluate_models_with_cross_validation(n_splits=5):
+def evaluate_models_with_cross_validation(n_splits=3):
     for model_name, model in models.items():
         print(f"\nModel: {model_name}")
 
@@ -102,6 +105,10 @@ def evaluate_models_with_cross_validation(n_splits=5):
         print("Classification Report on Cross-Validation:")
         print(classification_report(y_train, y_cv_pred, target_names=label_columns, zero_division=0))
         print("-" * 50)
+
+        output_file = 'CM_Classical_' + model_name
+        title = f'Confusion Matrix {model_name}'  
+        plot_confusion_matrix(y_test, y_test_pred, label_columns, output_file, title)
 # --------------- end: helper functions -----------------
 
 # 1. Convert excel file to DataFrame

@@ -1,0 +1,57 @@
+Total synthetic samples: 4368
+Synthetic samples in training set: 4368
+Label Count Training Set: 
+Label
+3    2183
+2    2160
+0    2028
+1    1840
+Name: count, dtype: int64
+Label Count Test Set: 
+Label
+1    453
+0    265
+2    133
+3    109
+Name: count, dtype: int64
+Map:   0%|          | 0/8211 [00:00<?, ? examples/s]Map:  12%|█▏        | 1000/8211 [00:00<00:01, 5996.45 examples/s]Map:  37%|███▋      | 3000/8211 [00:00<00:00, 6289.45 examples/s]Map:  61%|██████    | 5000/8211 [00:00<00:00, 8883.84 examples/s]Map:  97%|█████████▋| 8000/8211 [00:00<00:00, 13111.02 examples/s]Map: 100%|██████████| 8211/8211 [00:00<00:00, 10766.13 examples/s]
+Map:   0%|          | 0/960 [00:00<?, ? examples/s]Map: 100%|██████████| 960/960 [00:00<00:00, 17739.98 examples/s]
+Validation Classification Report Epoch:
+                precision    recall  f1-score   support
+
+    open-ended       0.71      0.74      0.72       265
+ option-posing       0.78      0.69      0.73       453
+none-questions       0.81      0.72      0.76       133
+       leading       0.49      0.73      0.59       109
+
+      accuracy                           0.71       960
+     macro avg       0.70      0.72      0.70       960
+  weighted avg       0.73      0.71      0.72       960
+
+Confusion matrix saved to /work/nikki/CM_BiLSTM_Epoch_0.png
+Validation Classification Report Epoch:
+                precision    recall  f1-score   support
+
+    open-ended       0.73      0.86      0.79       265
+ option-posing       0.80      0.75      0.78       453
+none-questions       0.81      0.70      0.75       133
+       leading       0.68      0.68      0.68       109
+
+      accuracy                           0.76       960
+     macro avg       0.75      0.75      0.75       960
+  weighted avg       0.77      0.76      0.76       960
+
+Confusion matrix saved to /work/nikki/CM_BiLSTM_Epoch_1.png
+Validation Classification Report Epoch:
+                precision    recall  f1-score   support
+
+    open-ended       0.84      0.66      0.74       265
+ option-posing       0.71      0.87      0.78       453
+none-questions       0.91      0.65      0.75       133
+       leading       0.72      0.67      0.70       109
+
+      accuracy                           0.76       960
+     macro avg       0.79      0.71      0.74       960
+  weighted avg       0.77      0.76      0.76       960
+
+Confusion matrix saved to /work/nikki/CM_BiLSTM_Epoch_2.png

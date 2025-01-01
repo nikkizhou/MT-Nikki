@@ -3,16 +3,17 @@
 
 # <a href="https://colab.research.google.com/github/nikkizhou/ML/blob/main/MT_Nikki.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
-
+import os
 import torch
 import torch.optim as optim
 from torch.utils.data import DataLoader
+import matplotlib.pyplot as plt
 
 from sklearn.metrics import classification_report
-
-from transformers import get_scheduler, AutoConfig,DataCollatorWithPadding,AutoTokenizer, AutoModelForSequenceClassification
-from service_copy import DEVICE, COMBINE_CATEGORIES,USING_CROSS_VALIDATION,MODEL_NAME,label_columns,compute_class_weights,tokenize_and_process_dataset,prepare_data_loaders, load_my_dataset
+from transformers import get_scheduler, AutoConfig, DataCollatorWithPadding,AutoTokenizer, AutoModelForSequenceClassification
+from service import DEVICE, COMBINE_CATEGORIES, USING_CROSS_VALIDATION, MODEL_NAME, label_columns, model_name_simplified, compute_class_weights,tokenize_and_process_dataset,prepare_data_loaders, load_my_dataset,plot_confusion_matrix
 from sklearn.model_selection import StratifiedKFold
+
 
 # --------------- start: helper functions -----------------
 def train_model(model, train_dataloader, num_epochs, gradient_accumulation_steps=4, lr=2e-5, weight_decay=0.01, early_stopping_patience=2):
@@ -28,8 +29,11 @@ def train_model(model, train_dataloader, num_epochs, gradient_accumulation_steps
     class_weights = compute_class_weights(processed_datasets['train']).to(DEVICE)
     loss_fn = torch.nn.CrossEntropyLoss(weight=class_weights)
 
+
+
     best_accuracy = 0
     epochs_no_improve = 0
+    if not USING_CROSS_VALIDATION: num_epochs=1
 
     for epoch in range(num_epochs):
         model.train()
@@ -115,7 +119,21 @@ def print_classification_report(all_labels, all_predictions, label_columns):
     print(report)
 
 
-def train_and_evaluate_model(train_dataloader,eval_dataloader):
+def generate_output_and_title( fold):
+    output_file = (
+        f'CM_{model_name_simplified}_Fold_{fold}.png'
+        if USING_CROSS_VALIDATION
+        else f'CM_{model_name_simplified}.png'
+    )
+    title = (
+        f'Confusion Matrix {model_name_simplified} Fold {fold}'
+        if USING_CROSS_VALIDATION
+        else f'Confusion Matrix {model_name_simplified}'
+    )
+    return output_file, title
+
+
+def train_and_evaluate_model(train_dataloader,eval_dataloader,fold):
     #print("Unique labels in dataset:", df['labels'].unique())
     train_model(model, train_dataloader, num_epochs=3, gradient_accumulation_steps=4)
 
@@ -123,6 +141,8 @@ def train_and_evaluate_model(train_dataloader,eval_dataloader):
     print(f"Accuracy: {accuracy:.4f}")
     print_classification_report(all_labels, all_predictions, label_columns)
 
+    output_file, title = generate_output_and_title(fold)
+    plot_confusion_matrix(all_labels, all_predictions, label_columns,output_file, title)
     return accuracy
 
 def prepare_data_loaders_for_kfold(dataset, tokenizer, batch_size=4):
@@ -161,7 +181,7 @@ def train_and_evaluate_with_KFold():
         train_dataloader_kFold = prepare_data_loaders_for_kfold(train_dataset, tokenizer)
         eval_dataloader_kFold = prepare_data_loaders_for_kfold( val_dataset, tokenizer)
 
-        accuracy = train_and_evaluate_model(train_dataloader_kFold, eval_dataloader_kFold)
+        accuracy = train_and_evaluate_model(train_dataloader_kFold, eval_dataloader_kFold,fold)
         accuracies.append(accuracy)  
 
     average_accuracy = sum(accuracies) / len(accuracies)
@@ -188,9 +208,11 @@ model.config.pad_token_id = tokenizer.pad_token_id
 model.config.hidden_dropout_prob = 0.1  
 model.config.attention_probs_dropout_prob = 0.1
 
+torch.cuda.empty_cache()
+
 # 4. Train and evaluate model
 train_dataloader, eval_dataloader = prepare_data_loaders(processed_datasets, tokenizer)
 if USING_CROSS_VALIDATION:
     train_and_evaluate_with_KFold()
 else:
-    train_and_evaluate_model(train_dataloader,eval_dataloader)
+    train_and_evaluate_model(train_dataloader,eval_dataloader, None)

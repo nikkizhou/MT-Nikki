@@ -1,0 +1,35 @@
+Total synthetic samples: 4368
+Synthetic samples in training set: 4368
+Label Count Training Set: 
+Label
+3    2183
+2    2160
+0    2028
+1    1840
+Name: count, dtype: int64
+Label Count Test Set: 
+Label
+1    453
+0    265
+2    133
+3    109
+Name: count, dtype: int64
+Map:   0%|          | 0/8211 [00:00<?, ? examples/s]Map:  12%|█▏        | 1000/8211 [00:00<00:01, 4818.38 examples/s]Map:  37%|███▋      | 3000/8211 [00:00<00:00, 8645.99 examples/s]Map:  49%|████▊     | 4000/8211 [00:00<00:00, 5640.70 examples/s]Map:  85%|████████▌ | 7000/8211 [00:00<00:00, 10034.63 examples/s]Map: 100%|██████████| 8211/8211 [00:00<00:00, 9423.82 examples/s] 
+Map:   0%|          | 0/960 [00:00<?, ? examples/s]Map: 100%|██████████| 960/960 [00:00<00:00, 21870.13 examples/s]
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Accuracy: 0.9073
+
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       0.89      0.95      0.92       265
+ option-posing       0.91      0.93      0.92       453
+none-questions       0.93      0.81      0.87       133
+       leading       0.93      0.83      0.88       109
+
+      accuracy                           0.91       960
+     macro avg       0.91      0.88      0.90       960
+  weighted avg       0.91      0.91      0.91       960
+
+Confusion matrix saved to /work/nikki/CM_DistilBert.png

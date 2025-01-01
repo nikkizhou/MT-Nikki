@@ -2,14 +2,11 @@
 ## TODO:
 1. Evaluate performance of the models
 2. Print out incorrect classifications, and find why, and try to improve
-3. Use Synthetic Minority Oversampling Technique (SMOTE) to artificially increase the number of instances for rare labels.  Data Augmentation strategies.
-4. Analyze the results
 5. TransLSTM:
 https://www.sciencedirect.com/science/article/pii/S2949719124000372#sec3
 
 
 ## TODO if more time: 
-1. Classify the answers
 
 
 ## Done:
@@ -18,7 +15,6 @@ https://www.sciencedirect.com/science/article/pii/S2949719124000372#sec3
 3. Find more models
 4. Fine tuning:  
 Learning Rate, Batch Size, Nr Epochs, Weight Decay, Dropout Rate, Gradient Accumulation Steps, Early Stopping,
-
 5. Combine more datas
 6. Fix overfitting problem
 7. Data Augmentation:
@@ -36,6 +32,14 @@ Paraphrasing: Generates realistic new examples close to human input.
 
 ## Meeting notes:
 
+### 12.10:
+Other latest models like hunyuan? Hailuo ?
+Bi-LSTM, confusion matrix, and analyze
+draw graghs: fks before and after class weigh
+
+Consider changing to title to 'Improving Model Accuracy with Limited Training Data in the context of CC'
+Improving Model Accuracy  in the context of CC interviews data
+does it improve? why not?
 
 ### 11.17
 
@@ -82,6 +86,7 @@ Use Early Stopping  √
 Cross-Validation   √
 Use Smaller Batch Sizes √
 Reduced features by combining classes √
+Use Synthetic Minority Oversampling Technique (SMOTE) to artificially increase the number of instances for rare labels. √
 
 
 

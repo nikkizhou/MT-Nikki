@@ -1,0 +1,80 @@
+Total synthetic samples: 4368
+Synthetic samples in training set: 4368
+Label Count Training Set: 
+Label
+3    2183
+2    2160
+0    2028
+1    1840
+Name: count, dtype: int64
+Label Count Test Set: 
+Label
+1    453
+0    265
+2    133
+3    109
+Name: count, dtype: int64
+Map:   0%|          | 0/8211 [00:00<?, ? examples/s]Map:  12%|█▏        | 1000/8211 [00:00<00:00, 8446.47 examples/s]Map:  37%|███▋      | 3000/8211 [00:00<00:00, 12801.11 examples/s]Map:  73%|███████▎  | 6000/8211 [00:00<00:00, 11487.28 examples/s]Map: 100%|██████████| 8211/8211 [00:00<00:00, 13126.18 examples/s]
+Map:   0%|          | 0/960 [00:00<?, ? examples/s]Map: 100%|██████████| 960/960 [00:00<00:00, 20189.80 examples/s]
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+
+Fold 1/3
+Flattening the indices:   0%|          | 0/5474 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 5474/5474 [00:00<00:00, 53343.60 examples/s]Flattening the indices: 100%|██████████| 5474/5474 [00:00<00:00, 52666.56 examples/s]
+Flattening the indices:   0%|          | 0/2737 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 2737/2737 [00:00<00:00, 68245.68 examples/s]
+Accuracy: 0.9225
+
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       0.91      0.96      0.94       676
+ option-posing       0.89      0.84      0.86       614
+none-questions       0.93      0.94      0.93       720
+       leading       0.95      0.94      0.94       727
+
+      accuracy                           0.92      2737
+     macro avg       0.92      0.92      0.92      2737
+  weighted avg       0.92      0.92      0.92      2737
+
+Confusion matrix saved to /work/nikki/CM_DistilBert_Fold_0.png
+
+Fold 2/3
+Flattening the indices:   0%|          | 0/5474 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 5474/5474 [00:00<00:00, 53134.72 examples/s]Flattening the indices: 100%|██████████| 5474/5474 [00:00<00:00, 52437.90 examples/s]
+Flattening the indices:   0%|          | 0/2737 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 2737/2737 [00:00<00:00, 67765.87 examples/s]
+Early stopping triggered at epoch 3
+Accuracy: 0.9715
+
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       0.97      0.98      0.98       676
+ option-posing       0.99      0.92      0.95       613
+none-questions       0.96      0.99      0.98       720
+       leading       0.97      0.98      0.98       728
+
+      accuracy                           0.97      2737
+     macro avg       0.97      0.97      0.97      2737
+  weighted avg       0.97      0.97      0.97      2737
+
+Confusion matrix saved to /work/nikki/CM_DistilBert_Fold_1.png
+
+Fold 3/3
+Flattening the indices:   0%|          | 0/5474 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 5474/5474 [00:00<00:00, 54099.52 examples/s]Flattening the indices: 100%|██████████| 5474/5474 [00:00<00:00, 53398.56 examples/s]
+Flattening the indices:   0%|          | 0/2737 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 2737/2737 [00:00<00:00, 66596.34 examples/s]
+Accuracy: 0.9931
+
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       1.00      0.99      0.99       676
+ option-posing       0.98      0.99      0.99       613
+none-questions       1.00      1.00      1.00       720
+       leading       1.00      1.00      1.00       728
+
+      accuracy                           0.99      2737
+     macro avg       0.99      0.99      0.99      2737
+  weighted avg       0.99      0.99      0.99      2737
+
+Confusion matrix saved to /work/nikki/CM_DistilBert_Fold_2.png
+
+Average Accuracy across all folds: 0.9624

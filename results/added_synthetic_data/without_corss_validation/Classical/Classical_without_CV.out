@@ -1,0 +1,64 @@
+Total synthetic samples: 4368
+Synthetic samples in training set: 4368
+Label Count Training Set: 
+Label
+3    2183
+2    2160
+0    2028
+1    1840
+Name: count, dtype: int64
+Label Count Test Set: 
+Label
+1    453
+0    265
+2    133
+3    109
+Name: count, dtype: int64
+Model: Logistic Regression
+Accuracy: 0.7229
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       0.71      0.74      0.72       265
+ option-posing       0.74      0.72      0.73       453
+none-questions       0.77      0.68      0.72       133
+       leading       0.65      0.78      0.71       109
+
+      accuracy                           0.72       960
+     macro avg       0.72      0.73      0.72       960
+  weighted avg       0.73      0.72      0.72       960
+
+--------------------------------------------------
+Confusion matrix saved to /work/nikki/CM_Classical_Logistic Regression
+Model: SVM
+Accuracy: 0.7375
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       0.72      0.77      0.74       265
+ option-posing       0.74      0.75      0.74       453
+none-questions       0.80      0.68      0.73       133
+       leading       0.71      0.70      0.70       109
+
+      accuracy                           0.74       960
+     macro avg       0.74      0.72      0.73       960
+  weighted avg       0.74      0.74      0.74       960
+
+--------------------------------------------------
+Confusion matrix saved to /work/nikki/CM_Classical_SVM
+Model: Random Forest
+Accuracy: 0.7323
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       0.72      0.67      0.70       265
+ option-posing       0.76      0.78      0.77       453
+none-questions       0.78      0.71      0.75       133
+       leading       0.62      0.70      0.66       109
+
+      accuracy                           0.73       960
+     macro avg       0.72      0.72      0.72       960
+  weighted avg       0.73      0.73      0.73       960
+
+--------------------------------------------------
+Confusion matrix saved to /work/nikki/CM_Classical_Random Forest

@@ -1,0 +1,79 @@
+Total synthetic samples: 4368
+Synthetic samples in training set: 4368
+Label Count Training Set: 
+Label
+3    2183
+2    2160
+0    2028
+1    1840
+Name: count, dtype: int64
+Label Count Test Set: 
+Label
+1    453
+0    265
+2    133
+3    109
+Name: count, dtype: int64
+Map:   0%|          | 0/8211 [00:00<?, ? examples/s]Map:  12%|█▏        | 1000/8211 [00:00<00:00, 7776.29 examples/s]Map:  37%|███▋      | 3000/8211 [00:00<00:00, 12112.29 examples/s]Map:  73%|███████▎  | 6000/8211 [00:00<00:00, 9258.65 examples/s] Map: 100%|██████████| 8211/8211 [00:00<00:00, 11829.76 examples/s]Map: 100%|██████████| 8211/8211 [00:00<00:00, 11071.69 examples/s]
+Map:   0%|          | 0/960 [00:00<?, ? examples/s]Map: 100%|██████████| 960/960 [00:00<00:00, 19474.89 examples/s]
+Some weights of LlamaForSequenceClassification were not initialized from the model checkpoint at meta-llama/Llama-3.2-1B and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+
+Fold 1/3
+Flattening the indices:   0%|          | 0/5474 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 5474/5474 [00:00<00:00, 48986.17 examples/s]Flattening the indices: 100%|██████████| 5474/5474 [00:00<00:00, 48377.09 examples/s]
+Flattening the indices:   0%|          | 0/2737 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 2737/2737 [00:00<00:00, 60972.98 examples/s]
+Accuracy: 0.9236
+
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       0.88      0.96      0.92       676
+ option-posing       0.91      0.79      0.84       614
+none-questions       0.97      0.96      0.97       720
+       leading       0.93      0.96      0.95       727
+
+      accuracy                           0.92      2737
+     macro avg       0.92      0.92      0.92      2737
+  weighted avg       0.92      0.92      0.92      2737
+
+Confusion matrix saved to /work/nikki/CM_Llama_Fold_0.png
+
+Fold 2/3
+Flattening the indices:   0%|          | 0/5474 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 5474/5474 [00:00<00:00, 51632.01 examples/s]Flattening the indices: 100%|██████████| 5474/5474 [00:00<00:00, 50945.53 examples/s]
+Flattening the indices:   0%|          | 0/2737 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 2737/2737 [00:00<00:00, 66059.06 examples/s]
+Accuracy: 0.9708
+
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       0.96      0.96      0.96       676
+ option-posing       0.94      0.94      0.94       613
+none-questions       0.98      0.98      0.98       720
+       leading       0.99      0.99      0.99       728
+
+      accuracy                           0.97      2737
+     macro avg       0.97      0.97      0.97      2737
+  weighted avg       0.97      0.97      0.97      2737
+
+Confusion matrix saved to /work/nikki/CM_Llama_Fold_1.png
+
+Fold 3/3
+Flattening the indices:   0%|          | 0/5474 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 5474/5474 [00:00<00:00, 52189.97 examples/s]Flattening the indices: 100%|██████████| 5474/5474 [00:00<00:00, 51539.98 examples/s]
+Flattening the indices:   0%|          | 0/2737 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 2737/2737 [00:00<00:00, 64967.06 examples/s]
+Accuracy: 0.9843
+
+Classification Report:
+                precision    recall  f1-score   support
+
+    open-ended       0.99      0.97      0.98       676
+ option-posing       0.97      0.97      0.97       613
+none-questions       0.98      0.99      0.99       720
+       leading       0.99      1.00      0.99       728
+
+      accuracy                           0.98      2737
+     macro avg       0.98      0.98      0.98      2737
+  weighted avg       0.98      0.98      0.98      2737
+
+Confusion matrix saved to /work/nikki/CM_Llama_Fold_2.png
+
+Average Accuracy across all folds: 0.9596

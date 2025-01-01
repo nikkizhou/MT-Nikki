@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer
-from service_copy import DEVICE,label_columns,tokenize_and_process_dataset,prepare_data_loaders,load_my_dataset,compute_class_weights
+from service import DEVICE, USING_CROSS_VALIDATION,label_columns,plot_confusion_matrix,tokenize_and_process_dataset,prepare_data_loaders,load_my_dataset,compute_class_weights
 from sklearn.metrics import classification_report,confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -9,17 +9,7 @@ import torch.optim as optim
 
 
 # --------------- start: helper functions -----------------
-
-def plot_confusion_matrix(cm):
-    plt.figure(figsize=(10, 7))
-    sns.heatmap(cm, annot=True, fmt='g', cmap='Blues', xticklabels=label_columns, yticklabels=label_columns)
-    plt.xlabel('Predicted labels')
-    plt.ylabel('True labels')
-    plt.title('Confusion Matrix')
-    plt.show()
-
-
-def evaluate_model(model, eval_dataloader):
+def evaluate_model(model, eval_dataloader,epoch):
     model.eval()
     
     all_labels = []
@@ -42,15 +32,17 @@ def evaluate_model(model, eval_dataloader):
     print(f"Validation Classification Report Epoch:\n{report}")
 
     # Confusion matrix
-    cm = confusion_matrix(all_labels, all_preds)
-    plot_confusion_matrix(cm)
+    output_file = f'CM_BiLSTM_Epoch_{epoch}.png' if USING_CROSS_VALIDATION else 'CM_BiLSTM.png'
+    title = f'Confusion Matrix BiLSTM Epoch {epoch}' if USING_CROSS_VALIDATION else 'Confusion Matrix BiLSTM'  
+    plot_confusion_matrix(all_labels, all_preds, label_columns,output_file, title)
+   
 
-def train_and_evaluate_model(model, train_dataloader, eval_dataloader, num_epochs=5, lr=2e-5):
+def train_and_evaluate_model(model, train_dataloader, eval_dataloader, num_epochs=3, lr=2e-5):
     optimizer = optim.AdamW(model.parameters(), lr=lr)
     model.to(DEVICE)
-    
-    # Loss function with class weights
     loss_fn = nn.CrossEntropyLoss(weight=class_weights)
+
+    if not USING_CROSS_VALIDATION: num_epochs=1
 
     for epoch in range(num_epochs):
         model.train()
@@ -71,7 +63,7 @@ def train_and_evaluate_model(model, train_dataloader, eval_dataloader, num_epoch
             optimizer.step()
 
         # Evaluate model performance after each epoch
-        evaluate_model(model, eval_dataloader)
+        evaluate_model(model, eval_dataloader,epoch)
 
 #  --------------- end: helper functions -----------------
 
@@ -98,9 +90,9 @@ dataset= load_my_dataset()
 
 # 3. Compute class weights: Address Class Imbalance with Weighted Loss
 class_weights = compute_class_weights(dataset['train'])
-#class_weights = compute_class_weights(processed_datasets['train']).to(DEVICE)
+# class_weights = compute_class_weights(processed_datasets['train']).to(DEVICE)
 
-# 2. Tokenize and process dataset
+# 2. Tokenize and process dataset       
 tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 processed_datasets = tokenize_and_process_dataset(dataset, tokenizer)
 

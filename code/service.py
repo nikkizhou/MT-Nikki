@@ -1,17 +1,28 @@
-
+import os
 import torch
 import pandas as pd
 from datasets import load_dataset,Dataset
 from torch.utils.data import DataLoader
 from transformers import DataCollatorWithPadding
+from sklearn.model_selection import train_test_split
+from datasets import Dataset, DatasetDict
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 
 COMBINE_CATEGORIES = True
-USING_CROSS_VALIDATION = True
+USING_CROSS_VALIDATION = False
 # MODEL_NAME = 'bert-base-uncased'
-# MODEL_NAME = 'meta-llama/Llama-3.2-1B'
-MODEL_NAME ='distilbert-base-uncased'
+MODEL_NAME = 'meta-llama/Llama-3.2-1B'
+# MODEL_NAME ='distilbert-base-uncased'
 DEVICE =  torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+model_names_mapping = {
+    'bert-base-uncased': 'BERT',
+    'meta-llama/Llama-3.2-1B': 'Llama',
+    'distilbert-base-uncased': 'DistilBert'
+}
+
+model_name_simplified = model_names_mapping.get(MODEL_NAME, 'Unknown Model')
 
 
 file_name1 = './MT/data/original_data/Categorized_mocks.xlsx'
@@ -125,10 +136,29 @@ def merge_datasets(df_file1):
     return merged_dataset
 
 
-def add_synthetic_data(merged_dataset):
-    synthetic_df = pd.read_csv(synthetic_data_path)
-    combined_df = pd.concat([merged_dataset, synthetic_df], ignore_index=True)
-    return combined_df
+# def add_synthetic_data(merged_dataset):
+#     synthetic_df = pd.read_csv(synthetic_data_path)
+#     combined_df = pd.concat([merged_dataset, synthetic_df], ignore_index=True)
+#     return combined_df
+
+def add_synthetic_data_to_train_set(merged_dataset, synthetic_df):
+    
+    train_df, test_df = train_test_split(merged_dataset, test_size=0.2, random_state=42)
+    combined_train_df = pd.concat([train_df, synthetic_df], ignore_index=True)
+    
+    # Verify that all syntheic data are in training set.
+    train_synthetic_count = combined_train_df[combined_train_df.index.isin(synthetic_df.index)].shape[0]
+    print(f"Total synthetic samples: {len(synthetic_df)}")
+    print(f"Synthetic samples in training set: {train_synthetic_count}")
+   
+    return combined_train_df, test_df
+
+def preprocess_dataframe(df):
+    # Keep only 'Question' and 'Label' columns and remove invalid labels
+    df = df[['Question', 'Label']]
+    df = df[df['Label'] >= 0]
+    df['Label'] = df['Label'].astype(int)
+    return df.dropna().reset_index(drop=True)
 
 def get_test_and_train_df():
     df_file1 = pd.read_excel(file_name1, header=1)
@@ -138,26 +168,24 @@ def get_test_and_train_df():
     df_file1[original_label_columns] = df_file1[original_label_columns].apply(pd.to_numeric, errors='coerce').fillna(0)
     df_file1 = df_file1[df_file1[original_label_columns].sum(axis=1) > 0]  # Keep only rows with at least one label > 0
 
-    if COMBINE_CATEGORIES:
-        merged_dataset = merge_datasets(df_file1)
-        combined_dataset = add_synthetic_data(merged_dataset)
-    
-        df = combined_dataset
-    else:
-        df_file1['Label'] = df_file1.apply(find_first_label, axis=1)
-        df = df_file1
+    # if COMBINE_CATEGORIES:
+    merged_df = merge_datasets(df_file1)
+    synthetic_df = pd.read_csv(synthetic_data_path)
+
+    train_df, test_df = add_synthetic_data_to_train_set(merged_df, synthetic_df)
      
     # Keep only the relevant columns
-    df = df[['Question', 'Label']]
-    df = df[df['Label'] >= 0] # Remove rows with no classification
-    df['Label'] = df['Label'].astype(int)
+    train_df = preprocess_dataframe(train_df)
+    test_df = preprocess_dataframe(test_df)
 
-    print('Label Count 3 files + synthetic Data: ')
-    print(combined_dataset['Label'].value_counts()) 
+    print('Label Count Training Set: ')
+    print(train_df['Label'].value_counts()) 
+    print('Label Count Test Set: ')
+    print(test_df['Label'].value_counts())
 
-    df.to_csv(original_synthetic_data_path, index=False)
+    # train_df.to_csv(original_synthetic_data_path, index=False)
 
-    return df.dropna().reset_index(drop=True)
+    return train_df, test_df
 
 def add_quotes(question):
     if not (question.startswith('"') and question.endswith('"')):
@@ -203,20 +231,11 @@ def find_first_label(row):
 
 # Load dataset for all 3 files combined with the synthetic data
 def load_my_dataset():
-    df = get_test_and_train_df()
-    df['Label'] = df['Label'].astype(int)
+    train_df,test_df  = get_test_and_train_df()
+    test_dataset = Dataset.from_pandas(test_df)
+    train_dataset = Dataset.from_pandas(train_df)
+    return DatasetDict({'train': train_dataset, 'test': test_dataset})
 
-    #print("DataFrame columns:", df.columns.tolist())
-
-    # 2. load dataset
-    # csv_file = './MT/data/temp_dataset_combined.csv'
-    # df.to_csv(csv_file, index=False)
-    #dataset = load_dataset('csv', data_files=original_synthetic_data_path)
-    dataset = Dataset.from_pandas(df)
-    
-    return dataset
-
-load_my_dataset()
 
 def compute_class_weights(train_dataset):
     try:
@@ -251,13 +270,31 @@ def tokenize_and_process_dataset(dataset,tokenizer):
 
 def prepare_data_loaders(processed_datasets, tokenizer, test_size=0.2, batch_size=4, seed=42):
     # 1. Split the dataset into training and test sets
-    datasets = processed_datasets['train'].train_test_split(test_size=test_size, seed=seed)
+    #datasets = processed_datasets['train'].train_test_split(test_size=test_size, seed=seed)
 
     # 2. Get data_collator
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
     # 3. Get train_dataloader and eval_dataloader
-    train_dataloader = DataLoader(datasets['train'], shuffle=True, batch_size=batch_size, collate_fn=data_collator)
-    eval_dataloader = DataLoader(datasets['test'], batch_size=batch_size, collate_fn=data_collator)
-    
+    train_dataloader = DataLoader(processed_datasets['train'], shuffle=True, batch_size=batch_size, collate_fn=data_collator)
+    eval_dataloader = DataLoader(processed_datasets['test'], batch_size=batch_size, collate_fn=data_collator)
+
     return train_dataloader, eval_dataloader
+
+def plot_confusion_matrix(all_labels, all_predictions, label_columns, output_filename, title):
+    from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+    import matplotlib.pyplot as plt
+
+    cm = confusion_matrix(all_labels, all_predictions)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=label_columns)
+    plt.figure(figsize=(8, 8))
+    disp.plot(cmap='viridis', xticks_rotation='vertical')
+    plt.title(title)
+    plt.tight_layout()
+
+    current_path = os.getcwd()
+    output_path = os.path.join(current_path, output_filename)
+
+    plt.savefig(output_path)  
+    print(f"Confusion matrix saved to {output_path}")
+    plt.close()  # Close the plot to free resources
