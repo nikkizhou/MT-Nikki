@@ -27,10 +27,15 @@ Paraphrasing: Generates realistic new examples close to human input.
 
 
 ## Questions:
-1. Consider changing to topic to 'Improving Model Accuracy with Limited Training Data'
 
 
 ## Meeting notes:
+
+### 01.07:
+Start thesis:
+implementation and design part, add the result to the thesis
+find papers, research
+
 
 ### 12.10:
 Other latest models like hunyuan? Hailuo ?
@@ -60,6 +65,7 @@ confusion matrix
 ### Challenges:
 1. The first file and the last two file has different format. Technical challenge to merge them into same df
 2. Upsampling, technical challenge
+3. load the dataset, for cross validation, need to mark the synthetic data; For not CV, need to add the synthetic data to original data then split them to train and validation.
 
 ### 1. Data imbalance: 
    The model is heavily biased toward the option-posing class and struggles with the other classes. 
@@ -188,9 +194,8 @@ NEW!
 
 #### Label Count 3 files + synthetic Data: 
 
-
-
 Synthetic data should only be in training, test data no synthesic data
+in cross validation, we exclude synthesic in validation set
 
 1. split origianl 80% and 20% for test
 2. test it

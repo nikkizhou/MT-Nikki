@@ -11,12 +11,12 @@ import matplotlib.pyplot as plt
 
 from sklearn.metrics import classification_report
 from transformers import get_scheduler, AutoConfig, DataCollatorWithPadding,AutoTokenizer, AutoModelForSequenceClassification
-from service import DEVICE, COMBINE_CATEGORIES, USING_CROSS_VALIDATION, MODEL_NAME, label_columns, model_name_simplified, compute_class_weights,tokenize_and_process_dataset,prepare_data_loaders, load_my_dataset,plot_confusion_matrix
+from service import DEVICE, COMBINE_CATEGORIES, USING_CROSS_VALIDATION, MODEL_NAME, label_columns, model_name_simplified, compute_class_weights,tokenize_and_process_dataset,prepare_data_loaders, load_and_split_dataset,plot_confusion_matrix, load_and_mark_synthetic_data,train_and_evaluate_with_KFold,get_fold_string
 from sklearn.model_selection import StratifiedKFold
 
 
 # --------------- start: helper functions -----------------
-def train_model(model, train_dataloader, num_epochs, gradient_accumulation_steps=4, lr=2e-5, weight_decay=0.01, early_stopping_patience=2):
+def train_model(model, train_dataloader, train_dataset,eval_dataloader,num_epochs, gradient_accumulation_steps=4, lr=2e-5, weight_decay=0.01, early_stopping_patience=2):
     optimizer = optim.AdamW(model.parameters(), lr=lr,weight_decay=weight_decay)
     num_training_steps = num_epochs * len(train_dataloader)
     lr_scheduler = get_scheduler(
@@ -26,10 +26,9 @@ def train_model(model, train_dataloader, num_epochs, gradient_accumulation_steps
     model.to(DEVICE)
 
     # Compute and apply class weights
-    class_weights = compute_class_weights(processed_datasets['train']).to(DEVICE)
+    train_dataset = train_dataset if train_dataset is not None else processed_datasets['train']
+    class_weights = compute_class_weights(train_dataset).to(DEVICE)
     loss_fn = torch.nn.CrossEntropyLoss(weight=class_weights)
-
-
 
     best_accuracy = 0
     epochs_no_improve = 0
@@ -83,14 +82,13 @@ def evaluate_model(model, eval_dataloader, label_columns):
             all_predictions.extend(predictions.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
 
-
     accuracy = correct / total
     
     return (accuracy,all_predictions,all_labels)
 
  
-def print_classification_report(all_labels, all_predictions, label_columns):
-    print("\nClassification Report:")
+def print_classification_report(all_labels, all_predictions, label_columns, fold):
+    print(f"Validation Classification Report {get_fold_string(fold)}:")
 
     # Find unique labels in predictions and actual labels
     predicted_labels = set(all_predictions)
@@ -121,76 +119,37 @@ def print_classification_report(all_labels, all_predictions, label_columns):
 
 def generate_output_and_title( fold):
     output_file = (
-        f'CM_{model_name_simplified}_Fold_{fold}.png'
+        f'CM_{model_name_simplified}_{get_fold_string(fold)}.png'
         if USING_CROSS_VALIDATION
         else f'CM_{model_name_simplified}.png'
     )
     title = (
-        f'Confusion Matrix {model_name_simplified} Fold {fold}'
+        f'Confusion Matrix {model_name_simplified} {get_fold_string(fold)}'
         if USING_CROSS_VALIDATION
         else f'Confusion Matrix {model_name_simplified}'
     )
     return output_file, title
 
 
-def train_and_evaluate_model(train_dataloader,eval_dataloader,fold):
+def train_and_evaluate_model(train_dataloader,eval_dataloader,fold,train_dataset=None):
     #print("Unique labels in dataset:", df['labels'].unique())
-    train_model(model, train_dataloader, num_epochs=3, gradient_accumulation_steps=4)
+    train_model(model, train_dataloader, train_dataset,eval_dataloader, num_epochs=3, gradient_accumulation_steps=4)
 
     (accuracy,all_predictions,all_labels)  = evaluate_model(model, eval_dataloader, label_columns)
-    print(f"Accuracy: {accuracy:.4f}")
-    print_classification_report(all_labels, all_predictions, label_columns)
+    if USING_CROSS_VALIDATION:
+        print(f"Accuracy {get_fold_string(fold)}: {accuracy:.4f}")
+    else:
+        print(f"Accuracy: {accuracy:.4f}")
+    print_classification_report(all_labels, all_predictions, label_columns,fold)
 
     output_file, title = generate_output_and_title(fold)
     plot_confusion_matrix(all_labels, all_predictions, label_columns,output_file, title)
     return accuracy
 
-def prepare_data_loaders_for_kfold(dataset, tokenizer, batch_size=4):
-    data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-    dataloader = DataLoader(dataset, shuffle=True, batch_size=batch_size, collate_fn=data_collator)
-    
-    return dataloader
-
-def train_and_evaluate_with_KFold():
-    #kf = KFold(n_splits=3, shuffle=True, random_state=42)
-    skf = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
-    full_dataset = processed_datasets['train']
-
-    # Extract inputs and labels
-    inputs = full_dataset.remove_columns('labels')
-    labels = full_dataset['labels']
-
-    accuracies = []
-
-    for fold, (train_idx, val_idx) in enumerate(skf.split(inputs, labels)):
-        print(f"\nFold {fold + 1}/{skf.n_splits}")
-
-        # Create train and validation datasets
-        train_inputs = inputs.select(train_idx)
-        val_inputs = inputs.select(val_idx)
-
-        # Use the indices to select labels for the respective splits
-        train_labels = [labels[i] for i in train_idx]
-        val_labels = [labels[i] for i in val_idx]
-
-        # Add labels to datasets
-        train_dataset = train_inputs.add_column("labels", train_labels)
-        val_dataset = val_inputs.add_column("labels", val_labels)
-
-        # Prepare data loaders directly from the newly created datasets
-        train_dataloader_kFold = prepare_data_loaders_for_kfold(train_dataset, tokenizer)
-        eval_dataloader_kFold = prepare_data_loaders_for_kfold( val_dataset, tokenizer)
-
-        accuracy = train_and_evaluate_model(train_dataloader_kFold, eval_dataloader_kFold,fold)
-        accuracies.append(accuracy)  
-
-    average_accuracy = sum(accuracies) / len(accuracies)
-    print(f"\nAverage Accuracy across all folds: {average_accuracy:.4f}")
-
 # --------------- end: helper functions ------------------
 
 # 1. Load dataset
-dataset= load_my_dataset()
+dataset=  load_and_mark_synthetic_data() if USING_CROSS_VALIDATION else load_and_split_dataset() 
 dataset = dataset.rename_column('Label', 'labels')
 
 # 2. Tokenize and process dataset
@@ -211,8 +170,8 @@ model.config.attention_probs_dropout_prob = 0.1
 torch.cuda.empty_cache()
 
 # 4. Train and evaluate model
-train_dataloader, eval_dataloader = prepare_data_loaders(processed_datasets, tokenizer)
 if USING_CROSS_VALIDATION:
-    train_and_evaluate_with_KFold()
+    train_and_evaluate_with_KFold(processed_datasets,train_and_evaluate_model,tokenizer)
 else:
+    train_dataloader, eval_dataloader = prepare_data_loaders(processed_datasets, tokenizer)
     train_and_evaluate_model(train_dataloader,eval_dataloader, None)

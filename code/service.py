@@ -7,39 +7,43 @@ from transformers import DataCollatorWithPadding
 from sklearn.model_selection import train_test_split
 from datasets import Dataset, DatasetDict
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
-
+from sklearn.model_selection import StratifiedKFold
 
 COMBINE_CATEGORIES = True
 USING_CROSS_VALIDATION = False
-# MODEL_NAME = 'bert-base-uncased'
-MODEL_NAME = 'meta-llama/Llama-3.2-1B'
-# MODEL_NAME ='distilbert-base-uncased'
-DEVICE =  torch.device("cuda" if torch.cuda.is_available() else "cpu")
+ADD_SYNTHETIC_DATA = False
 
+#MODEL_NAME = 'bert-base-uncased'
+MODEL_NAME = 'meta-llama/Llama-3.2-1B'
+#MODEL_NAME ='distilbert-base-uncased'
 model_names_mapping = {
     'bert-base-uncased': 'BERT',
     'meta-llama/Llama-3.2-1B': 'Llama',
     'distilbert-base-uncased': 'DistilBert'
 }
-
 model_name_simplified = model_names_mapping.get(MODEL_NAME, 'Unknown Model')
+
+
+DEVICE =  torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 file_name1 = './MT/data/original_data/Categorized_mocks.xlsx'
 file_name2 = "Question Type examples 9_20_24.xlsx"
 file_name3 = 'Forensic Trafficking Interviews Question Type Examples 10_1_24.xlsx'
 
+original_label_columns = ['R2-1', 'R2_2B', 'R2_2D', 'R2_2SD', 'R2_3', 'R2_3YN', 'R2_OP', 
+          'R2_4QG', 'R2_4QL', 'R2_4QP', 'R2_4QR', 'R2_4QI', 'R2_4QV', 
+          'R2_5', 'R2_6']
+combined_label_columns = ['open-ended', 'option-posing', 'none-questions', 'leading']
+label_columns = combined_label_columns if COMBINE_CATEGORIES else original_label_columns
+
+
 synthetic_data_path='./MT/data/synthetic_data/synthetic_GPT_new.csv'
 original_synthetic_data_path = './MT/data/original_synthetic_data/combined_dataset.csv'
 
 
-original_label_columns = ['R2-1', 'R2_2B', 'R2_2D', 'R2_2SD', 'R2_3', 'R2_3YN', 'R2_OP', 
-          'R2_4QG', 'R2_4QL', 'R2_4QP', 'R2_4QR', 'R2_4QI', 'R2_4QV', 
-          'R2_5', 'R2_6']
-
-combined_label_columns = ['open-ended', 'option-posing', 'none-questions', 'leading']
-
-label_columns = combined_label_columns if COMBINE_CATEGORIES else original_label_columns
+def get_fold_string(fold):
+    return f"Fold {fold + 1}" if fold is not None else ""
 
 # For file 2 and file 3
 def read_file (file_name):
@@ -53,6 +57,16 @@ def read_file (file_name):
     # dataset = load_dataset('csv', data_files=filtered_df)
     return filtered_df
 
+def get_df_file1():
+    df_file1 = pd.read_excel(file_name1, header=1)
+    df_file1 = df_file1.iloc[:, :18]
+    df_file1 = df_file1.drop(df_file1.index[0])  # Remove the Open-Closed row
+
+    df_file1[original_label_columns] = df_file1[original_label_columns].apply(pd.to_numeric, errors='coerce').fillna(0)
+    df_file1 = df_file1[df_file1[original_label_columns].sum(axis=1) > 0]  # Keep only rows with at least one label > 0
+    
+    return df_file1
+
 
 # Only for file 1
 def combine_categories(df):
@@ -62,6 +76,8 @@ def combine_categories(df):
     # df['suggestive'] = df[['R2_4QG', 'R2_4QL', 'R2_4QP', 'R2_4QR', 'R2_4QI', 'R2_4QV']].sum(axis=1)
     # df['none-questions'] = df[['R2_5']].sum(axis=1)
     # df['multiple']= df[['R2_6']].sum(axis=1)
+    # columns_to_sum = ['R2-1', 'R2_2B', 'R2_2D', 'R2_2SD']
+    # df[columns_to_sum] = df[columns_to_sum].apply(pd.to_numeric, errors='coerce').fillna(0)
 
     df['open-ended'] = df[['R2-1','R2_2B', 'R2_2D', 'R2_2SD']].sum(axis=1)
     df['option-posing'] = df[['R2_3', 'R2_3YN', 'R2_OP']].sum(axis=1)
@@ -118,7 +134,8 @@ def map_labels(dataset):
     return dataset
 
 # Merge data from file 1, file 2 and file 3
-def merge_datasets(df_file1):
+def merge_datasets():
+    df_file1 = get_df_file1()
     dataset1 = combine_categories(df_file1)  # Ensure this function returns a DataFrame
     dataset1 = dataset1.to_pandas() if not isinstance(dataset1, pd.DataFrame) else dataset1 
     
@@ -136,13 +153,7 @@ def merge_datasets(df_file1):
     return merged_dataset
 
 
-# def add_synthetic_data(merged_dataset):
-#     synthetic_df = pd.read_csv(synthetic_data_path)
-#     combined_df = pd.concat([merged_dataset, synthetic_df], ignore_index=True)
-#     return combined_df
-
 def add_synthetic_data_to_train_set(merged_dataset, synthetic_df):
-    
     train_df, test_df = train_test_split(merged_dataset, test_size=0.2, random_state=42)
     combined_train_df = pd.concat([train_df, synthetic_df], ignore_index=True)
     
@@ -155,25 +166,20 @@ def add_synthetic_data_to_train_set(merged_dataset, synthetic_df):
 
 def preprocess_dataframe(df):
     # Keep only 'Question' and 'Label' columns and remove invalid labels
-    df = df[['Question', 'Label']]
+    df = df[['Question', 'Label', 'is_synthetic']] if USING_CROSS_VALIDATION else df[['Question', 'Label']]
     df = df[df['Label'] >= 0]
     df['Label'] = df['Label'].astype(int)
     return df.dropna().reset_index(drop=True)
 
 def get_test_and_train_df():
-    df_file1 = pd.read_excel(file_name1, header=1)
-    df_file1 = df_file1.iloc[:, :18]
-    df_file1 = df_file1.drop(df_file1.index[0])  # Remove the Open-Closed row
-
-    df_file1[original_label_columns] = df_file1[original_label_columns].apply(pd.to_numeric, errors='coerce').fillna(0)
-    df_file1 = df_file1[df_file1[original_label_columns].sum(axis=1) > 0]  # Keep only rows with at least one label > 0
-
     # if COMBINE_CATEGORIES:
-    merged_df = merge_datasets(df_file1)
-    synthetic_df = pd.read_csv(synthetic_data_path)
+    merged_df = merge_datasets()
 
-    train_df, test_df = add_synthetic_data_to_train_set(merged_df, synthetic_df)
-     
+    if ADD_SYNTHETIC_DATA:
+        synthetic_df = pd.read_csv(synthetic_data_path)
+        train_df, test_df = add_synthetic_data_to_train_set(merged_df, synthetic_df)
+    else:
+        train_df, test_df = train_test_split(merged_df, test_size=0.2, random_state=42)
     # Keep only the relevant columns
     train_df = preprocess_dataframe(train_df)
     test_df = preprocess_dataframe(test_df)
@@ -192,35 +198,6 @@ def add_quotes(question):
         return f'"{question}"'
     return question
     
-    
-# def test():
-#     df = pd.read_csv('./MT/data/synthetic_data/synthetic_GPT.csv')
-
- 
-#     # Identify the indices of rows to delete
-#     label_2_indices = df[(df['Label'] == 2)].index[::4]
-#     if len(label_2_indices) > 435:
-#         label_2_indices = label_2_indices[:435]
-
-#     label_0_indices = df[(df['Label'] == 0)].index[::3]
-#     if len(label_0_indices) > 140:
-#         label_0_indices = label_0_indices[:140]
-
-#     label_3_indices = df[(df['Label'] == 3)].index[::3]
-#     if len(label_3_indices) > 18:
-#         label_3_indices = label_3_indices[:18]
-
-#     df.drop(label_0_indices, inplace=True)
-#     df.drop(label_2_indices, inplace=True)
-#     df.drop(label_3_indices, inplace=True)
-
-#     # Save the updated DataFrame to a new CSV file
-#     df.to_csv('./MT/data/synthetic_data/synthetic_GPT_new.csv', index=False)
-
-#     # Display the updated DataFrame
-#     print(df.head())
-
-# test()
 
 def find_first_label(row):
     for col in original_label_columns:
@@ -230,11 +207,25 @@ def find_first_label(row):
 
 
 # Load dataset for all 3 files combined with the synthetic data
-def load_my_dataset():
+def load_and_split_dataset():
     train_df,test_df  = get_test_and_train_df()
     test_dataset = Dataset.from_pandas(test_df)
     train_dataset = Dataset.from_pandas(train_df)
     return DatasetDict({'train': train_dataset, 'test': test_dataset})
+
+def load_and_mark_synthetic_data():
+    merged_df = merge_datasets()
+    synthetic_df = pd.read_csv(synthetic_data_path)
+    print(f"Total synthetic samples: {len(synthetic_df)}")
+
+    synthetic_df['is_synthetic'] = True
+    merged_df['is_synthetic'] = False
+
+    combined_df = pd.concat([merged_df, synthetic_df], ignore_index=True)
+    combined_df = preprocess_dataframe(combined_df)
+    combined_dataset = Dataset.from_pandas(combined_df)
+
+    return combined_dataset
 
 
 def compute_class_weights(train_dataset):
@@ -298,3 +289,58 @@ def plot_confusion_matrix(all_labels, all_predictions, label_columns, output_fil
     plt.savefig(output_path)  
     print(f"Confusion matrix saved to {output_path}")
     plt.close()  # Close the plot to free resources
+
+
+def prepare_data_loaders_for_kfold(dataset, tokenizer, batch_size=4):
+    data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+    dataloader = DataLoader(dataset, shuffle=True, batch_size=batch_size, collate_fn=data_collator)
+    
+    return dataloader
+
+
+def train_and_evaluate_with_KFold(full_dataset, train_and_evaluate_model, tokenizer):
+    #kf = KFold(n_splits=3, shuffle=True, random_state=42)
+    skf = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
+
+    # Extract inputs and labels
+    try:
+        inputs = full_dataset.remove_columns(['labels', 'is_synthetic'])
+        labels = full_dataset['labels']
+    except ValueError:
+        inputs = full_dataset.remove_columns(['Label', 'is_synthetic'])
+        labels = full_dataset['Label']
+    
+
+    # Identify indices for real-world data
+    real_world_indices = set(i for i, example in enumerate(full_dataset) if example['is_synthetic'] == False)
+
+    accuracies = []
+
+    for fold, (train_idx, val_idx) in enumerate(skf.split(inputs, labels)):
+        # Filter validation indices to include only real-world data
+        # Which makes validation set  smaller
+        val_idx = [idx for idx in val_idx if idx in real_world_indices]
+        print(f"Fold {fold + 1}/{skf.n_splits} - Training set size: {len(train_idx)}, Validation set size: {len(val_idx)}")
+        
+        # Create train and validation datasets
+        # training set would contain both real world and synthetic data
+        train_inputs = inputs.select(train_idx) 
+        val_inputs = inputs.select(val_idx)
+
+        # Use the indices to select labels for the respective splits
+        train_labels = [labels[i] for i in train_idx]
+        val_labels = [labels[i] for i in val_idx]
+
+        # Add labels to datasets
+        train_dataset = train_inputs.add_column("labels", train_labels)
+        val_dataset = val_inputs.add_column("labels", val_labels)
+
+        # Prepare data loaders directly from the newly created datasets
+        train_dataloader_kFold = prepare_data_loaders_for_kfold(train_dataset, tokenizer)
+        eval_dataloader_kFold = prepare_data_loaders_for_kfold(val_dataset, tokenizer)
+
+        accuracy = train_and_evaluate_model(train_dataloader_kFold, eval_dataloader_kFold, fold,train_dataset)
+        accuracies.append(accuracy)
+
+    average_accuracy = sum(accuracies) / len(accuracies)
+    print(f"\nAverage Accuracy across all folds: {average_accuracy:.4f}")

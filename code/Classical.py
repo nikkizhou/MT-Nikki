@@ -60,27 +60,6 @@ def evaluate_models():
         plot_confusion_matrix(y_test, y_pred, label_columns, output_file, title)
 
 
-# def evaluate_models_with_cross_validation( n_splits=5):
-#     # Convert text data into TF-IDF features for the entire dataset
-#     tfidf = TfidfVectorizer()
-#     X_tfidf = tfidf.fit_transform(X)
-
-#     # Perform cross-validation for each model
-#     for model_name, model in models.items():
-#         print(f"\nModel: {model_name}")
-
-#         # Perform cross-validation and calculate accuracy for each fold
-#         accuracies = cross_val_score(model, X_tfidf, y, cv=n_splits, scoring='accuracy')
-#         print(f"Accuracies for each fold: {accuracies}")
-#         print(f"Average Accuracy: {np.mean(accuracies):.4f}")
-
-#         # Perform cross-validation to get predictions for each fold
-#         y_pred = cross_val_predict(model, X_tfidf, y, cv=n_splits)
-
-#         # Print the overall classification report
-#         print(classification_report(y, y_pred, target_names=label_columns, zero_division=0)) 
-#         print("-" * 50)
-
 def evaluate_models_with_cross_validation(n_splits=3):
     for model_name, model in models.items():
         print(f"\nModel: {model_name}")
@@ -101,7 +80,7 @@ def evaluate_models_with_cross_validation(n_splits=3):
 
         # Print cross-validation results
         print(f"Cross-Validation Accuracies: {cv_accuracies}")
-        print(f"Average Cross-Validation Accuracy: {np.mean(cv_accuracies):.4f}")
+        print(f"Average Cross-Validation AccuracyAverage Cross-Validation Accuracy: {np.mean(cv_accuracies):.4f}")
         print("Classification Report on Cross-Validation:")
         print(classification_report(y_train, y_cv_pred, target_names=label_columns, zero_division=0))
         print("-" * 50)
