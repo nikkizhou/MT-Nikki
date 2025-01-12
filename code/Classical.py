@@ -9,9 +9,10 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.model_selection import cross_val_score, cross_val_predict
-from service import USING_CROSS_VALIDATION, label_columns,get_test_and_train_df,plot_confusion_matrix
+from service import USING_CROSS_VALIDATION, label_columns,get_test_and_train_df,plot_confusion_matrix,merge_datasets,load_and_mark_potential_synthetic_data,load_and_split_dataset,ADD_SYNTHETIC_DATA
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.metrics import classification_report
+from sklearn.model_selection import StratifiedKFold
 
 # --------------- start: helper functions -----------------
 # def filter_labels_with_min_samples(min_samples=5):
@@ -44,7 +45,7 @@ def tune_model(model, X_train_tfidf, y_train):
     return random_search.best_estimator_
 
 
-def evaluate_models():
+def train_and_evaluate_models():
     for name, model in models.items():
         model.fit(X_train_tfidf, y_train)
         y_pred = model.predict(X_test_tfidf)
@@ -60,64 +61,257 @@ def evaluate_models():
         plot_confusion_matrix(y_test, y_pred, label_columns, output_file, title)
 
 
-def evaluate_models_with_cross_validation(n_splits=3):
+# def evaluate_models_with_stratified_kfold(df, n_splits=3):
+#     skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
+#     best_model_name = None
+#     best_accuracy = 0
+#     best_y_true = []
+#     best_y_pred = []
+
+#     # Extract features and labels from the DataFrame
+#     X = df['Question'].to_numpy()  
+#     y = df['Label'].to_numpy()   
+#     is_synthetic = df['is_synthetic'].to_numpy() if ADD_SYNTHETIC_DATA else None
+
+#     vectorizer = TfidfVectorizer()
+#     X = vectorizer.fit_transform(X) 
+
+#     for model_name, model in models.items():
+#         print(f"\nModel: {model_name}")
+
+#         cv_accuracies = []
+#         y_cv_true = []
+#         y_cv_pred = []
+        
+#         for fold, (train_idx, val_idx) in enumerate(skf.split(X, y)):
+#             print(f"Fold {fold + 1}/{n_splits}")
+            
+#             # Filter out synthetic data from validation set
+#             val_idx = [idx for idx in val_idx if not is_synthetic[idx]] if ADD_SYNTHETIC_DATA else val_idx
+            
+#             print(f"Train size: {len(train_idx)}, Validation size (real-world only): {len(val_idx)}")
+            
+#             # Split the data
+#             X_train_fold, X_val_fold = X[train_idx], X[val_idx]
+#             y_train_fold, y_val_fold = y[train_idx], y[val_idx]
+            
+#             # Train the model on the training fold
+#             model.fit(X_train_fold, y_train_fold)
+            
+#             # Evaluate on the validation fold
+#             y_val_pred = model.predict(X_val_fold)
+#             fold_accuracy = accuracy_score(y_val_fold, y_val_pred)
+#             cv_accuracies.append(fold_accuracy)
+
+#             # Collect true and predicted labels for the classification report
+#             y_cv_true.extend(y_val_fold)
+#             y_cv_pred.extend(y_val_pred)
+
+#         # Calculate average accuracy for the model
+#         avg_accuracy = np.mean(cv_accuracies)
+#         print(f"Cross-Validation Accuracies: {cv_accuracies}")
+#         print(f"Average Cross-Validation Accuracy: {avg_accuracy:.4f}")
+#         print("Classification Report on Cross-Validation:")
+#         print(classification_report(y_cv_true, y_cv_pred, target_names=label_columns, zero_division=0))
+#         print("-" * 50)
+
+#         # Update the best model if the current one has higher accuracy
+#         if avg_accuracy > best_accuracy:
+#             best_model_name = model_name
+#             best_accuracy = avg_accuracy
+#             best_y_true = y_cv_true
+#             best_y_pred = y_cv_pred
+
+#     # Plot the confusion matrix for the best model
+#     if best_model_name:
+        # print(f"\nBest Model: {best_model_name} with Average Accuracy: {best_accuracy:.4f}")
+        # output_file = f'CM_Classical_{best_model_name}'
+        # title = f'Confusion Matrix {best_model_name}'
+        # plot_confusion_matrix(best_y_true, best_y_pred, label_columns, output_file, title)
+
+
+def evaluate_models_with_stratified_kfold(df, n_splits=3):
+    skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
+    best_model_name = None
+    best_accuracy = 0
+    best_y_true = []
+    best_y_pred = []
+
+    # Extract features and labels from the DataFrame
+    X = df['Question'].to_numpy()  
+    y = df['Label'].to_numpy()   
+    is_synthetic = df['is_synthetic'].to_numpy() if ADD_SYNTHETIC_DATA else None
+
+    # Initialize the TfidfVectorizer
+    vectorizer = TfidfVectorizer()
+
+    # Convert the text data into numerical features
+    X = vectorizer.fit_transform(X)  # Convert the 'Question' column to TF-IDF features
+
     for model_name, model in models.items():
         print(f"\nModel: {model_name}")
 
-        # Evaluate on the predefined train-test split
-        model.fit(X_train_tfidf, y_train)
-        y_test_pred = model.predict(X_test_tfidf)
-        test_accuracy = accuracy_score(y_test, y_test_pred)
+        cv_accuracies = []
+        y_cv_true = []
+        y_cv_pred = []
         
-        print(f"Test Set Accuracy: {test_accuracy:.4f}")
-        print("Classification Report on Test Set:")
-        print(classification_report(y_test, y_test_pred, target_names=label_columns, zero_division=0))
-        print("-" * 50)
+        for fold, (train_idx, val_idx) in enumerate(skf.split(X, y)):
+            print(f"Fold {fold + 1}/{n_splits}")
+            
+            # Filter out synthetic data from validation set
+            val_idx = [idx for idx in val_idx if not is_synthetic[idx]] if ADD_SYNTHETIC_DATA else val_idx
+            
+            print(f"Train size: {len(train_idx)}, Validation size (real-world only): {len(val_idx)}")
+            
+            # Split the data
+            X_train_fold, X_val_fold = X[train_idx], X[val_idx]
+            y_train_fold, y_val_fold = y[train_idx], y[val_idx]
+            
+            # Train the model on the training fold
+            model.fit(X_train_fold, y_train_fold)
+            
+            # Evaluate on the validation fold
+            y_val_pred = model.predict(X_val_fold)
+            
+            # Filter predictions to include only real-world data
+            y_val_true_real_world = y_val_fold
+            y_val_pred_real_world = y_val_pred
 
-        # Perform cross-validation on the training data
-        cv_accuracies = cross_val_score(model, X_train_tfidf, y_train, cv=n_splits, scoring='accuracy')
-        y_cv_pred = cross_val_predict(model, X_train_tfidf, y_train, cv=n_splits)
+            if ADD_SYNTHETIC_DATA:
+                y_val_true_real_world = [y_val_fold[i] for i in range(len(y_val_fold)) if not is_synthetic[val_idx[i]]]
+                y_val_pred_real_world = [y_val_pred[i] for i in range(len(y_val_pred)) if not is_synthetic[val_idx[i]]]
+            
+            fold_accuracy = accuracy_score(y_val_true_real_world, y_val_pred_real_world)
+            cv_accuracies.append(fold_accuracy)
 
-        # Print cross-validation results
+            # Collect true and predicted labels for the classification report (real-world only)
+            y_cv_true.extend(y_val_true_real_world)
+            y_cv_pred.extend(y_val_pred_real_world)
+            
+            # Print classification report for each fold
+            print(f"Classification Report for Fold {fold + 1}:")
+            print(classification_report(y_val_true_real_world, y_val_pred_real_world, target_names=label_columns, zero_division=0))
+
+        # Calculate average accuracy for the model
+        avg_accuracy = np.mean(cv_accuracies)
         print(f"Cross-Validation Accuracies: {cv_accuracies}")
-        print(f"Average Cross-Validation AccuracyAverage Cross-Validation Accuracy: {np.mean(cv_accuracies):.4f}")
-        print("Classification Report on Cross-Validation:")
-        print(classification_report(y_train, y_cv_pred, target_names=label_columns, zero_division=0))
+        print(f"Average Cross-Validation Accuracy: {avg_accuracy:.4f}")
+        # print("Classification Report on whole read world dataset:")
+        # print(classification_report(y_cv_true, y_cv_pred, target_names=label_columns, zero_division=0))
         print("-" * 50)
 
-        output_file = 'CM_Classical_' + model_name
-        title = f'Confusion Matrix {model_name}'  
-        plot_confusion_matrix(y_test, y_test_pred, label_columns, output_file, title)
+        # Update the best model if the current one has higher accuracy
+        if avg_accuracy > best_accuracy:
+            best_model_name = model_name
+            best_accuracy = avg_accuracy
+            best_y_true = y_cv_true
+            best_y_pred = y_cv_pred
+
+    # Print the classification report for the best model after cross-validation
+    if best_model_name:
+        print(f"\nBest Model: {best_model_name} with Average Accuracy: {best_accuracy:.4f}")
+        print("Classification Report for Best Model:")
+        print(classification_report(best_y_true, best_y_pred, target_names=label_columns, zero_division=0))
+    
+        output_file = f'CM_Classical_{best_model_name}'
+        title = f'Confusion Matrix {best_model_name}'
+        plot_confusion_matrix(best_y_true, best_y_pred, label_columns, output_file, title)
+
+
+
+# def evaluate_models_with_stratified_kfold(df, n_splits=3):
+#     skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
+#     best_model_name = None
+#     best_accuracy = 0
+#     best_y_true = []
+#     best_y_pred = []
+
+#     real_world_indices = (
+#     {i for i, example in enumerate(df) if not example['is_synthetic']}
+#     if ADD_SYNTHETIC_DATA
+#     else set(range(len(df))))
+
+#     for model_name, model in models.items():
+#         print(f"\nModel: {model_name}")
+#         # Perform StratifiedKFold Cross-Validation
+#         cv_accuracies = []
+#         y_cv_true = []
+#         y_cv_pred = []
+        
+#         for fold, (train_idx, val_idx) in enumerate(skf.split(X_train_tfidf, y_train)):
+#             print(f"Fold {fold + 1}/{n_splits}")
+#             print(f"Train size: {len(train_idx)}, Validation size: {len(val_idx)}")
+            
+#             # Split the data
+#             X_train_fold = X_train_tfidf[train_idx]
+#             X_val_fold = X_train_tfidf[val_idx]
+#             y_train_fold = np.array(y_train)[train_idx]
+#             y_val_fold = np.array(y_train)[val_idx]
+            
+#             # Train the model on the training fold
+#             model.fit(X_train_fold, y_train_fold)
+            
+#             # Evaluate on the validation fold
+#             y_val_pred = model.predict(X_val_fold)
+#             fold_accuracy = accuracy_score(y_val_fold, y_val_pred)
+#             cv_accuracies.append(fold_accuracy)
+
+#             # Collect true and predicted labels for the classification report
+#             y_cv_true.extend(y_val_fold)
+#             y_cv_pred.extend(y_val_pred)
+
+#         # Calculate average accuracy for the model
+#         avg_accuracy = np.mean(cv_accuracies)
+#         print(f"Cross-Validation Accuracies: {cv_accuracies}")
+#         print(f"Average Cross-Validation Accuracy: {avg_accuracy:.4f}")
+#         print("Classification Report on Cross-Validation:")
+#         print(classification_report(y_cv_true, y_cv_pred, target_names=label_columns, zero_division=0))
+#         print("-" * 50)
+
+#         # Update the best model if the current one has higher accuracy
+#         if avg_accuracy > best_accuracy:
+#             best_model_name = model_name
+#             best_accuracy = avg_accuracy
+#             best_y_true = y_cv_true
+#             best_y_pred = y_cv_pred
+
+#     # Plot the confusion matrix for the best model
+#     if best_model_name:
+#         print(f"\nBest Model: {best_model_name} with Average Accuracy: {best_accuracy:.4f}")
+#         output_file = f'CM_Classical_{best_model_name}'
+#         title = f'Confusion Matrix {best_model_name}'
+#         plot_confusion_matrix(best_y_true, best_y_pred, label_columns, output_file, title)
+
+
 # --------------- end: helper functions -----------------
-
-# 1. Convert excel file to DataFrame
-train_df, test_df = get_test_and_train_df()
-
-X_train = train_df['Question']
-y_train = train_df['Label']
-X_test = test_df['Question']
-y_test = test_df['Label']
-
-
-# 2. Split the dataset into training and testing sets
-# X = df['Question']  
-# y = df['Label'] 
-
-# X, y = filter_labels_with_min_samples()
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-
-
-# Convert text data into TF-IDF features
-tfidf = TfidfVectorizer()
-X_train_tfidf = tfidf.fit_transform(X_train)
-X_test_tfidf = tfidf.transform(X_test)
-
 
 models = {
     'Logistic Regression': LogisticRegression(max_iter=1000),
     'SVM': SVC(kernel='linear'),
     'Random Forest': RandomForestClassifier(n_estimators=100)
 }
+
+if USING_CROSS_VALIDATION:
+    dataset = load_and_mark_potential_synthetic_data()
+    df = dataset.to_pandas()
+    evaluate_models_with_stratified_kfold(df)
+else:
+    train_df, test_df =  get_test_and_train_df() 
+    X_train = train_df['Question']
+    y_train = train_df['Label']
+    X_test = test_df['Question']
+    y_test = test_df['Label']
+
+
+    # Convert text data into TF-IDF features
+    tfidf = TfidfVectorizer()
+    X_train_tfidf = tfidf.fit_transform(X_train)
+    X_test_tfidf = tfidf.transform(X_test)
+
+    train_and_evaluate_models()
+
+
+
 
 
 # tuned_models = {}
@@ -134,9 +328,3 @@ models = {
 #     print(classification_report(y_test, y_pred, target_names=label_columns, zero_division=0))
 #     print("-" * 50)
 
-
-#3. Train and Evaluate models
-if USING_CROSS_VALIDATION:
-    evaluate_models_with_cross_validation()
-else:
-    evaluate_models()

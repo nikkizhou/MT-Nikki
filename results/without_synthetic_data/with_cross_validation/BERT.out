@@ -1,61 +1,0 @@
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 4803 examples [00:00, 329509.82 examples/s]
-Map:   0%|          | 0/4803 [00:00<?, ? examples/s]Map:  42%|████▏     | 2000/4803 [00:00<00:00, 16054.78 examples/s]Map:  83%|████████▎ | 4000/4803 [00:00<00:00, 13013.07 examples/s]Map: 100%|██████████| 4803/4803 [00:00<00:00, 11856.85 examples/s]
-Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
-You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-
-Fold 1/3
-Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 36240.34 examples/s]
-Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 48615.26 examples/s]
-Accuracy: 0.9176
-
-Classification Report:
-                precision    recall  f1-score   support
-
-    open-ended       0.95      0.90      0.92       464
- option-posing       0.92      0.93      0.92       764
-none-questions       0.93      0.87      0.90       181
-       leading       0.85      0.95      0.90       192
-
-      accuracy                           0.92      1601
-     macro avg       0.91      0.91      0.91      1601
-  weighted avg       0.92      0.92      0.92      1601
-
-
-Fold 2/3
-Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 37378.89 examples/s]
-Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 51474.31 examples/s]
-Accuracy: 0.9650
-
-Classification Report:
-                precision    recall  f1-score   support
-
-    open-ended       0.98      0.95      0.97       463
- option-posing       0.97      0.97      0.97       765
-none-questions       0.92      0.95      0.93       181
-       leading       0.97      0.98      0.98       192
-
-      accuracy                           0.97      1601
-     macro avg       0.96      0.96      0.96      1601
-  weighted avg       0.97      0.97      0.97      1601
-
-
-Fold 3/3
-Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 37970.27 examples/s]
-Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 51155.11 examples/s]
-Early stopping triggered at epoch 3
-Accuracy: 0.9756
-
-Classification Report:
-                precision    recall  f1-score   support
-
-    open-ended       0.95      0.99      0.97       463
- option-posing       1.00      0.96      0.98       764
-none-questions       0.94      1.00      0.97       182
-       leading       0.99      1.00      1.00       192
-
-      accuracy                           0.98      1601
-     macro avg       0.97      0.99      0.98      1601
-  weighted avg       0.98      0.98      0.98      1601
-
-
-Average Accuracy across all folds: 0.9527

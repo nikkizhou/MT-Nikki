@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 from sklearn.metrics import classification_report
 from transformers import get_scheduler, AutoConfig, DataCollatorWithPadding,AutoTokenizer, AutoModelForSequenceClassification
-from service import DEVICE, COMBINE_CATEGORIES, USING_CROSS_VALIDATION, MODEL_NAME, label_columns, model_name_simplified, compute_class_weights,tokenize_and_process_dataset,prepare_data_loaders, load_and_split_dataset,plot_confusion_matrix, load_and_mark_synthetic_data,train_and_evaluate_with_KFold,get_fold_string
+from service import DEVICE, COMBINE_CATEGORIES, USING_CROSS_VALIDATION, MODEL_NAME, label_columns, model_name_simplified, compute_class_weights,tokenize_and_process_dataset,prepare_data_loaders, load_and_split_dataset,plot_confusion_matrix, load_and_mark_potential_synthetic_data,train_and_evaluate_with_KFold,get_fold_string
 from sklearn.model_selection import StratifiedKFold
 
 
@@ -149,7 +149,7 @@ def train_and_evaluate_model(train_dataloader,eval_dataloader,fold,train_dataset
 # --------------- end: helper functions ------------------
 
 # 1. Load dataset
-dataset=  load_and_mark_synthetic_data() if USING_CROSS_VALIDATION else load_and_split_dataset() 
+dataset=  load_and_mark_potential_synthetic_data() if USING_CROSS_VALIDATION else load_and_split_dataset() 
 dataset = dataset.rename_column('Label', 'labels')
 
 # 2. Tokenize and process dataset

@@ -10,12 +10,12 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.model_selection import StratifiedKFold
 
 COMBINE_CATEGORIES = True
-USING_CROSS_VALIDATION = False
+USING_CROSS_VALIDATION = True
 ADD_SYNTHETIC_DATA = False
 
-#MODEL_NAME = 'bert-base-uncased'
+# MODEL_NAME ='distilbert-base-uncased'
+# MODEL_NAME = 'bert-base-uncased'
 MODEL_NAME = 'meta-llama/Llama-3.2-1B'
-#MODEL_NAME ='distilbert-base-uncased'
 model_names_mapping = {
     'bert-base-uncased': 'BERT',
     'meta-llama/Llama-3.2-1B': 'Llama',
@@ -166,7 +166,7 @@ def add_synthetic_data_to_train_set(merged_dataset, synthetic_df):
 
 def preprocess_dataframe(df):
     # Keep only 'Question' and 'Label' columns and remove invalid labels
-    df = df[['Question', 'Label', 'is_synthetic']] if USING_CROSS_VALIDATION else df[['Question', 'Label']]
+    df = df[['Question', 'Label', 'is_synthetic']] if 'is_synthetic' in df.columns and USING_CROSS_VALIDATION and ADD_SYNTHETIC_DATA else df[['Question', 'Label']]
     df = df[df['Label'] >= 0]
     df['Label'] = df['Label'].astype(int)
     return df.dropna().reset_index(drop=True)
@@ -213,19 +213,23 @@ def load_and_split_dataset():
     train_dataset = Dataset.from_pandas(train_df)
     return DatasetDict({'train': train_dataset, 'test': test_dataset})
 
-def load_and_mark_synthetic_data():
-    merged_df = merge_datasets()
+def load_and_mark_potential_synthetic_data():
+    real_world_df = merge_datasets()
+    real_world_df = preprocess_dataframe(real_world_df)
+    real_world_dataset = Dataset.from_pandas(real_world_df)
+
+    if not ADD_SYNTHETIC_DATA: return real_world_dataset
+
     synthetic_df = pd.read_csv(synthetic_data_path)
     print(f"Total synthetic samples: {len(synthetic_df)}")
-
     synthetic_df['is_synthetic'] = True
-    merged_df['is_synthetic'] = False
+    real_world_df['is_synthetic'] = False
 
-    combined_df = pd.concat([merged_df, synthetic_df], ignore_index=True)
-    combined_df = preprocess_dataframe(combined_df)
-    combined_dataset = Dataset.from_pandas(combined_df)
+    combined_real_and_synthetic_df = pd.concat([real_world_df, synthetic_df], ignore_index=True)
+    combined_real_and_synthetic_df = preprocess_dataframe(combined_real_and_synthetic_df)
+    combined_real_and_synthetic_dataset = Dataset.from_pandas(combined_real_and_synthetic_df)
 
-    return combined_dataset
+    return  combined_real_and_synthetic_dataset
 
 
 def compute_class_weights(train_dataset):
@@ -297,22 +301,32 @@ def prepare_data_loaders_for_kfold(dataset, tokenizer, batch_size=4):
     
     return dataloader
 
+def get_inputs_and_labels(full_dataset):
+    label_column = 'labels' if 'labels' in full_dataset.column_names else 'Label'
+    synthetic_column = 'is_synthetic' if ADD_SYNTHETIC_DATA else None
+    
+    columns_to_remove = [label_column]
+    if synthetic_column:
+        columns_to_remove.append(synthetic_column)
+    
+    inputs = full_dataset.remove_columns(columns_to_remove)
+    labels = full_dataset[label_column]
+    
+    return inputs, labels
 
 def train_and_evaluate_with_KFold(full_dataset, train_and_evaluate_model, tokenizer):
     #kf = KFold(n_splits=3, shuffle=True, random_state=42)
     skf = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
 
     # Extract inputs and labels
-    try:
-        inputs = full_dataset.remove_columns(['labels', 'is_synthetic'])
-        labels = full_dataset['labels']
-    except ValueError:
-        inputs = full_dataset.remove_columns(['Label', 'is_synthetic'])
-        labels = full_dataset['Label']
+    inputs, labels = get_inputs_and_labels(full_dataset)
     
-
     # Identify indices for real-world data
-    real_world_indices = set(i for i, example in enumerate(full_dataset) if example['is_synthetic'] == False)
+    real_world_indices = (
+    {i for i, example in enumerate(full_dataset) if not example['is_synthetic']}
+    if ADD_SYNTHETIC_DATA
+    else set(range(len(full_dataset)))
+)
 
     accuracies = []
 

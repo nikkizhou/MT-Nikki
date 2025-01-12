@@ -1,0 +1,80 @@
+
+Map:   0%|          | 0/4803 [00:00<?, ? examples/s]
+Map:  21%|██        | 1000/4803 [00:00<00:00, 7544.23 examples/s]
+Map:  42%|████▏     | 2000/4803 [00:00<00:00, 8448.47 examples/s]
+Map:  83%|████████▎ | 4000/4803 [00:00<00:00, 5263.25 examples/s]
+Map: 100%|██████████| 4803/4803 [00:00<00:00, 5741.30 examples/s]
+Map: 100%|██████████| 4803/4803 [00:00<00:00, 5906.36 examples/s]
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+
+Fold 1/3 - Training set size: 3202, Validation set size: 1601
+
+Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 40615.12 examples/s]
+
+Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 64607.22 examples/s]
+
+Accuracy Fold 1: 0.8894
+Validation Classification Report Fold 1:
+                precision    recall  f1-score   support
+
+    open-ended       0.88      0.95      0.91       464
+ option-posing       0.95      0.84      0.89       764
+none-questions       0.77      0.89      0.83       181
+       leading       0.83      0.95      0.88       192
+
+      accuracy                           0.89      1601
+     macro avg       0.86      0.91      0.88      1601
+  weighted avg       0.90      0.89      0.89      1601
+
+Confusion matrix saved to /work/nikki/CM_DistilBert_Fold 1.png
+
+Fold 2/3 - Training set size: 3202, Validation set size: 1601
+
+Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 41212.62 examples/s]
+
+Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 86880.50 examples/s]
+Early stopping triggered at epoch 3
+Accuracy Fold 2: 0.9482
+Validation Classification Report Fold 2:
+                precision    recall  f1-score   support
+
+    open-ended       0.94      0.96      0.95       463
+ option-posing       0.97      0.93      0.95       765
+none-questions       0.92      0.93      0.93       181
+       leading       0.92      0.99      0.95       192
+
+      accuracy                           0.95      1601
+     macro avg       0.94      0.95      0.95      1601
+  weighted avg       0.95      0.95      0.95      1601
+
+Confusion matrix saved to /work/nikki/CM_DistilBert_Fold 2.png
+
+Fold 3/3 - Training set size: 3202, Validation set size: 1601
+
+Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 32918.35 examples/s]
+
+Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]
+Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 54747.27 examples/s]
+Early stopping triggered at epoch 3
+Accuracy Fold 3: 0.9756
+Validation Classification Report Fold 3:
+                precision    recall  f1-score   support
+
+    open-ended       0.93      0.99      0.96       463
+ option-posing       1.00      0.95      0.97       764
+none-questions       0.98      1.00      0.99       182
+       leading       0.99      0.99      0.99       192
+
+      accuracy                           0.98      1601
+     macro avg       0.98      0.99      0.98      1601
+  weighted avg       0.98      0.98      0.98      1601
+
+Confusion matrix saved to /work/nikki/CM_DistilBert_Fold 3.png
+
+Average Accuracy across all folds: 0.9377

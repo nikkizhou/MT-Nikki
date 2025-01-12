@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer
-from service import DEVICE, USING_CROSS_VALIDATION,label_columns,plot_confusion_matrix,tokenize_and_process_dataset,prepare_data_loaders,load_and_split_dataset,compute_class_weights,train_and_evaluate_with_KFold,load_and_mark_synthetic_data,get_fold_string
+from service import DEVICE, USING_CROSS_VALIDATION,label_columns,plot_confusion_matrix,tokenize_and_process_dataset,prepare_data_loaders,load_and_split_dataset,compute_class_weights,train_and_evaluate_with_KFold,load_and_mark_potential_synthetic_data,get_fold_string
 from sklearn.metrics import classification_report,confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -103,7 +103,9 @@ class BiLSTMModel(nn.Module):
 
 
 # 1. Load dataset
-dataset=  load_and_mark_synthetic_data() if USING_CROSS_VALIDATION else load_and_split_dataset() 
+
+dataset=  load_and_mark_potential_synthetic_data() if USING_CROSS_VALIDATION else load_and_split_dataset() 
+dataset = dataset.rename_column('Label', 'labels')
 
 
 # 2. Tokenize and process dataset       

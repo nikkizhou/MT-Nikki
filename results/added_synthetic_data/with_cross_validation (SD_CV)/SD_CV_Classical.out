@@ -1,0 +1,156 @@
+Total synthetic samples: 4368
+
+Model: Logistic Regression
+Fold 1/3
+Train size: 6114, Validation size (real-world only): 1621
+Classification Report for Fold 1:
+                precision    recall  f1-score   support
+
+    open-ended       0.73      0.69      0.71       480
+ option-posing       0.73      0.70      0.72       764
+none-questions       0.63      0.70      0.66       188
+       leading       0.62      0.74      0.67       189
+
+      accuracy                           0.70      1621
+     macro avg       0.68      0.71      0.69      1621
+  weighted avg       0.71      0.70      0.70      1621
+
+Fold 2/3
+Train size: 6114, Validation size (real-world only): 1584
+Classification Report for Fold 2:
+                precision    recall  f1-score   support
+
+    open-ended       0.73      0.74      0.73       446
+ option-posing       0.77      0.73      0.74       765
+none-questions       0.63      0.67      0.65       177
+       leading       0.64      0.70      0.67       196
+
+      accuracy                           0.72      1584
+     macro avg       0.69      0.71      0.70      1584
+  weighted avg       0.72      0.72      0.72      1584
+
+Fold 3/3
+Train size: 6114, Validation size (real-world only): 1598
+Classification Report for Fold 3:
+                precision    recall  f1-score   support
+
+    open-ended       0.73      0.70      0.71       464
+ option-posing       0.74      0.72      0.73       764
+none-questions       0.73      0.72      0.72       179
+       leading       0.61      0.74      0.67       191
+
+      accuracy                           0.72      1598
+     macro avg       0.70      0.72      0.71      1598
+  weighted avg       0.72      0.72      0.72      1598
+
+Cross-Validation Accuracies: [0.703269586674892, 0.7203282828282829, 0.7158948685857321]
+Average Cross-Validation Accuracy: 0.7132
+--------------------------------------------------
+
+Model: SVM
+Fold 1/3
+Train size: 6114, Validation size (real-world only): 1621
+Classification Report for Fold 1:
+                precision    recall  f1-score   support
+
+    open-ended       0.74      0.70      0.72       480
+ option-posing       0.73      0.74      0.73       764
+none-questions       0.69      0.72      0.70       188
+       leading       0.69      0.72      0.70       189
+
+      accuracy                           0.72      1621
+     macro avg       0.71      0.72      0.71      1621
+  weighted avg       0.72      0.72      0.72      1621
+
+Fold 2/3
+Train size: 6114, Validation size (real-world only): 1584
+Classification Report for Fold 2:
+                precision    recall  f1-score   support
+
+    open-ended       0.71      0.75      0.73       446
+ option-posing       0.75      0.75      0.75       765
+none-questions       0.73      0.69      0.71       177
+       leading       0.71      0.65      0.68       196
+
+      accuracy                           0.73      1584
+     macro avg       0.73      0.71      0.72      1584
+  weighted avg       0.73      0.73      0.73      1584
+
+Fold 3/3
+Train size: 6114, Validation size (real-world only): 1598
+Classification Report for Fold 3:
+                precision    recall  f1-score   support
+
+    open-ended       0.71      0.70      0.71       464
+ option-posing       0.74      0.74      0.74       764
+none-questions       0.76      0.74      0.75       179
+       leading       0.65      0.72      0.68       191
+
+      accuracy                           0.72      1598
+     macro avg       0.72      0.72      0.72      1598
+  weighted avg       0.73      0.72      0.72      1598
+
+Cross-Validation Accuracies: [0.7211597779148674, 0.7335858585858586, 0.7246558197747184]
+Average Cross-Validation Accuracy: 0.7265
+--------------------------------------------------
+
+Model: Random Forest
+Fold 1/3
+Train size: 6114, Validation size (real-world only): 1621
+Classification Report for Fold 1:
+                precision    recall  f1-score   support
+
+    open-ended       0.74      0.67      0.70       480
+ option-posing       0.73      0.74      0.73       764
+none-questions       0.69      0.72      0.71       188
+       leading       0.63      0.72      0.67       189
+
+      accuracy                           0.71      1621
+     macro avg       0.70      0.71      0.70      1621
+  weighted avg       0.71      0.71      0.71      1621
+
+Fold 2/3
+Train size: 6114, Validation size (real-world only): 1584
+Classification Report for Fold 2:
+                precision    recall  f1-score   support
+
+    open-ended       0.71      0.68      0.70       446
+ option-posing       0.74      0.75      0.75       765
+none-questions       0.70      0.77      0.73       177
+       leading       0.64      0.61      0.62       196
+
+      accuracy                           0.72      1584
+     macro avg       0.70      0.70      0.70      1584
+  weighted avg       0.72      0.72      0.72      1584
+
+Fold 3/3
+Train size: 6114, Validation size (real-world only): 1598
+Classification Report for Fold 3:
+                precision    recall  f1-score   support
+
+    open-ended       0.73      0.68      0.70       464
+ option-posing       0.73      0.76      0.75       764
+none-questions       0.80      0.74      0.77       179
+       leading       0.67      0.71      0.69       191
+
+      accuracy                           0.73      1598
+     macro avg       0.73      0.72      0.73      1598
+  weighted avg       0.73      0.73      0.73      1598
+
+Cross-Validation Accuracies: [0.7125231338679827, 0.7159090909090909, 0.7309136420525657]
+Average Cross-Validation Accuracy: 0.7198
+--------------------------------------------------
+
+Best Model: SVM with Average Accuracy: 0.7265
+Classification Report for Best Model:
+                precision    recall  f1-score   support
+
+    open-ended       0.72      0.72      0.72      1390
+ option-posing       0.74      0.74      0.74      2293
+none-questions       0.73      0.72      0.72       544
+       leading       0.68      0.70      0.69       576
+
+      accuracy                           0.73      4803
+     macro avg       0.72      0.72      0.72      4803
+  weighted avg       0.73      0.73      0.73      4803
+

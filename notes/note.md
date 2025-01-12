@@ -27,7 +27,9 @@ Paraphrasing: Generates realistic new examples close to human input.
 
 
 ## Questions:
+1. In my cross validation process, I evaluate the model every fold the the real world data in that fold. After that, is it good practice to evaluate the model whole real world dataset?
 
+then we don't need to generate confusion matrix for every fold, only the one with whole real world data.
 
 ## Meeting notes:
 
@@ -66,6 +68,7 @@ confusion matrix
 1. The first file and the last two file has different format. Technical challenge to merge them into same df
 2. Upsampling, technical challenge
 3. load the dataset, for cross validation, need to mark the synthetic data; For not CV, need to add the synthetic data to original data then split them to train and validation.
+4. When add synthetic data to the dataset, Only when both ADD_SYNTHETIC_DATA and USING_CROSS_VALIDATION are true,   'is_synthetic' will be marked. But it should be sufficient with only ADD_SYNTHETIC_DATA then mark  'is_synthetic'.  The problem is caused by not thinking through in the beginning. and the code are added after.
 
 ### 1. Data imbalance: 
    The model is heavily biased toward the option-posing class and struggles with the other classes. 
@@ -194,8 +197,8 @@ NEW!
 
 #### Label Count 3 files + synthetic Data: 
 
-Synthetic data should only be in training, test data no synthesic data
-in cross validation, we exclude synthesic in validation set
+Synthetic data should only be in training, test data shouldn't synthesic data
+In cross validation, synthesic data is excluded in validation set. Therefore, the validation set size varies in each fold.
 
 1. split origianl 80% and 20% for test
 2. test it
