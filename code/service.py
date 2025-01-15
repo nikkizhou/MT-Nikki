@@ -23,9 +23,7 @@ model_names_mapping = {
 }
 model_name_simplified = model_names_mapping.get(MODEL_NAME, 'Unknown Model')
 
-
 DEVICE =  torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 
 file_name1 = './MT/data/original_data/Categorized_mocks.xlsx'
 file_name2 = "Question Type examples 9_20_24.xlsx"
@@ -36,7 +34,6 @@ original_label_columns = ['R2-1', 'R2_2B', 'R2_2D', 'R2_2SD', 'R2_3', 'R2_3YN', 
           'R2_5', 'R2_6']
 combined_label_columns = ['open-ended', 'option-posing', 'none-questions', 'leading']
 label_columns = combined_label_columns if COMBINE_CATEGORIES else original_label_columns
-
 
 synthetic_data_path='./MT/data/synthetic_data/synthetic_GPT_new.csv'
 original_synthetic_data_path = './MT/data/original_synthetic_data/combined_dataset.csv'

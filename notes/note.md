@@ -28,8 +28,7 @@ Paraphrasing: Generates realistic new examples close to human input.
 
 ## Questions:
 1. In my cross validation process, I evaluate the model every fold the the real world data in that fold. After that, is it good practice to evaluate the model whole real world dataset?
-
-then we don't need to generate confusion matrix for every fold, only the one with whole real world data.
+Then we don't need to generate confusion matrix for every fold, only the one with whole real world data.
 
 ## Meeting notes:
 

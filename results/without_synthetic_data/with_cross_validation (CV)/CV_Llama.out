@@ -1,0 +1,56 @@
+Map:   0%|          | 0/4803 [00:00<?, ? examples/s]Map:  21%|██        | 1000/4803 [00:00<00:00, 4580.80 examples/s]Map:  62%|██████▏   | 3000/4803 [00:00<00:00, 8252.56 examples/s]Map:  83%|████████▎ | 4000/4803 [00:00<00:00, 4066.48 examples/s]Map: 100%|██████████| 4803/4803 [00:00<00:00, 4555.58 examples/s]Map: 100%|██████████| 4803/4803 [00:01<00:00, 4786.63 examples/s]
+Some weights of LlamaForSequenceClassification were not initialized from the model checkpoint at meta-llama/Llama-3.2-1B and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Fold 1/3 - Training set size: 3202, Validation set size: 1601
+Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 33110.04 examples/s]
+Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 52654.91 examples/s]
+Accuracy Fold 1: 0.8982
+Validation Classification Report Fold 1:
+                precision    recall  f1-score   support
+
+    open-ended       0.91      0.91      0.91       464
+ option-posing       0.92      0.90      0.91       764
+none-questions       0.78      0.90      0.83       181
+       leading       0.92      0.86      0.89       192
+
+      accuracy                           0.90      1601
+     macro avg       0.88      0.89      0.89      1601
+  weighted avg       0.90      0.90      0.90      1601
+
+Confusion matrix saved to /work/nikki/CM_Llama_Fold 1.png
+Fold 2/3 - Training set size: 3202, Validation set size: 1601
+Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 44120.11 examples/s]
+Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 78010.67 examples/s]
+Accuracy Fold 2: 0.9138
+Validation Classification Report Fold 2:
+                precision    recall  f1-score   support
+
+    open-ended       0.88      0.98      0.93       463
+ option-posing       0.97      0.87      0.92       765
+none-questions       0.90      0.91      0.90       181
+       leading       0.83      0.96      0.89       192
+
+      accuracy                           0.91      1601
+     macro avg       0.89      0.93      0.91      1601
+  weighted avg       0.92      0.91      0.91      1601
+
+Confusion matrix saved to /work/nikki/CM_Llama_Fold 2.png
+Fold 3/3 - Training set size: 3202, Validation set size: 1601
+Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 27506.51 examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 26862.90 examples/s]
+Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 42883.75 examples/s]
+Accuracy Fold 3: 0.9725
+Validation Classification Report Fold 3:
+                precision    recall  f1-score   support
+
+    open-ended       0.96      0.99      0.97       463
+ option-posing       0.99      0.96      0.97       764
+none-questions       0.96      0.97      0.96       182
+       leading       0.98      0.99      0.98       192
+
+      accuracy                           0.97      1601
+     macro avg       0.97      0.98      0.97      1601
+  weighted avg       0.97      0.97      0.97      1601
+
+Confusion matrix saved to /work/nikki/CM_Llama_Fold 3.png
+
+Average Accuracy across all folds: 0.9282
