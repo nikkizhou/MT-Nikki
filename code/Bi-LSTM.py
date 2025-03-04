@@ -1,11 +1,12 @@
 from transformers import AutoTokenizer
-from service import DEVICE, USING_CROSS_VALIDATION,label_columns,plot_confusion_matrix,tokenize_and_process_dataset,prepare_data_loaders,load_and_split_dataset,compute_class_weights,train_and_evaluate_with_KFold,load_and_mark_potential_synthetic_data,get_fold_string
+from service import DEVICE, USING_CROSS_VALIDATION,label_columns,plot_confusion_matrix,tokenize_and_process_dataset,prepare_data_loaders,load_and_split_dataset,compute_class_weights,train_and_evaluate_with_KFold,load_and_mark_potential_synthetic_data,get_fold_string,measure_gpu_memory
 from sklearn.metrics import classification_report,confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import time
 
 
 # --------------- start: helper functions -----------------
@@ -43,13 +44,15 @@ def evaluate_model(model, eval_dataloader):
     
     return accuracy, all_predictions, all_labels
 
-def train_and_evaluate_model( train_dataloader, eval_dataloader,fold=None, train_dataset=None, num_epochs=3, lr=2e-5):
+def train_and_evaluate_model( train_dataloader, eval_dataloader,fold=None, train_dataset=None, num_epochs=3, lr=2e-4):
     optimizer = optim.AdamW(model.parameters(), lr=lr)
     model.to(DEVICE)
 
     class_weights = compute_class_weights(train_dataset).to(DEVICE)
     loss_fn = nn.CrossEntropyLoss(weight=class_weights)
 
+    start_time = time.time()
+    start_memory = measure_gpu_memory()
     # for epoch in range(num_epochs):
     model.train()
     
@@ -68,6 +71,11 @@ def train_and_evaluate_model( train_dataloader, eval_dataloader,fold=None, train
 
     # Evaluate model performance after each epoch
     (accuracy,all_predictions,all_labels)  = evaluate_model(model, eval_dataloader)
+    end_time = time.time()
+    end_memory = measure_gpu_memory()
+
+    print(f"Total time taken (training + evaluation): {end_time - start_time:.2f} seconds")
+    print(f"GPU memory used: {end_memory - start_memory:.2f} MB")
     print(f"Accuracy {get_fold_string(fold)}: {accuracy:.4f}")
    
 #     # Classification report
@@ -116,11 +124,11 @@ processed_datasets = tokenize_and_process_dataset(dataset, tokenizer)
 # 3. Model Parameters
 vocab_size = tokenizer.vocab_size
 embedding_dim = 256
-hidden_dim = 512
+hidden_dim = 128
 output_dim = 4 
 
 # 4. Train and evaluate the fine-tuned model with class weights
-model = BiLSTMModel(vocab_size, embedding_dim=256, hidden_dim=512, output_dim=4)
+model = BiLSTMModel(vocab_size, embedding_dim=256, hidden_dim=128, output_dim=4)
 
 if USING_CROSS_VALIDATION:
     train_and_evaluate_with_KFold(processed_datasets,train_and_evaluate_model,tokenizer)

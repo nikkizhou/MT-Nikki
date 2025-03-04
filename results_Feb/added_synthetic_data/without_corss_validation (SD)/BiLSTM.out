@@ -1,0 +1,40 @@
+Synthetic data label count: 
+Label
+2    1749
+3    1716
+0     903
+Name: count, dtype: int64
+Total synthetic samples: 4368
+Synthetic samples in training set: 4368
+Label Count Training Set: 
+Label
+3    2183
+2    2160
+0    2028
+1    1840
+Name: count, dtype: int64
+Label Count Test Set: 
+Label
+1    453
+0    265
+2    133
+3    109
+Name: count, dtype: int64
+Map:   0%|          | 0/8211 [00:00<?, ? examples/s]Map:  12%|█▏        | 1000/8211 [00:00<00:01, 3608.67 examples/s]Map:  37%|███▋      | 3000/8211 [00:00<00:01, 4385.82 examples/s]Map:  49%|████▊     | 4000/8211 [00:00<00:00, 5353.09 examples/s]Map:  73%|███████▎  | 6000/8211 [00:00<00:00, 8081.32 examples/s]Map:  97%|█████████▋| 8000/8211 [00:01<00:00, 9548.35 examples/s]Map: 100%|██████████| 8211/8211 [00:01<00:00, 7299.05 examples/s]
+Map:   0%|          | 0/960 [00:00<?, ? examples/s]Map: 100%|██████████| 960/960 [00:00<00:00, 10544.61 examples/s]
+Total time taken (training + evaluation): 15.98 seconds
+GPU memory used: 119.62 MB
+Accuracy : 0.7656
+Validation Classification Report :
+                precision    recall  f1-score   support
+
+    open-ended       0.79      0.77      0.78       265
+ option-posing       0.80      0.76      0.78       453
+none-questions       0.79      0.71      0.75       133
+       leading       0.61      0.83      0.70       109
+
+      accuracy                           0.77       960
+     macro avg       0.75      0.77      0.75       960
+  weighted avg       0.77      0.77      0.77       960
+
+Confusion matrix saved to /work/nikki/CM_BiLSTM.png

@@ -1,4 +1,5 @@
 import os
+import time
 import torch
 import pandas as pd
 from datasets import load_dataset,Dataset
@@ -11,7 +12,7 @@ from sklearn.model_selection import StratifiedKFold
 
 COMBINE_CATEGORIES = True
 USING_CROSS_VALIDATION = True
-ADD_SYNTHETIC_DATA = False
+ADD_SYNTHETIC_DATA = True
 
 # MODEL_NAME ='distilbert-base-uncased'
 # MODEL_NAME = 'bert-base-uncased'
@@ -174,6 +175,9 @@ def get_test_and_train_df():
 
     if ADD_SYNTHETIC_DATA:
         synthetic_df = pd.read_csv(synthetic_data_path)
+        label_counts = synthetic_df['Label'].value_counts()
+        print('Synthetic data label count: ')
+        print(label_counts)
         train_df, test_df = add_synthetic_data_to_train_set(merged_df, synthetic_df)
     else:
         train_df, test_df = train_test_split(merged_df, test_size=0.2, random_state=42)
@@ -327,6 +331,9 @@ def train_and_evaluate_with_KFold(full_dataset, train_and_evaluate_model, tokeni
 
     accuracies = []
 
+    start_time = time.time()
+    start_memory = measure_gpu_memory()
+
     for fold, (train_idx, val_idx) in enumerate(skf.split(inputs, labels)):
         # Filter validation indices to include only real-world data
         # Which makes validation set  smaller
@@ -353,5 +360,17 @@ def train_and_evaluate_with_KFold(full_dataset, train_and_evaluate_model, tokeni
         accuracy = train_and_evaluate_model(train_dataloader_kFold, eval_dataloader_kFold, fold,train_dataset)
         accuracies.append(accuracy)
 
+    end_time = time.time()
+    end_memory = measure_gpu_memory()
+    print(f"Total time taken (training + evaluation): {end_time - start_time:.2f} seconds")
+    print(f"GPU memory used: {end_memory - start_memory:.2f} MB")
     average_accuracy = sum(accuracies) / len(accuracies)
     print(f"\nAverage Accuracy across all folds: {average_accuracy:.4f}")
+
+
+
+def measure_gpu_memory():
+    if torch.cuda.is_available():
+        torch.cuda.synchronize()  
+        return torch.cuda.memory_allocated() / (1024**2)  # Convert to MB
+    return 0 

@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import numpy as np
+import time
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import SVC
@@ -9,7 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.model_selection import cross_val_score, cross_val_predict
-from service import USING_CROSS_VALIDATION, label_columns,get_test_and_train_df,plot_confusion_matrix,merge_datasets,load_and_mark_potential_synthetic_data,load_and_split_dataset,ADD_SYNTHETIC_DATA
+from service import USING_CROSS_VALIDATION, label_columns,get_test_and_train_df,plot_confusion_matrix,merge_datasets,load_and_mark_potential_synthetic_data,load_and_split_dataset,measure_gpu_memory,ADD_SYNTHETIC_DATA
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.metrics import classification_report
 from sklearn.model_selection import StratifiedKFold
@@ -37,7 +38,6 @@ def tune_model(model, X_train_tfidf, y_train):
     elif isinstance(model, RandomForestClassifier):
         param_grid = {'n_estimators': [50, 100, 200], 'max_depth': [10, 20, None], 'min_samples_split': [2, 5, 10]}
 
-    # Randomized Search for hyperparameter tuning
     random_search = RandomizedSearchCV(model, param_grid, n_iter=10, cv=5, verbose=1, random_state=42, n_jobs=-1)
     random_search.fit(X_train_tfidf, y_train)
     
@@ -47,11 +47,19 @@ def tune_model(model, X_train_tfidf, y_train):
 
 def train_and_evaluate_models():
     for name, model in models.items():
+        start_time = time.time()
+        start_memory = measure_gpu_memory()
+
         model.fit(X_train_tfidf, y_train)
         y_pred = model.predict(X_test_tfidf)
 
+        end_time = time.time()
+        end_memory = measure_gpu_memory()
+
         # Evaluate model
         print(f"Model: {name}")
+        print(f"Total time taken (training + evaluation): {end_time - start_time:.2f} seconds")
+        print(f"GPU memory used: {end_memory - start_memory:.2f} MB")
         print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")
         print("Classification Report:")
         print(classification_report(y_test, y_pred, target_names=label_columns, zero_division=0))
@@ -155,6 +163,9 @@ def evaluate_models_with_stratified_kfold(df, n_splits=3):
         y_cv_true = []
         y_cv_pred = []
         
+        start_time = time.time()
+        start_memory = measure_gpu_memory()
+
         for fold, (train_idx, val_idx) in enumerate(skf.split(X, y)):
             print(f"Fold {fold + 1}/{n_splits}")
             
@@ -192,6 +203,10 @@ def evaluate_models_with_stratified_kfold(df, n_splits=3):
             print(f"Classification Report for Fold {fold + 1}:")
             print(classification_report(y_val_true_real_world, y_val_pred_real_world, target_names=label_columns, zero_division=0))
 
+        end_time = time.time()
+        end_memory = measure_gpu_memory()
+        print(f"Total time taken (training + evaluation): {end_time - start_time:.2f} seconds")
+        print(f"GPU memory used: {end_memory - start_memory:.2f} MB")
         # Calculate average accuracy for the model
         avg_accuracy = np.mean(cv_accuracies)
         print(f"Cross-Validation Accuracies: {cv_accuracies}")

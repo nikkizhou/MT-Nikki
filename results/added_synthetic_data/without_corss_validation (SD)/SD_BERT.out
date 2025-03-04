@@ -14,8 +14,18 @@ Label
 2    133
 3    109
 Name: count, dtype: int64
-Map:   0%|          | 0/8211 [00:00<?, ? examples/s]Map:  12%|█▏        | 1000/8211 [00:00<00:01, 6121.66 examples/s]Map:  24%|██▍       | 2000/8211 [00:00<00:01, 3570.90 examples/s]Map:  37%|███▋      | 3000/8211 [00:00<00:01, 5049.37 examples/s]Map:  49%|████▊     | 4000/8211 [00:00<00:00, 6110.35 examples/s]Map:  85%|████████▌ | 7000/8211 [00:00<00:00, 10193.49 examples/s]Map: 100%|██████████| 8211/8211 [00:01<00:00, 9849.64 examples/s] Map: 100%|██████████| 8211/8211 [00:01<00:00, 7813.88 examples/s]
-Map:   0%|          | 0/960 [00:00<?, ? examples/s]Map: 100%|██████████| 960/960 [00:00<00:00, 13087.26 examples/s]
+
+Map:   0%|          | 0/8211 [00:00<?, ? examples/s]
+Map:  12%|█▏        | 1000/8211 [00:00<00:01, 6121.66 examples/s]
+Map:  24%|██▍       | 2000/8211 [00:00<00:01, 3570.90 examples/s]
+Map:  37%|███▋      | 3000/8211 [00:00<00:01, 5049.37 examples/s]
+Map:  49%|████▊     | 4000/8211 [00:00<00:00, 6110.35 examples/s]
+Map:  85%|████████▌ | 7000/8211 [00:00<00:00, 10193.49 examples/s]
+Map: 100%|██████████| 8211/8211 [00:01<00:00, 9849.64 examples/s] 
+Map: 100%|██████████| 8211/8211 [00:01<00:00, 7813.88 examples/s]
+
+Map:   0%|          | 0/960 [00:00<?, ? examples/s]
+Map: 100%|██████████| 960/960 [00:00<00:00, 13087.26 examples/s]
 Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
 Accuracy: 0.9083
@@ -33,3 +43,6 @@ none-questions       0.85      0.86      0.86       133
   weighted avg       0.91      0.91      0.91       960
 
 Confusion matrix saved to /work/nikki/CM_BERT.png
+
+
+

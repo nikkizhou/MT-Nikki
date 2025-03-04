@@ -205,3 +205,8 @@ In cross validation, synthesic data is excluded in validation set. Therefore, th
 
 same number of samples for each categories
 
+
+Label
+2    1749
+3    1716
+0     903

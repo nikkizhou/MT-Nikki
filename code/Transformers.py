@@ -3,7 +3,7 @@
 
 # <a href="https://colab.research.google.com/github/nikkizhou/ML/blob/main/MT_Nikki.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
-import os
+import time
 import torch
 import torch.optim as optim
 from torch.utils.data import DataLoader
@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 from sklearn.metrics import classification_report
 from transformers import get_scheduler, AutoConfig, DataCollatorWithPadding,AutoTokenizer, AutoModelForSequenceClassification
-from service import DEVICE, COMBINE_CATEGORIES, USING_CROSS_VALIDATION, MODEL_NAME, label_columns, model_name_simplified, compute_class_weights,tokenize_and_process_dataset,prepare_data_loaders, load_and_split_dataset,plot_confusion_matrix, load_and_mark_potential_synthetic_data,train_and_evaluate_with_KFold,get_fold_string
+from service import DEVICE, COMBINE_CATEGORIES, USING_CROSS_VALIDATION, MODEL_NAME, label_columns, model_name_simplified, compute_class_weights,tokenize_and_process_dataset,prepare_data_loaders, load_and_split_dataset,plot_confusion_matrix, load_and_mark_potential_synthetic_data,train_and_evaluate_with_KFold,get_fold_string,measure_gpu_memory
 from sklearn.model_selection import StratifiedKFold
 
 
@@ -133,18 +133,29 @@ def generate_output_and_title( fold):
 
 def train_and_evaluate_model(train_dataloader,eval_dataloader,fold,train_dataset=None):
     #print("Unique labels in dataset:", df['labels'].unique())
-    train_model(model, train_dataloader, train_dataset,eval_dataloader, num_epochs=3, gradient_accumulation_steps=4)
+    start_time = time.time()
+    start_memory = measure_gpu_memory()
 
+    train_model(model, train_dataloader, train_dataset,eval_dataloader, num_epochs=3, gradient_accumulation_steps=4)
     (accuracy,all_predictions,all_labels)  = evaluate_model(model, eval_dataloader, label_columns)
+
+    end_time = time.time()
+    end_memory = measure_gpu_memory()
+    
     if USING_CROSS_VALIDATION:
         print(f"Accuracy {get_fold_string(fold)}: {accuracy:.4f}")
     else:
         print(f"Accuracy: {accuracy:.4f}")
+
+    print(f"Total time taken (training + evaluation): {end_time - start_time:.2f} seconds")
+    print(f"GPU memory used: {end_memory - start_memory:.2f} MB")
     print_classification_report(all_labels, all_predictions, label_columns,fold)
 
     output_file, title = generate_output_and_title(fold)
     plot_confusion_matrix(all_labels, all_predictions, label_columns,output_file, title)
     return accuracy
+
+
 
 # --------------- end: helper functions ------------------
 

@@ -1,0 +1,132 @@
+4.2 Impact of Cross-Validation
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+ \textbf{Model} & \multicolumn{4}{c|}{\textbf{Accuracy with Cross-validation}} &  \textbf{Accuracy without CV}\\ \hline
+ & \textbf{Fold 1} & \textbf{Fold 2} & \textbf{Fold 3} & \textbf{Average} &  \\ \hline
+Llma & 0.90 & 0.95 & 0.94 & \textcolor{red}{0.93} & \textcolor{blue}{0.86} \\ \hline
+BERT & 0.90 & 0.98 & 0.99 & \textcolor{red}{0.96} & \textcolor{blue}{0.91} \\ \hline
+DistilBERT & 0.89 & 0.96 & 0.98 & \textcolor{red}{0.94} & \textcolor{blue}{0.91} \\ \hline
+Bi-LSTM & 0.64 & 0.74 & 0.77 & \textcolor{red}{0.71} & \textcolor{blue}{0.68} \\ \hline
+LR & 0.74 & 0.73 & 0.73 & \textcolor{red}{0.73} & \textcolor{blue}{0.73} \\ \hline
+SVM & 0.75 & 0.74 & 0.74 & \textcolor{red}{0.74} & \textcolor{blue}{0.74} \\ \hline
+Random Forest & 0.73 & 0.72 & 0.72 & \textcolor{red}{0.72} & \textcolor{blue}{0.72} \\ \hline
+\end{tabular}
+\caption{Accuracy of models with and without cross-validation}
+\label{table:accuracy_CV}
+\end{table}
+
+% Macro Precision Table
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Model} & \multicolumn{4}{c|}{\textbf{Macro Precision with Cross-validation}} & \textbf{Precision without CV}\\ \hline
+ & \textbf{Fold 1} & \textbf{Fold 2} & \textbf{Fold 3} & \textbf{Average} & \\ \hline
+Llma & 0.91 & 0.97 & 0.90 & \textcolor{red}{0.93} & \textcolor{blue}{0.90} \\ \hline
+BERT & 0.88 & 0.97 & 0.95 & \textcolor{red}{0.95} & \textcolor{blue}{0.89} \\ \hline
+DistilBERT & 0.86 & 0.95 & 0.90 & \textcolor{red}{0.90} & \textcolor{blue}{0.89} \\ \hline
+Bi-LSTM & 0.62 & 0.71 & 0.75 & \textcolor{red}{0.69} & \textcolor{blue}{0.67} \\ \hline
+LR & 0.74 & 0.74 & 0.74 & \textcolor{red}{0.74} & \textcolor{blue}{0.79} \\ \hline
+SVM & 0.75 & 0.75 & 0.75 & \textcolor{red}{0.75} & \textcolor{blue}{0.79} \\ \hline
+Random Forest & 0.71 & 0.71 & 0.71 & \textcolor{red}{0.71} & \textcolor{blue}{0.80} \\ \hline
+\end{tabular}
+\caption{Macro Precision of models with and without cross-validation}
+\label{table:macro_precision_CV}
+\end{table}
+
+% Macro Recall Table
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Model} & \multicolumn{4}{c|}{\textbf{Macro Recall with Cross-validation}} & \textbf{Recall without CV}\\ \hline
+ & \textbf{Fold 1} & \textbf{Fold 2} & \textbf{Fold 3} & \textbf{Average} & \\ \hline
+Llma & 0.88 & 0.92 & 0.95 & \textcolor{red}{0.92} & \textcolor{blue}{0.80} \\ \hline
+BERT & 0.91 & 0.97 & 0.99 & \textcolor{red}{0.96} & \textcolor{blue}{0.90} \\ \hline
+DistilBERT & 0.90 & 0.96 & 0.98 & \textcolor{red}{0.95} & \textcolor{blue}{0.88} \\ \hline
+Bi-LSTM & 0.59 & 0.76 & 0.79 & \textcolor{red}{0.71} & \textcolor{blue}{0.72} \\ \hline
+LR & 0.73 & 0.73 & 0.73 & \textcolor{red}{0.73} & \textcolor{blue}{0.67} \\ \hline
+SVM & 0.74 & 0.74 & 0.74 & \textcolor{red}{0.74} & \textcolor{blue}{0.69} \\ \hline
+Random Forest & 0.72 & 0.72 & 0.72 & \textcolor{red}{0.72} & \textcolor{blue}{0.63} \\ \hline
+\end{tabular}
+\caption{Macro Recall of models with and without cross-validation}
+\label{table:macro_recall_CV}
+\end{table}
+
+% Macro F1 Table
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Model} & \multicolumn{4}{c|}{\textbf{Macro F1 with Cross-validation}} & \textbf{F1 without CV}\\ \hline
+& \textbf{Fold 1} & \textbf{Fold 2} & \textbf{Fold 3} & \textbf{Average} & \\ \hline
+Llma & 0.89 & 0.95 & 0.97 & \textcolor{red}{0.92} & \textcolor{blue}{0.83} \\ \hline
+BERT & 0.89 & 0.97 & 0.99 & \textcolor{red}{0.95} & \textcolor{blue}{0.90} \\ \hline
+DistilBERT & 0.88 & 0.95 & 0.98 & \textcolor{red}{0.94} & \textcolor{blue}{0.90} \\ \hline
+Bi-LSTM & 0.59 & 0.73 & 0.76 & \textcolor{red}{0.69} & \textcolor{blue}{0.67} \\ \hline
+LR & 0.74 & 0.74 & 0.74 & \textcolor{red}{0.74} & \textcolor{blue}{0.71} \\ \hline
+SVM & 0.75 & 0.75 & 0.75 & \textcolor{red}{0.75} & \textcolor{blue}{0.73} \\ \hline
+Random Forest & 0.72 & 0.72 & 0.72 & \textcolor{red}{0.72} & \textcolor{blue}{0.68} \\ \hline
+\end{tabular}
+\caption{Macro F1 scores of models with and without cross-validation}
+\label{table:macro_F1_CV}
+\end{table}
+% Weighted Precision Table
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Model} & \multicolumn{4}{c|}{\textbf{Weighted Precision with Cross-validation}} & \textbf{Precision without CV} \\ \hline
+& \textbf{Fold 1} & \textbf{Fold 2} & \textbf{Fold 3} & \textbf{Average} & \\ \hline
+Llma & 0.90 & 0.95 & 0.94 & \textcolor{red}{0.93} & \textcolor{blue}{0.87} \\ \hline
+BERT & 0.91 & 0.98 & 0.99 & \textcolor{red}{0.96} & \textcolor{blue}{0.91} \\ \hline
+DistilBERT & 0.89 & 0.96 & 0.98 & \textcolor{red}{0.94} & \textcolor{blue}{0.91} \\ \hline
+Bi-LSTM & 0.65 & 0.76 & 0.73 & \textcolor{red}{0.73} & \textcolor{blue}{0.73} \\ \hline
+LR & 0.75 & 0.74 & 0.74 & \textcolor{red}{0.74} & \textcolor{blue}{0.75} \\ \hline
+SVM & 0.76 & 0.75 & 0.75 & \textcolor{red}{0.75} & \textcolor{blue}{0.76} \\ \hline
+Random Forest & 0.74 & 0.72 & 0.73 & \textcolor{red}{0.73} & \textcolor{blue}{0.75} \\ \hline
+\end{tabular}
+\caption{Weighted Precision of models with and without cross-validation}
+\label{tab:weighted_precision}
+\end{table}
+
+% Weighted Recall Table
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Model} & \multicolumn{4}{c|}{\textbf{Weighted Recall with Cross-validation}} & \textbf{Recall without CV} \\ \hline
+& \textbf{Fold 1} & \textbf{Fold 2} & \textbf{Fold 3} & \textbf{Average} & \\ \hline
+Llma & 0.90 & 0.95 & 0.94 & \textcolor{red}{0.93} & \textcolor{blue}{0.86} \\ \hline
+BERT & 0.90 & 0.98 & 0.99 & \textcolor{red}{0.96} & \textcolor{blue}{0.91} \\ \hline
+DistilBERT & 0.89 & 0.96 & 0.98 & \textcolor{red}{0.94} & \textcolor{blue}{0.91} \\ \hline
+Bi-LSTM & 0.64 & 0.74 & 0.77 & \textcolor{red}{0.72} & \textcolor{blue}{0.68} \\ \hline
+LR & 0.74 & 0.73 & 0.73 & \textcolor{red}{0.73} & \textcolor{blue}{0.73} \\ \hline
+SVM & 0.75 & 0.74 & 0.74 & \textcolor{red}{0.74} & \textcolor{blue}{0.74} \\ \hline
+Random Forest & 0.73 & 0.72 & 0.72 & \textcolor{red}{0.72} & \textcolor{blue}{0.72} \\ \hline
+\end{tabular}
+\caption{Weighted Recall of models with and without cross-validation}
+\label{tab:weighted_recall}
+\end{table}
+
+% Weighted F1-score Table
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Model} & \multicolumn{4}{c|}{\textbf{Weighted F1 with Cross-validation}} & \textbf{F1-scores without CV} \\ \hline
+& \textbf{Fold 1} & \textbf{Fold 2} & \textbf{Fold 3} & \textbf{Average} & \\ \hline
+Llma & 0.90 & 0.95 & 0.94 & \textcolor{red}{0.93} & \textcolor{blue}{0.86} \\ \hline
+BERT & 0.90 & 0.98 & 0.99 & \textcolor{red}{0.96} & \textcolor{blue}{0.91} \\ \hline
+DistilBERT & 0.89 & 0.96 & 0.98 & \textcolor{red}{0.94} & \textcolor{blue}{0.91} \\ \hline
+Bi-LSTM & 0.63 & 0.75 & 0.69 & \textcolor{red}{0.72} & \textcolor{blue}{0.69} \\ \hline
+LR & 0.75 & 0.73 & 0.73 & \textcolor{red}{0.74} & \textcolor{blue}{0.73} \\ \hline
+SVM & 0.76 & 0.74 & 0.74 & \textcolor{red}{0.75} & \textcolor{blue}{0.74} \\ \hline
+Random Forest & 0.74 & 0.72 & 0.72 & \textcolor{red}{0.73} & \textcolor{blue}{0.70} \\ \hline
+\end{tabular}
+\caption{Weighted F1 scores of models with and without cross-validation}
+\label{tab:weighted_f1}
+\end{table}
