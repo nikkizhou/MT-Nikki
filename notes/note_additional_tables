@@ -130,3 +130,13 @@ Random Forest & 0.74 & 0.72 & 0.72 & \textcolor{red}{0.73} & \textcolor{blue}{0.
 \caption{Weighted F1 scores of models with and without cross-validation}
 \label{tab:weighted_f1}
 \end{table}
+
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{charts/accuracy_chart.png}
+    \caption{Accuracy of models with and without cross-validation}
+    \label{fig:accuracy_chart}
+\end{figure}
