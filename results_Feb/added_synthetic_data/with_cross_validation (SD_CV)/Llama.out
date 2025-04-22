@@ -1,0 +1,67 @@
+Total synthetic samples: 4368
+Map:   0%|          | 0/9171 [00:00<?, ? examples/s]Map:  22%|██▏       | 2000/9171 [00:00<00:00, 15490.37 examples/s]Map:  44%|████▎     | 4000/9171 [00:00<00:00, 8131.95 examples/s] Map:  76%|███████▋  | 7000/9171 [00:00<00:00, 11846.23 examples/s]Map: 100%|██████████| 9171/9171 [00:00<00:00, 13041.55 examples/s]
+Some weights of LlamaForSequenceClassification were not initialized from the model checkpoint at meta-llama/Llama-3.2-1B and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Fold 1/3 - Training set size: 6114, Validation set size: 1621
+Flattening the indices:   0%|          | 0/6114 [00:00<?, ? examples/s]Flattening the indices:  98%|█████████▊| 6000/6114 [00:00<00:00, 54016.78 examples/s]Flattening the indices: 100%|██████████| 6114/6114 [00:00<00:00, 53134.92 examples/s]
+Flattening the indices:   0%|          | 0/1621 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1621/1621 [00:00<00:00, 88431.49 examples/s]
+Early stopping triggered at epoch 3
+Accuracy Fold 1: 0.8865
+Total time taken (training + evaluation): 2281.69 seconds
+GPU memory used: 9446.46 MB
+Validation Classification Report Fold 1:
+                precision    recall  f1-score   support
+
+    open-ended       0.87      0.93      0.90       480
+ option-posing       0.94      0.85      0.90       764
+none-questions       0.85      0.88      0.86       188
+       leading       0.79      0.91      0.84       189
+
+      accuracy                           0.89      1621
+     macro avg       0.86      0.89      0.88      1621
+  weighted avg       0.89      0.89      0.89      1621
+
+Confusion matrix saved to /work/nikki/CM_Llama_Fold 1.png
+Fold 2/3 - Training set size: 6114, Validation set size: 1584
+Flattening the indices:   0%|          | 0/6114 [00:00<?, ? examples/s]Flattening the indices:  98%|█████████▊| 6000/6114 [00:00<00:00, 53359.37 examples/s]Flattening the indices: 100%|██████████| 6114/6114 [00:00<00:00, 52439.52 examples/s]
+Flattening the indices:   0%|          | 0/1584 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1584/1584 [00:00<00:00, 85744.97 examples/s]
+Accuracy Fold 2: 0.9571
+Total time taken (training + evaluation): 2283.57 seconds
+GPU memory used: -0.23 MB
+Validation Classification Report Fold 2:
+                precision    recall  f1-score   support
+
+    open-ended       0.96      0.97      0.96       446
+ option-posing       0.95      0.97      0.96       765
+none-questions       0.96      0.88      0.91       177
+       leading       0.99      0.94      0.96       196
+
+      accuracy                           0.96      1584
+     macro avg       0.96      0.94      0.95      1584
+  weighted avg       0.96      0.96      0.96      1584
+
+Confusion matrix saved to /work/nikki/CM_Llama_Fold 2.png
+Fold 3/3 - Training set size: 6114, Validation set size: 1598
+Flattening the indices:   0%|          | 0/6114 [00:00<?, ? examples/s]Flattening the indices:  98%|█████████▊| 6000/6114 [00:00<00:00, 50085.63 examples/s]Flattening the indices: 100%|██████████| 6114/6114 [00:00<00:00, 49257.36 examples/s]
+Flattening the indices:   0%|          | 0/1598 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1598/1598 [00:00<00:00, 85172.73 examples/s]
+Early stopping triggered at epoch 3
+Accuracy Fold 3: 0.9462
+Total time taken (training + evaluation): 2295.64 seconds
+GPU memory used: 1.32 MB
+Validation Classification Report Fold 3:
+                precision    recall  f1-score   support
+
+    open-ended       0.96      0.98      0.97       464
+ option-posing       0.99      0.91      0.95       764
+none-questions       0.78      0.97      0.87       179
+       leading       0.95      1.00      0.97       191
+
+      accuracy                           0.95      1598
+     macro avg       0.92      0.96      0.94      1598
+  weighted avg       0.95      0.95      0.95      1598
+
+Confusion matrix saved to /work/nikki/CM_Llama_Fold 3.png
+Total time taken (training + evaluation): 6862.45 seconds
+GPU memory used: 9447.56 MB
+
+Average Accuracy across all folds: 0.9299

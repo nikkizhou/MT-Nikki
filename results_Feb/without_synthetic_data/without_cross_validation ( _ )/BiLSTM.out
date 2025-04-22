@@ -1,0 +1,32 @@
+Label Count Training Set: 
+Label
+1    1840
+0    1125
+3     467
+2     411
+Name: count, dtype: int64
+Label Count Test Set: 
+Label
+1    453
+0    265
+2    133
+3    109
+Name: count, dtype: int64
+Map:   0%|          | 0/3843 [00:00<?, ? examples/s]Map:  26%|██▌       | 1000/3843 [00:00<00:00, 6918.96 examples/s]Map:  78%|███████▊  | 3000/3843 [00:00<00:00, 6783.47 examples/s]Map: 100%|██████████| 3843/3843 [00:00<00:00, 7542.67 examples/s]
+Map:   0%|          | 0/960 [00:00<?, ? examples/s]Map: 100%|██████████| 960/960 [00:00<00:00, 19635.20 examples/s]
+Total time taken (training + evaluation): 8.28 seconds
+GPU memory used: 118.87 MB
+Accuracy : 0.7177
+Validation Classification Report :
+                precision    recall  f1-score   support
+
+    open-ended       0.80      0.74      0.77       265
+ option-posing       0.85      0.61      0.71       453
+none-questions       0.69      0.85      0.76       133
+       leading       0.45      0.93      0.60       109
+
+      accuracy                           0.72       960
+     macro avg       0.70      0.78      0.71       960
+  weighted avg       0.77      0.72      0.72       960
+
+Confusion matrix saved to /work/nikki/CM_BiLSTM.png

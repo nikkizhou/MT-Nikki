@@ -1,0 +1,63 @@
+Total synthetic samples: 4368
+Map:   0%|          | 0/9171 [00:00<?, ? examples/s]Map:  22%|██▏       | 2000/9171 [00:00<00:00, 17060.28 examples/s]Map:  44%|████▎     | 4000/9171 [00:00<00:00, 8817.46 examples/s] Map:  76%|███████▋  | 7000/9171 [00:00<00:00, 11774.47 examples/s]Map: 100%|██████████| 9171/9171 [00:00<00:00, 13699.78 examples/s]Map: 100%|██████████| 9171/9171 [00:00<00:00, 12674.62 examples/s]
+Fold 1/3 - Training set size: 6114, Validation set size: 1621
+Flattening the indices:   0%|          | 0/6114 [00:00<?, ? examples/s]Flattening the indices:  82%|████████▏ | 5000/6114 [00:00<00:00, 42316.53 examples/s]Flattening the indices: 100%|██████████| 6114/6114 [00:00<00:00, 39853.32 examples/s]
+Flattening the indices:   0%|          | 0/1621 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1621/1621 [00:00<00:00, 69967.65 examples/s]
+Total time taken (training + evaluation): 12.46 seconds
+GPU memory used: 118.88 MB
+Accuracy Fold 1: 0.7403
+Validation Classification Report Fold 1:
+                precision    recall  f1-score   support
+
+    open-ended       0.83      0.70      0.76       480
+ option-posing       0.75      0.79      0.77       764
+none-questions       0.78      0.65      0.71       188
+       leading       0.55      0.75      0.63       189
+
+      accuracy                           0.74      1621
+     macro avg       0.73      0.72      0.72      1621
+  weighted avg       0.75      0.74      0.74      1621
+
+Confusion matrix saved to /work/nikki/CM_BiLSTM_Fold 1.png
+Fold 2/3 - Training set size: 6114, Validation set size: 1584
+Flattening the indices:   0%|          | 0/6114 [00:00<?, ? examples/s]Flattening the indices:  82%|████████▏ | 5000/6114 [00:00<00:00, 41773.11 examples/s]Flattening the indices: 100%|██████████| 6114/6114 [00:00<00:00, 39318.53 examples/s]
+Flattening the indices:   0%|          | 0/1584 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1584/1584 [00:00<00:00, 69179.35 examples/s]
+Total time taken (training + evaluation): 11.53 seconds
+GPU memory used: 65.66 MB
+Accuracy Fold 2: 0.8258
+Validation Classification Report Fold 2:
+                precision    recall  f1-score   support
+
+    open-ended       0.84      0.83      0.83       446
+ option-posing       0.83      0.83      0.83       765
+none-questions       0.82      0.75      0.78       177
+       leading       0.77      0.87      0.82       196
+
+      accuracy                           0.83      1584
+     macro avg       0.82      0.82      0.82      1584
+  weighted avg       0.83      0.83      0.83      1584
+
+Confusion matrix saved to /work/nikki/CM_BiLSTM_Fold 2.png
+Fold 3/3 - Training set size: 6114, Validation set size: 1598
+Flattening the indices:   0%|          | 0/6114 [00:00<?, ? examples/s]Flattening the indices:  82%|████████▏ | 5000/6114 [00:00<00:00, 41457.82 examples/s]Flattening the indices: 100%|██████████| 6114/6114 [00:00<00:00, 38983.15 examples/s]
+Flattening the indices:   0%|          | 0/1598 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1598/1598 [00:00<00:00, 67059.18 examples/s]
+Total time taken (training + evaluation): 11.71 seconds
+GPU memory used: 65.66 MB
+Accuracy Fold 3: 0.8492
+Validation Classification Report Fold 3:
+                precision    recall  f1-score   support
+
+    open-ended       0.82      0.94      0.88       464
+ option-posing       0.91      0.80      0.85       764
+none-questions       0.80      0.82      0.81       179
+       leading       0.76      0.86      0.81       191
+
+      accuracy                           0.85      1598
+     macro avg       0.82      0.85      0.84      1598
+  weighted avg       0.86      0.85      0.85      1598
+
+Confusion matrix saved to /work/nikki/CM_BiLSTM_Fold 3.png
+Total time taken (training + evaluation) all folds: 38.64 seconds
+GPU memory used all folds: 86.05 MB
+
+Average Accuracy across all folds: 0.8051

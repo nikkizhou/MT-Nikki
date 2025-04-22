@@ -12,10 +12,10 @@ from sklearn.model_selection import StratifiedKFold
 
 COMBINE_CATEGORIES = True
 USING_CROSS_VALIDATION = True
-ADD_SYNTHETIC_DATA = True
+ADD_SYNTHETIC_DATA = False
 
-# MODEL_NAME ='distilbert-base-uncased'
-# MODEL_NAME = 'bert-base-uncased'
+#MODEL_NAME ='distilbert-base-uncased'
+#MODEL_NAME = 'bert-base-uncased'
 MODEL_NAME = 'meta-llama/Llama-3.2-1B'
 model_names_mapping = {
     'bert-base-uncased': 'BERT',
@@ -362,8 +362,8 @@ def train_and_evaluate_with_KFold(full_dataset, train_and_evaluate_model, tokeni
 
     end_time = time.time()
     end_memory = measure_gpu_memory()
-    print(f"Total time taken (training + evaluation): {end_time - start_time:.2f} seconds")
-    print(f"GPU memory used: {end_memory - start_memory:.2f} MB")
+    print(f"Total time taken (training + evaluation) all folds: {end_time - start_time:.2f} seconds")
+    print(f"GPU memory used all folds: {end_memory - start_memory:.2f} MB")
     average_accuracy = sum(accuracies) / len(accuracies)
     print(f"\nAverage Accuracy across all folds: {average_accuracy:.4f}")
 

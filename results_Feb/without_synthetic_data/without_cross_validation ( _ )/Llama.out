@@ -1,0 +1,34 @@
+Label Count Training Set: 
+Label
+1    1840
+0    1125
+3     467
+2     411
+Name: count, dtype: int64
+Label Count Test Set: 
+Label
+1    453
+0    265
+2    133
+3    109
+Name: count, dtype: int64
+Map:   0%|          | 0/3843 [00:00<?, ? examples/s]Map:  26%|██▌       | 1000/3843 [00:00<00:00, 8655.99 examples/s]Map:  78%|███████▊  | 3000/3843 [00:00<00:00, 13154.97 examples/s]Map: 100%|██████████| 3843/3843 [00:00<00:00, 12850.32 examples/s]
+Map:   0%|          | 0/960 [00:00<?, ? examples/s]Map: 100%|██████████| 960/960 [00:00<00:00, 4664.99 examples/s]Map: 100%|██████████| 960/960 [00:00<00:00, 4614.80 examples/s]
+Some weights of LlamaForSequenceClassification were not initialized from the model checkpoint at meta-llama/Llama-3.2-1B and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Accuracy: 0.9073
+Total time taken (training + evaluation): 522.81 seconds
+GPU memory used: 9448.31 MB
+Validation Classification Report :
+                precision    recall  f1-score   support
+
+    open-ended       0.90      0.91      0.91       265
+ option-posing       0.92      0.92      0.92       453
+none-questions       0.89      0.89      0.89       133
+       leading       0.86      0.87      0.87       109
+
+      accuracy                           0.91       960
+     macro avg       0.90      0.90      0.90       960
+  weighted avg       0.91      0.91      0.91       960
+
+Confusion matrix saved to /work/nikki/CM_Llama.png

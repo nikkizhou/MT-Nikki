@@ -1,0 +1,66 @@
+Total synthetic samples: 4368
+Map:   0%|          | 0/9171 [00:00<?, ? examples/s]Map:  33%|███▎      | 3000/9171 [00:00<00:00, 20359.45 examples/s]Map:  87%|████████▋ | 8000/9171 [00:00<00:00, 10713.91 examples/s]Map: 100%|██████████| 9171/9171 [00:00<00:00, 12090.29 examples/s]
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight', 'pre_classifier.bias', 'pre_classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Fold 1/3 - Training set size: 6114, Validation set size: 1621
+Flattening the indices:   0%|          | 0/6114 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 6114/6114 [00:00<00:00, 58862.22 examples/s]Flattening the indices: 100%|██████████| 6114/6114 [00:00<00:00, 58378.75 examples/s]
+Flattening the indices:   0%|          | 0/1621 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1621/1621 [00:00<00:00, 96748.02 examples/s]
+Accuracy Fold 1: 0.8914
+Total time taken (training + evaluation) Fold 0: 128.60 seconds
+GPU memory used Fold 0: 533.56 MB
+Validation Classification Report Fold 1:
+                precision    recall  f1-score   support
+
+    open-ended       0.88      0.93      0.90       480
+ option-posing       0.94      0.86      0.90       764
+none-questions       0.82      0.88      0.85       188
+       leading       0.84      0.92      0.88       189
+
+      accuracy                           0.89      1621
+     macro avg       0.87      0.90      0.88      1621
+  weighted avg       0.89      0.89      0.89      1621
+
+Confusion matrix saved to /work/nikki/CM_DistilBert_Fold 1.png
+Fold 2/3 - Training set size: 6114, Validation set size: 1584
+Flattening the indices:   0%|          | 0/6114 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 6114/6114 [00:00<00:00, 56776.16 examples/s]Flattening the indices: 100%|██████████| 6114/6114 [00:00<00:00, 56295.18 examples/s]
+Flattening the indices:   0%|          | 0/1584 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1584/1584 [00:00<00:00, 95229.45 examples/s]
+Accuracy Fold 2: 0.9615
+Total time taken (training + evaluation) Fold 1: 128.42 seconds
+GPU memory used Fold 1: 0.80 MB
+Validation Classification Report Fold 2:
+                precision    recall  f1-score   support
+
+    open-ended       0.94      0.99      0.96       446
+ option-posing       0.99      0.95      0.97       765
+none-questions       0.91      0.95      0.93       177
+       leading       0.98      0.94      0.96       196
+
+      accuracy                           0.96      1584
+     macro avg       0.95      0.96      0.95      1584
+  weighted avg       0.96      0.96      0.96      1584
+
+Confusion matrix saved to /work/nikki/CM_DistilBert_Fold 2.png
+Fold 3/3 - Training set size: 6114, Validation set size: 1598
+Flattening the indices:   0%|          | 0/6114 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 6114/6114 [00:00<00:00, 56892.42 examples/s]Flattening the indices: 100%|██████████| 6114/6114 [00:00<00:00, 56448.84 examples/s]
+Flattening the indices:   0%|          | 0/1598 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1598/1598 [00:00<00:00, 94879.79 examples/s]
+Early stopping triggered at epoch 3
+Accuracy Fold 3: 0.9781
+Total time taken (training + evaluation) Fold 2: 127.76 seconds
+GPU memory used Fold 2: -1.71 MB
+Validation Classification Report Fold 3:
+                precision    recall  f1-score   support
+
+    open-ended       0.96      0.99      0.98       464
+ option-posing       0.99      0.97      0.98       764
+none-questions       0.96      0.98      0.97       179
+       leading       0.98      0.99      0.99       191
+
+      accuracy                           0.98      1598
+     macro avg       0.97      0.98      0.98      1598
+  weighted avg       0.98      0.98      0.98      1598
+
+Confusion matrix saved to /work/nikki/CM_DistilBert_Fold 3.png
+Total time taken (training + evaluation) all folds: 386.15 seconds
+GPU memory used all folds: 532.64 MB
+
+Average Accuracy across all folds: 0.9437
