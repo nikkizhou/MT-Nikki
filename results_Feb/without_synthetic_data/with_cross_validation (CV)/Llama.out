@@ -1,0 +1,66 @@
+Map:   0%|          | 0/4803 [00:00<?, ? examples/s]Map:  42%|████▏     | 2000/4803 [00:00<00:00, 17521.49 examples/s]Map:  83%|████████▎ | 4000/4803 [00:00<00:00, 8016.80 examples/s] Map: 100%|██████████| 4803/4803 [00:00<00:00, 8965.60 examples/s]
+Some weights of LlamaForSequenceClassification were not initialized from the model checkpoint at meta-llama/Llama-3.2-1B and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Fold 1/3 - Training set size: 3202, Validation set size: 1601
+Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 59680.85 examples/s]
+Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 70752.09 examples/s]
+Accuracy Fold 1: 0.9163
+Total time taken (training + evaluation): 1485.65 seconds
+GPU memory used: 9445.73 MB
+Validation Classification Report Fold 1:
+                precision    recall  f1-score   support
+
+    open-ended       0.92      0.93      0.93       464
+ option-posing       0.91      0.93      0.92       764
+none-questions       0.92      0.86      0.89       181
+       leading       0.93      0.88      0.90       192
+
+      accuracy                           0.92      1601
+     macro avg       0.92      0.90      0.91      1601
+  weighted avg       0.92      0.92      0.92      1601
+
+Confusion matrix saved to /work/nikki/CM_Llama_Fold 1.png
+Fold 2/3 - Training set size: 3202, Validation set size: 1601
+Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 55946.65 examples/s]
+Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 84257.63 examples/s]
+Early stopping triggered at epoch 3
+Accuracy Fold 2: 0.9382
+Total time taken (training + evaluation): 1487.09 seconds
+GPU memory used: 0.00 MB
+Validation Classification Report Fold 2:
+                precision    recall  f1-score   support
+
+    open-ended       0.95      0.92      0.93       463
+ option-posing       0.95      0.94      0.94       765
+none-questions       0.90      0.93      0.92       181
+       leading       0.90      0.99      0.95       192
+
+      accuracy                           0.94      1601
+     macro avg       0.93      0.95      0.93      1601
+  weighted avg       0.94      0.94      0.94      1601
+
+Confusion matrix saved to /work/nikki/CM_Llama_Fold 2.png
+Fold 3/3 - Training set size: 3202, Validation set size: 1601
+Flattening the indices:   0%|          | 0/3202 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 3202/3202 [00:00<00:00, 56134.66 examples/s]
+Flattening the indices:   0%|          | 0/1601 [00:00<?, ? examples/s]Flattening the indices: 100%|██████████| 1601/1601 [00:00<00:00, 84832.43 examples/s]
+Early stopping triggered at epoch 3
+Accuracy Fold 3: 0.9769
+Total time taken (training + evaluation): 1482.12 seconds
+GPU memory used: -0.11 MB
+Validation Classification Report Fold 3:
+                precision    recall  f1-score   support
+
+    open-ended       0.96      0.99      0.98       463
+ option-posing       1.00      0.96      0.98       764
+none-questions       0.93      0.99      0.96       182
+       leading       0.99      0.99      0.99       192
+
+      accuracy                           0.98      1601
+     macro avg       0.97      0.98      0.98      1601
+  weighted avg       0.98      0.98      0.98      1601
+
+Confusion matrix saved to /work/nikki/CM_Llama_Fold 3.png
+Total time taken (training + evaluation) all folds: 4456.13 seconds
+GPU memory used all folds: 9445.62 MB
+
+Average Accuracy across all folds: 0.9438
