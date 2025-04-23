@@ -5,12 +5,12 @@ import numpy as np
 # Define the data from the tables
 accuracy_data = {
     'Model': ["Llama", "BERT", "DistilBERT", "Bi-LSTM", "LR", "SVM", "Random Forest"],
-    'With CV': [0.93, 0.96, 0.94, 0.71, 0.73, 0.74, 0.72],
-    'Without CV': [0.86, 0.91, 0.91, 0.68, 0.73, 0.74, 0.72]
+    'With CV': [0.93, 0.96, 0.94, 0.81, 0.74, 0.75, 0.73],
+    'Without CV': [0.86, 0.91, 0.91, 0.72, 0.73, 0.74, 0.70]
 }
 
-file_name = 'Macro_Precision_Chart.png'
-title = "Macro Precision"
+file_name = 'Weighted_F1_Chart.png'
+title = "Weighted F1"
 
 
 # Convert to DataFrame
