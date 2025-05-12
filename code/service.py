@@ -11,12 +11,12 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.model_selection import StratifiedKFold
 
 COMBINE_CATEGORIES = True
-USING_CROSS_VALIDATION = True
-ADD_SYNTHETIC_DATA = False
+USING_CROSS_VALIDATION = False
+ADD_SYNTHETIC_DATA = True
 
 #MODEL_NAME ='distilbert-base-uncased'
-#MODEL_NAME = 'bert-base-uncased'
-MODEL_NAME = 'meta-llama/Llama-3.2-1B'
+MODEL_NAME = 'bert-base-uncased'
+#MODEL_NAME = 'meta-llama/Llama-3.2-1B'
 model_names_mapping = {
     'bert-base-uncased': 'BERT',
     'meta-llama/Llama-3.2-1B': 'Llama',
