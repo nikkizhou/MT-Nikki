@@ -1,22 +1,25 @@
 The code is organized into the following main directories:
 
-# Data: 
+# Data
 This directory is divided into several subfolders:
 
-## original_data: 
+## original_data
 Contains raw datasets sourced from three publicly available resources, along with processed datasets featuring labels.
-## synthetic_data: 
+
+## synthetic_data
 Stores the synthetic data generated for this research.
-## original_and_synthetic_data: 
+
+## original_and_synthetic_data
 Merges the original and synthetic datasets, complete with labels, into one comprehensive dataset.
-# Code: 
+
+# Code
 Includes scripts for building, training, and evaluating various models, as well as scripts for generating synthetic data.
 
-# Charts: 
+# Charts
 Comprises scripts for plotting comparison charts/graphs for models, in addition to the generated charts themselves.
 
-# Results: 
+# Results
 Displays model performance results using various metrics. The results are organized into folders based on the use of cross-validation and synthetic data, including confusion matrices and classification reports for each model.
 
-# Notes: 
+# Notes
 Documents meeting notes detailing challenges encountered, discussions held, label count data, and additional information relevant to the thesis.
