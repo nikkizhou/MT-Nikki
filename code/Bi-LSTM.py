@@ -78,7 +78,7 @@ def train_and_evaluate_model( train_dataloader, eval_dataloader,fold=None, train
     print(f"GPU memory used: {end_memory - start_memory:.2f} MB")
     print(f"Accuracy {get_fold_string(fold)}: {accuracy:.4f}")
    
-#     # Classification report
+    # Classification report
     report = classification_report(all_labels, all_predictions, target_names=label_columns, digits=2, zero_division=0)
     print(f"Validation Classification Report {get_fold_string(fold)}:\n{report}")
 
@@ -111,7 +111,6 @@ class BiLSTMModel(nn.Module):
 
 
 # 1. Load dataset
-
 dataset=  load_and_mark_potential_synthetic_data() if USING_CROSS_VALIDATION else load_and_split_dataset() 
 dataset = dataset.rename_column('Label', 'labels')
 

@@ -43,3 +43,6 @@ venv/
 .idea/
 
 *.sh
+
+
+data/
