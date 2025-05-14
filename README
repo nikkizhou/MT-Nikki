@@ -1,17 +1,5 @@
 The code is organized into the following main directories:
 
-# Data
-This directory is divided into several subfolders:
-
-## original_data
-Contains raw datasets sourced from three publicly available resources, along with processed datasets featuring labels.
-
-## synthetic_data
-Stores the synthetic data generated for this research.
-
-## original_and_synthetic_data
-Merges the original and synthetic datasets, complete with labels, into one comprehensive dataset.
-
 # Code
 Includes scripts for building, training, and evaluating various models, as well as scripts for generating synthetic data.
 
